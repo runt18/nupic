@@ -47,10 +47,12 @@ class PeriodicActivityMgr(object):
                                      "cb",
                                      "iteratorHolder"))
 
-  def __init__(self, requestedActivities=[]):
+  def __init__(self, requestedActivities=None):
     """
     requestedActivities: a sequence of PeriodicActivityRequest elements
     """
+    if requestedActivities is None:
+      requestedActivities = []
 
     self.__activities = []
     self.__appendActivities(requestedActivities)

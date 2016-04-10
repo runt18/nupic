@@ -65,10 +65,12 @@ def getAllDirectoriesWithFile(path, filename, excludeDirs):
   return directoryList
 
 
-def getAllExperimentDirectories(excludedExperiments=[]):
+def getAllExperimentDirectories(excludedExperiments=None):
   """
   Experiment directories are the directories with a description.py file
   """
+  if excludedExperiments is None:
+    excludedExperiments = []
 
   excludedDirectories = ['exp', 'inference', 'networks', 'legacy']
   excludedDirectories.extend(excludedExperiments)

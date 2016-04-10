@@ -480,7 +480,7 @@ def printAllTrainingSequences(trainingSequences, upTo = 99999):
 def generatePattern(numCols = 100,
                     minOnes =21,
                     maxOnes =25,
-                    colSet = [],
+                    colSet = None,
                     prevPattern =numpy.array([])):
 
   """Generate a single test pattern with given parameters.
@@ -493,6 +493,8 @@ def generatePattern(numCols = 100,
   colSet:                 The set of column indices for the pattern.
   prevPattern:            Pattern to avoid (null intersection).
   """
+  if colSet is None:
+    colSet = []
 
   assert minOnes < maxOnes
   assert maxOnes < numCols
@@ -905,7 +907,7 @@ def _testSequence(trainingSequences,
                   globalDecay =0.0,
                   pamLength = 1000,
                   activationThreshold =5,
-                  acceptablePatterns = [], # if empty, try to infer what they are
+                  acceptablePatterns = None, # if empty, try to infer what they are
                   doPooling = False,
                   nAcceptable = -1, # if doPooling, number of acceptable steps
                   noiseModel = None,
@@ -921,6 +923,8 @@ def _testSequence(trainingSequences,
   """Test a single set of sequences once and return the number of
   prediction failures, the number of errors, and the number of perfect
   predictions"""
+  if acceptablePatterns is None:
+    acceptablePatterns = []
 
   global TP, SEED, checkSynapseConsistency, VERBOSITY
 
@@ -1443,10 +1447,12 @@ def TestH0(numOnes = 5,nMultiStepPrediction=0):
 
 
 
-def TestH(sequenceLength, nTests, cellsPerColumn, numCols =100, nSequences =[2],
+def TestH(sequenceLength, nTests, cellsPerColumn, numCols =100, nSequences =None,
           pctShared = 0.1, seqGenMode = 'shared sequence', nTrainingReps = 2,
           shouldFail = False, compareToPy = False, highOrder = False):
 
+  if nSequences is None:
+    nSequences = [2]
   nFailed = 0
   subsequenceStartPos = 10
   assert subsequenceStartPos < sequenceLength
@@ -1541,7 +1547,7 @@ def TestH11(numOnes = 3):
 
 
 
-def TestH2a(sequenceLength, nTests, cellsPerColumn, numCols =100, nSequences =[2],
+def TestH2a(sequenceLength, nTests, cellsPerColumn, numCols =100, nSequences =None,
           pctShared = 0.02, seqGenMode = 'shared sequence',
           shouldFail = False):
   """
@@ -1549,6 +1555,8 @@ def TestH2a(sequenceLength, nTests, cellsPerColumn, numCols =100, nSequences =[2
       Two overlapping sequences. OK to get new segments but check that we can
       get correct high order prediction after multiple reps.
   """
+  if nSequences is None:
+    nSequences = [2]
 
   print "Test H2a - second repetition of the same sequence should not add synapses"
 
@@ -1665,9 +1673,11 @@ def TestH2a(sequenceLength, nTests, cellsPerColumn, numCols =100, nSequences =[2
 
 
 
-def TestP(sequenceLength, nTests, cellsPerColumn, numCols =300, nSequences =[2],
+def TestP(sequenceLength, nTests, cellsPerColumn, numCols =300, nSequences =None,
           pctShared = 0.1, seqGenMode = 'shared subsequence', nTrainingReps = 2):
 
+  if nSequences is None:
+    nSequences = [2]
   nFailed = 0
 
   newSynapseCount = 7
@@ -1822,11 +1832,13 @@ def TestHL0b(numOnes = 5):
 
 
 
-def TestHL(sequenceLength, nTests, cellsPerColumn, numCols =200, nSequences =[2],
+def TestHL(sequenceLength, nTests, cellsPerColumn, numCols =200, nSequences =None,
            pctShared = 0.1, seqGenMode = 'shared subsequence', nTrainingReps = 3,
            noiseModel = 'xor binomial in learning only', noiseLevel = 0.1,
            hiloOn = True):
 
+  if nSequences is None:
+    nSequences = [2]
   nFailed = 0
 
   newSynapseCount = 8

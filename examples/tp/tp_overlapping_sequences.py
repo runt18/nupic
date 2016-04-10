@@ -113,7 +113,7 @@ def getSimplePatterns(numOnes, numPatterns, patternOverlap=0):
 
 def buildOverlappedSequences( numSequences = 2,
                               seqLen = 5,
-                              sharedElements = [3,4],
+                              sharedElements = None,
                               numOnBitsPerPattern = 3,
                               patternOverlap = 0,
                               seqOverlap = 0,
@@ -134,6 +134,8 @@ def buildOverlappedSequences( numSequences = 2,
                           trainingSequences - a list of training sequences
 
   """
+  if sharedElements is None:
+    sharedElements = [3,4]
 
   # Total number of patterns used to build the sequences
   numSharedElements = len(sharedElements)
@@ -179,7 +181,7 @@ def buildOverlappedSequences( numSequences = 2,
 
 
 def buildSequencePool(numSequences = 10,
-                      seqLen = [2,3,4],
+                      seqLen = None,
                       numPatterns = 5,
                       numOnBitsPerPattern = 3,
                       patternOverlap = 0,
@@ -201,6 +203,8 @@ def buildSequencePool(numSequences = 10,
                           trainingSequences - a list of training sequences
 
   """
+  if seqLen is None:
+    seqLen = [2,3,4]
 
 
   # Create the table of patterns

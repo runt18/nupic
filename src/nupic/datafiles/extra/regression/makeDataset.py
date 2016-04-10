@@ -31,8 +31,10 @@ from nupic.data.file import File
 
 
 
-def scaleData(data, newScale=[0,100]):
+def scaleData(data, newScale=None):
   
+  if newScale is None:
+    newScale = [0,100]
   minVals = data.min(axis=0)
   maxVals = data.max(axis=0)
   
@@ -43,10 +45,14 @@ def scaleData(data, newScale=[0,100]):
 
 
 def generatePolyData(numDataPoints=100,
-                     coefficients=[1, 0],
+                     coefficients=None,
                      noiseLevel = 0.1,
-                     dataScale = [0,100],):
+                     dataScale = None,):
   
+  if coefficients is None:
+    coefficients = [1, 0]
+  if dataScale is None:
+    dataScale = [0,100]
   xvals = numpy.random.random(numDataPoints)
   yvals = numpy.polyval(coefficients, xvals) + \
                                   noiseLevel * numpy.random.randn(numDataPoints)
@@ -59,10 +65,14 @@ def generatePolyData(numDataPoints=100,
 
 
 def generateLinearData(numDataPoints=100,
-                       coefficients=[1, 1],
+                       coefficients=None,
                        noiseLevel = 0.1,
-                       dataScale = [0,100],):
+                       dataScale = None,):
  
+  if coefficients is None:
+    coefficients = [1, 1]
+  if dataScale is None:
+    dataScale = [0,100]
   xvals = numpy.random.random((numDataPoints, len(coefficients)))
   yvals = (xvals * coefficients).sum(axis=1) + \
                                   noiseLevel * numpy.random.randn(numDataPoints)
@@ -75,9 +85,13 @@ def generateLinearData(numDataPoints=100,
 
 
 def _generateLinearModel(numTrainingRecords, numTestingRecords,
-                          coefficients=[1], noiseLevel=0.1, dataScale=[0,100]):
+                          coefficients=None, noiseLevel=0.1, dataScale=None):
   """ 
   """ 
+  if coefficients is None:
+    coefficients = [1]
+  if dataScale is None:
+    dataScale = [0,100]
   
   data = generateLinearData(numDataPoints=numTrainingRecords+numTestingRecords,
                             coefficients=coefficients,

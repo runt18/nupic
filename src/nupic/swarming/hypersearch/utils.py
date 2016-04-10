@@ -159,7 +159,7 @@ class _BadKeyError(Exception):
 
 
 
-def _matchReportKeys(reportKeyREs=[], allReportKeys=[]):
+def _matchReportKeys(reportKeyREs=None, allReportKeys=None):
   """
   Extract all items from the 'allKeys' list whose key matches one of the regular
   expressions passed in 'reportKeys'.
@@ -174,6 +174,10 @@ def _matchReportKeys(reportKeyREs=[], allReportKeys=[]):
                   If an invalid regular expression was included in 'reportKeys',
                     then BadKeyError() is raised
   """
+  if reportKeyREs is None:
+    reportKeyREs = []
+  if allReportKeys is None:
+    allReportKeys = []
 
   matchingReportKeys = []
 
