@@ -216,10 +216,10 @@ class SDRClassifier(object):
     self._learnIteration = recordNum - self._recordNumMinusLearnIteration
 
     if self.verbosity >= 1:
-      print "\n%s: compute" % g_debugPrefix
+      print "\n{0!s}: compute".format(g_debugPrefix)
       print "  recordNum:", recordNum
       print "  learnIteration:", self._learnIteration
-      print "  patternNZ (%d):" % len(patternNZ), patternNZ
+      print "  patternNZ ({0:d}):".format(len(patternNZ)), patternNZ
       print "  classificationIn:", classification
 
     # Store pattern in our history
@@ -296,7 +296,7 @@ class SDRClassifier(object):
       for (nSteps, votes) in retval.items():
         if nSteps == "actualValues":
           continue
-        print "    %d steps: " % (nSteps), _pFormatArray(votes)
+        print "    {0:d} steps: ".format((nSteps)), _pFormatArray(votes)
         bestBucketIdx = votes.argmax()
         print ("      most likely bucket idx: "
                "%d, value: %s" % (bestBucketIdx,

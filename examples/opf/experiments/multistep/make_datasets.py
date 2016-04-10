@@ -52,7 +52,7 @@ def _generateSimple(filename="simple.csv", numSequences=2, elementsPerSeq=1,
   # Create the output file
   scriptDir = os.path.dirname(__file__)
   pathname = os.path.join(scriptDir, 'datasets', filename)
-  print "Creating %s..." % (pathname)
+  print "Creating {0!s}...".format((pathname))
   fields = [('reset', 'int', 'R'), 
             ('field1', 'string', ''),  
             ('field2', 'float', '')]  
@@ -106,7 +106,7 @@ def _generateOverlapping(filename="overlap.csv", numSequences=2, elementsPerSeq=
   # Create the output file
   scriptDir = os.path.dirname(__file__)
   pathname = os.path.join(scriptDir, 'datasets', filename)
-  print "Creating %s..." % (pathname)
+  print "Creating {0!s}...".format((pathname))
   fields = [('reset', 'int', 'R'), 
             ('field1', 'string', ''),  
             ('field2', 'float', '')]  
@@ -227,7 +227,7 @@ def _generateFirstOrder0():
   secondOrder = None
   
   # Generate the category list
-  categoryList = ['%d' % x for x in range(5)]
+  categoryList = ['{0:d}'.format(x) for x in range(5)]
   return (initProb, firstOrder, secondOrder, 3, categoryList)
 
 
@@ -285,7 +285,7 @@ def _generateFileFromProb(filename, numRecords, categoryList, initProb,
   """
   
   # Create the file
-  print "Creating %s..." % (filename)
+  print "Creating {0!s}...".format((filename))
   fields = [('reset', 'int', 'R'), 
             ('field1', 'string', ''),
             ('field2', 'float', '')]

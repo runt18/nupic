@@ -120,8 +120,7 @@ class SwarmTerminator(object):
     # as mature, regardless of how its value is changing.
     if self.MAX_GENERATIONS is not None and generation > self.MAX_GENERATIONS:
       self._logger.info(
-          'Swarm %s has matured (more than %d generations). Stopping' %
-          (swarmId, self.MAX_GENERATIONS))
+          'Swarm {0!s} has matured (more than {1:d} generations). Stopping'.format(swarmId, self.MAX_GENERATIONS))
       terminatedSwarms.append(swarmId)
 
     if self._isTerminationEnabled:
@@ -992,7 +991,7 @@ class Particle(object):
       self.swarmId = swarmId
 
       # Assign a new unique ID to this particle
-      self.particleId = "%s.%s" % (str(self._hsObj._workerID),
+      self.particleId = "{0!s}.{1!s}".format(str(self._hsObj._workerID),
                                    str(Particle._nextParticleID))
       Particle._nextParticleID += 1
 
@@ -1047,7 +1046,7 @@ class Particle(object):
       # Setup other variables from clone particle
       self.particleId = newFromClone['id']
       if newParticleId:
-        self.particleId = "%s.%s" % (str(self._hsObj._workerID),
+        self.particleId = "{0!s}.{1!s}".format(str(self._hsObj._workerID),
                                      str(Particle._nextParticleID))
         Particle._nextParticleID += 1
         
@@ -1065,7 +1064,7 @@ class Particle(object):
       assert False, "invalid creation parameters"
 
     # Log it
-    self.logger.debug("Created particle: %s" % (str(self)))
+    self.logger.debug("Created particle: {0!s}".format((str(self))))
 
   def __repr__(self):
     return "Particle(swarmId=%s) [particleId=%s, genIdx=%d, " \
@@ -1270,11 +1269,11 @@ class Particle(object):
     # Log the new position
     if self.logger.getEffectiveLevel() <= logging.DEBUG:
       msg = StringIO.StringIO()
-      print >> msg, "New particle position: \n%s" % (pprint.pformat(position,
-                                                      indent=4))
+      print >> msg, "New particle position: \n{0!s}".format((pprint.pformat(position,
+                                                      indent=4)))
       print >> msg, "Particle variables:"
       for (varName, var) in self.permuteVars.iteritems():
-        print >> msg, "  %s: %s" % (varName, str(var))
+        print >> msg, "  {0!s}: {1!s}".format(varName, str(var))
       self.logger.debug(msg.getvalue())
       msg.close()
 
@@ -1432,8 +1431,8 @@ class HsState(object):
                        }
 
       else:
-        raise RuntimeError("Unsupported search type: %s" % \
-                            (self._hsObj._searchType))
+        raise RuntimeError("Unsupported search type: {0!s}".format( \
+                            (self._hsObj._searchType)))
 
       # Initialize the state.
       self._state = dict(
@@ -1504,14 +1503,14 @@ class HsState(object):
                 'engWorkerState', str(newStateJSON), str(self._priorStateJSON))
 
     if success:
-      self.logger.debug("Success changing hsState to: \n%s " % \
-                       (pprint.pformat(self._state, indent=4)))
+      self.logger.debug("Success changing hsState to: \n{0!s} ".format( \
+                       (pprint.pformat(self._state, indent=4))))
       self._priorStateJSON = newStateJSON
 
     # If no success, read in the current state from the DB
     else:
-      self.logger.debug("Failed to change hsState to: \n%s " % \
-                       (pprint.pformat(self._state, indent=4)))
+      self.logger.debug("Failed to change hsState to: \n{0!s} ".format( \
+                       (pprint.pformat(self._state, indent=4))))
 
       self._priorStateJSON = self._hsObj._cjDAO.jobGetFields(self._hsObj._jobID,
                                                       ['engWorkerState'])[0]
@@ -1544,7 +1543,7 @@ class HsState(object):
        
     The encoderName is the last word in the | separated key name
     """
-    return 'modelParams|sensorParams|encoders|%s' % (name)
+    return 'modelParams|sensorParams|encoders|{0!s}'.format((name))
 
 
   def getFieldContributions(self):
@@ -1638,7 +1637,7 @@ class HsState(object):
         pctFieldContributionsDict[field] = pctBetter
         absFieldContributionsDict[field] = baseErrScore - errScore
       
-    self.logger.debug("FieldContributions: %s" % (pctFieldContributionsDict))
+    self.logger.debug("FieldContributions: {0!s}".format((pctFieldContributionsDict)))
     return pctFieldContributionsDict, absFieldContributionsDict
      
     
@@ -2128,8 +2127,8 @@ class HsState(object):
             limitFields = True
             baseSprintIdx = 1
         else:
-          raise RuntimeError("Unimplemented search type %s" % \
-                                  (self._hsObj._searchType))
+          raise RuntimeError("Unimplemented search type {0!s}".format( \
+                                  (self._hsObj._searchType)))
 
 
       # Only add top _maxBranching encoders to the swarms?
@@ -2139,14 +2138,14 @@ class HsState(object):
         pctFieldContributions, absFieldContributions = \
                                                 self.getFieldContributions()
         toRemove = []
-        self.logger.debug("FieldContributions min: %s" % \
-                          (self._hsObj._minFieldContribution))
+        self.logger.debug("FieldContributions min: {0!s}".format( \
+                          (self._hsObj._minFieldContribution)))
         for fieldname in pctFieldContributions:
           if pctFieldContributions[fieldname] < self._hsObj._minFieldContribution:
-            self.logger.debug("FieldContributions removing: %s" % (fieldname))
+            self.logger.debug("FieldContributions removing: {0!s}".format((fieldname)))
             toRemove.append(self.getEncoderKeyFromName(fieldname))
           else:
-            self.logger.debug("FieldContributions keeping: %s" % (fieldname))
+            self.logger.debug("FieldContributions keeping: {0!s}".format((fieldname)))
 
         
         # Grab the top maxBranching base sprint swarms.
@@ -2431,8 +2430,8 @@ class HypersearchV2(object):
     self._jobID = jobID
 
     # Log search params
-    self.logger.info("searchParams: \n%s" % (pprint.pformat(
-        clippedObj(searchParams))))
+    self.logger.info("searchParams: \n{0!s}".format((pprint.pformat(
+        clippedObj(searchParams)))))
 
     self._createCheckpoints = self._searchParams.get('createCheckpoints',
                                                      False)
@@ -2523,10 +2522,10 @@ class HypersearchV2(object):
         # description file.
         outDir = self._tempDir = tempfile.mkdtemp()
         expGenerator([
-            '--description=%s' % (
-                json.dumps(self._searchParams['description'])),
+            '--description={0!s}'.format((
+                json.dumps(self._searchParams['description']))),
             '--version=v2',
-            '--outDir=%s' % (outDir)])
+            '--outDir={0!s}'.format((outDir))])
 
         # Get the name of the permutations script.
         permutationsScript = os.path.join(outDir, 'permutations.py')
@@ -2861,7 +2860,7 @@ class HypersearchV2(object):
     #    the first sprint has N swarms, each with 1 field
     inferenceType = modelDescription['modelParams']['inferenceType']
     if not InferenceType.validate(inferenceType):
-      raise ValueError("Invalid inference type %s" %inferenceType)
+      raise ValueError("Invalid inference type {0!s}".format(inferenceType))
 
     if inferenceType in [InferenceType.TemporalMultiStep,
                          InferenceType.NontemporalMultiStep]:
@@ -2893,7 +2892,7 @@ class HypersearchV2(object):
       self._searchType = HsSearchType.classification
 
     else:
-      raise RuntimeError("Unsupported inference type: %s" % inferenceType)
+      raise RuntimeError("Unsupported inference type: {0!s}".format(inferenceType))
 
     # Get the predicted field. Note that even classification experiments
     #  have a "predicted" field - which is the field that contains the
@@ -2905,7 +2904,7 @@ class HypersearchV2(object):
 
     # Read in and validate the permutations dict
     if 'permutations' not in vars:
-      raise RuntimeError("Permutations file '%s' does not define permutations" % filename)
+      raise RuntimeError("Permutations file '{0!s}' does not define permutations".format(filename))
 
     if not isinstance(vars['permutations'], dict):
       raise RuntimeError("Permutations file '%s' defines a permutations variable "
@@ -2930,7 +2929,7 @@ class HypersearchV2(object):
         # encoder.
         for encKey, encValue in value.kwArgs.iteritems():
           if isinstance(encValue, PermuteVariable):
-            self._flattenedPermutations['%s:%s' % (flatKey, encKey)] = encValue
+            self._flattenedPermutations['{0!s}:{1!s}'.format(flatKey, encKey)] = encValue
       elif isinstance(value, PermuteVariable):
         self._flattenedPermutations[flatKey] = value
 
@@ -3025,8 +3024,8 @@ class HypersearchV2(object):
 
     """
     
-    self.logger.debug("Checking for orphaned models older than %s" % \
-                     (self._modelOrphanIntervalSecs))
+    self.logger.debug("Checking for orphaned models older than {0!s}".format( \
+                     (self._modelOrphanIntervalSecs)))
     
     while True:
       orphanedModelId = self._cjDAO.modelAdoptNextOrphan(self._jobID,
@@ -3034,14 +3033,14 @@ class HypersearchV2(object):
       if orphanedModelId is None:
         return 
 
-      self.logger.info("Removing orphaned model: %d" % (orphanedModelId))
+      self.logger.info("Removing orphaned model: {0:d}".format((orphanedModelId)))
 
       # Change the model hash and params hash as stored in the models table so
       #  that we can insert a new model with the same paramsHash
       for attempt in range(100):
-        paramsHash = hashlib.md5("OrphanParams.%d.%d" % (orphanedModelId,
+        paramsHash = hashlib.md5("OrphanParams.{0:d}.{1:d}".format(orphanedModelId,
                                                          attempt)).digest()
-        particleHash = hashlib.md5("OrphanParticle.%d.%d" % (orphanedModelId,
+        particleHash = hashlib.md5("OrphanParticle.{0:d}.{1:d}".format(orphanedModelId,
                                                           attempt)).digest()
         try:
           self._cjDAO.modelSetFields(orphanedModelId,
@@ -3154,7 +3153,7 @@ class HypersearchV2(object):
       statusMsg = "Completed generation #%d of swarm '%s' with a best" \
                   " errScore of %g" % (genIdx, swarmId, errScore)
       if len(completedList) > 0:
-        statusMsg = "%s. Matured swarm(s): %s" % (statusMsg, completedList)
+        statusMsg = "{0!s}. Matured swarm(s): {1!s}".format(statusMsg, completedList)
       self.logger.info(statusMsg)
       self._cjDAO.jobSetFields (jobID=self._jobID,
                                 fields=dict(engStatus=statusMsg),
@@ -3334,9 +3333,9 @@ class HypersearchV2(object):
     # Log the current set of active swarms
     activeSwarms = self._hsState.getActiveSwarms()
     if activeSwarms != priorActiveSwarms:
-      self.logger.info("Active swarms changed to %s (from %s)" % (activeSwarms,
+      self.logger.info("Active swarms changed to {0!s} (from {1!s})".format(activeSwarms,
                                                         priorActiveSwarms))
-    self.logger.debug("Active swarms: %s" % (activeSwarms))
+    self.logger.debug("Active swarms: {0!s}".format((activeSwarms)))
 
     # If too many model errors were detected, exit
     totalCmpModels = self._resultsDB.getNumCompletedModels()
@@ -3459,7 +3458,7 @@ class HypersearchV2(object):
             
           # Clone that model
           modelId = random.choice(allModelIds)
-          self.logger.info("Cloning model %r" % (modelId))
+          self.logger.info("Cloning model {0!r}".format((modelId)))
           (particleState, _, _, _, _) = self._resultsDB.getParticleInfo(modelId)
           particle = Particle(hsObj = self,
                               resultsDB = self._resultsDB,
@@ -3602,8 +3601,7 @@ class HypersearchV2(object):
     # running.
     (_, modelIds, _, _, _) = self._resultsDB.getParticleInfos(completed=False)
     for modelId in modelIds:
-      self.logger.info("Stopping model %d because the search has ended" \
-                          % (modelId))
+      self.logger.info("Stopping model {0:d} because the search has ended".format((modelId)))
       self._cjDAO.modelSetFields(modelId,
                       dict(engStop=ClientJobsDAO.STOP_REASON_STOPPED),
                       ignoreUnchanged = True)
@@ -3809,7 +3807,7 @@ class HypersearchV2(object):
         m.update(self._baseDescriptionHash)
         paramsHash = m.digest()
 
-        particleInst = "%s.%s" % (modelParams['particleState']['id'],
+        particleInst = "{0!s}.{1!s}".format(modelParams['particleState']['id'],
                                   modelParams['particleState']['genIdx'])
         particleHash = hashlib.md5(particleInst).digest()
 
@@ -3847,8 +3845,7 @@ class HypersearchV2(object):
 
       # Log message
       if self.logger.getEffectiveLevel() <= logging.DEBUG:
-        self.logger.debug("Submitting new potential model to HypersearchWorker: \n%s"
-                       % (pprint.pformat(modelParams, indent=4)))
+        self.logger.debug("Submitting new potential model to HypersearchWorker: \n{0!s}".format((pprint.pformat(modelParams, indent=4))))
       modelResults.append((modelParams, paramsHash, particleHash))
     return (False, modelResults)
 
@@ -3911,8 +3908,7 @@ class HypersearchV2(object):
 
     # Log best so far.
     (bestModelID, bestResult) = self._resultsDB.bestModelIdAndErrScore()
-    self.logger.debug('Best err score seen so far: %s on model %s' % \
-                     (bestResult, bestModelID))
+    self.logger.debug('Best err score seen so far: {0!s} on model {1!s}'.format(bestResult, bestModelID))
 
   def runModel(self, modelID, jobID, modelParams, modelParamsHash,
                jobsDAO, modelCheckpointGUID):
@@ -3966,8 +3962,7 @@ class HypersearchV2(object):
     structuredParams = modelParams['structuredParams']
 
     if self.logger.getEffectiveLevel() <= logging.DEBUG:
-      self.logger.debug("Running Model. \nmodelParams: %s, \nmodelID=%s, " % \
-                        (pprint.pformat(modelParams, indent=4), modelID))
+      self.logger.debug("Running Model. \nmodelParams: {0!s}, \nmodelID={1!s}, ".format(pprint.pformat(modelParams, indent=4), modelID))
 
     # Record time.clock() so that we can report on cpu time
     cpuTimeStart = time.clock()

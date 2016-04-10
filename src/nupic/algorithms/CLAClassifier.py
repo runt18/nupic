@@ -66,7 +66,7 @@ class BitHistory(object):
     self._classifier = classifier
 
     # Form our "id"
-    self._id = "%d[%d]" % (bitNum, nSteps)
+    self._id = "{0:d}[{1:d}]".format(bitNum, nSteps)
 
     # Dictionary of bucket entries. The key is the bucket index, the
     # value is the dutyCycle, which is the rolling average of the duty cycle
@@ -152,7 +152,7 @@ class BitHistory(object):
 
     self._stats[bucketIdx] = dc
     if self._classifier.verbosity >= 2:
-      print "updated DC for %s, bucket %d to %f" % (self._id, bucketIdx, dc)
+      print "updated DC for {0!s}, bucket {1:d} to {2:f}".format(self._id, bucketIdx, dc)
 
 
   def infer(self, votes):
@@ -177,7 +177,7 @@ class BitHistory(object):
     if total > 0:
       votes /= total
     if self._classifier.verbosity >= 2:
-      print "bucket votes for %s:" % (self._id), _pFormatArray(votes)
+      print "bucket votes for {0!s}:".format((self._id)), _pFormatArray(votes)
 
 
   def __getstate__(self):
@@ -202,8 +202,7 @@ class BitHistory(object):
     elif version == 2:
       pass
     else:
-      raise Exception("Error while deserializing %s: Invalid version %s"
-                      % (self.__class__, version))
+      raise Exception("Error while deserializing {0!s}: Invalid version {1!s}".format(self.__class__, version))
 
     for (attr, value) in state.iteritems():
       setattr(self, attr, value)
@@ -372,10 +371,10 @@ class CLAClassifier(object):
     self._learnIteration = recordNum - self._recordNumMinusLearnIteration
 
     if self.verbosity >= 1:
-      print "\n%s: compute" % g_debugPrefix
+      print "\n{0!s}: compute".format(g_debugPrefix)
       print "  recordNum:", recordNum
       print "  learnIteration:", self._learnIteration
-      print "  patternNZ (%d):" % len(patternNZ), patternNZ
+      print "  patternNZ ({0:d}):".format(len(patternNZ)), patternNZ
       print "  classificationIn:", classification
 
     # Store pattern in our history
@@ -460,7 +459,7 @@ class CLAClassifier(object):
       for (nSteps, votes) in retval.items():
         if nSteps == "actualValues":
           continue
-        print "    %d steps: " % (nSteps), _pFormatArray(votes)
+        print "    {0:d} steps: ".format((nSteps)), _pFormatArray(votes)
         bestBucketIdx = votes.argmax()
         print ("      most likely bucket idx: "
                "%d, value: %s" % (bestBucketIdx,

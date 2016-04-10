@@ -178,7 +178,7 @@ class ExperimentDescriptionAPI(DescriptionIface):
         taskLabel = task['taskLabel']
 
         assert isinstance(taskLabel, types.StringTypes), \
-               "taskLabel type: %r" % type(taskLabel)
+               "taskLabel type: {0!r}".format(type(taskLabel))
         assert len(taskLabel) > 0, "empty string taskLabel not is allowed"
 
         taskLabelsList.append(taskLabel.lower())
@@ -186,7 +186,7 @@ class ExperimentDescriptionAPI(DescriptionIface):
       taskLabelDuplicates = filter(lambda x: taskLabelsList.count(x) > 1,
                                    taskLabelsList)
       assert len(taskLabelDuplicates) == 0, \
-             "Duplcate task labels are not allowed: %s" % taskLabelDuplicates
+             "Duplcate task labels are not allowed: {0!s}".format(taskLabelDuplicates)
 
     return
 

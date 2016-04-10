@@ -355,7 +355,7 @@ control = {
         u'info': u'82b42f21-7f86-47b3-bab4-3738703bf612',
         u'streams': [   {   u'columns': [u'c0', u'c1'],
                             u'info': u'82b42f21-7f86-47b3-bab4-3738703bf612',
-                            u'source': 'file://%s' % (dataPath),
+                            u'source': 'file://{0!s}'.format((dataPath)),
                             u'first_record': config['firstRecord'],
                             u'last_record': config['lastRecord'],
                             u'types': [u'datetime', u'float']}],

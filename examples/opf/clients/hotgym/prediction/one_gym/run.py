@@ -73,15 +73,14 @@ def createModel(modelParams):
 
 
 def getModelParamsFromName(gymName):
-  importName = "model_params.%s_model_params" % (
+  importName = "model_params.{0!s}_model_params".format((
     gymName.replace(" ", "_").replace("-", "_")
-  )
-  print "Importing model params from %s" % importName
+  ))
+  print "Importing model params from {0!s}".format(importName)
   try:
     importedModelParams = importlib.import_module(importName).MODEL_PARAMS
   except ImportError:
-    raise Exception("No model params exist for '%s'. Run swarm first!"
-                    % gymName)
+    raise Exception("No model params exist for '{0!s}'. Run swarm first!".format(gymName))
   return importedModelParams
 
 
@@ -115,8 +114,8 @@ def runIoThroughNupic(inputData, model, gymName, plot):
     result.metrics = metricsManager.update(result)
 
     if counter % 100 == 0:
-      print "Read %i lines..." % counter
-      print ("After %i records, 1-step altMAPE=%f" % (counter,
+      print "Read {0:d} lines...".format(counter)
+      print ("After {0:d} records, 1-step altMAPE={1:f}".format(counter,
               result.metrics["multiStepBestPredictions:multiStep:"
                              "errorMetric='altMAPE':steps=1:window=1000:"
                              "field=kw_energy_consumption"]))
@@ -133,9 +132,9 @@ def runIoThroughNupic(inputData, model, gymName, plot):
 
 
 def runModel(gymName, plot=False):
-  print "Creating model from %s..." % gymName
+  print "Creating model from {0!s}...".format(gymName)
   model = createModel(getModelParamsFromName(gymName))
-  inputData = "%s/%s.csv" % (DATA_DIR, gymName.replace(" ", "_"))
+  inputData = "{0!s}/{1!s}.csv".format(DATA_DIR, gymName.replace(" ", "_"))
   runIoThroughNupic(inputData, model, gymName, plot)
 
 

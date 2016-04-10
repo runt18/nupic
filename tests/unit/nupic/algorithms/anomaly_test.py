@@ -105,7 +105,7 @@ class AnomalyTest(unittest.TestCase):
       score = anomalyComputer.compute(act, pred)
       self.assertAlmostEqual(
           score, expected, places=5,
-          msg="Anomaly score of %f doesn't match expected of %f" % (
+          msg="Anomaly score of {0:f} doesn't match expected of {1:f}".format(
               score, expected))
 
 

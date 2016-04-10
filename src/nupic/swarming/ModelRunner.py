@@ -386,8 +386,8 @@ class OPFModelRunner(object):
         # NOTE: This is okay with Stream-based Source (when it times out
         # waiting for next record), but not okay with FileSource, which should
         # always return either with a valid record or None for EOF.
-        raise ValueError("Got an empty record from FileSource: %r" %
-                         inputRecord)
+        raise ValueError("Got an empty record from FileSource: {0!r}".format(
+                         inputRecord))
 
 
   def _finalize(self):
@@ -589,8 +589,7 @@ class OPFModelRunner(object):
                               numRecords=(self._currentRecordIndex + 1))
 
     self._logger.debug(
-      "Model Results: modelID=%s; numRecords=%s; results=%s" % \
-        (self._modelID, self._currentRecordIndex + 1, results))
+      "Model Results: modelID={0!s}; numRecords={1!s}; results={2!s}".format(self._modelID, self._currentRecordIndex + 1, results))
 
     return
 
@@ -904,7 +903,7 @@ class OPFModelRunner(object):
         self._isCanceled = True
         self._logger.info("Model %s stopped because hypersearch ended", self._modelID)
       else:
-        raise RuntimeError ("Unexpected stop reason encountered: %s" % (stopReason))
+        raise RuntimeError ("Unexpected stop reason encountered: {0!s}".format((stopReason)))
 
 
   def __checkMaturity(self):

@@ -97,7 +97,7 @@ class SPLearnInferenceTest(unittest.TestCase):
     np.random.seed(seed)
     for i in xrange(numTrainingRecords):
       if spVerbosity > 0:
-        print "Input #%d" % i
+        print "Input #{0:d}".format(i)
       # TODO: See https://github.com/numenta/nupic/issues/2072
       encodedInput = inputs[i]
       decodedOutput = np.zeros(columnDimensions)
@@ -107,13 +107,13 @@ class SPLearnInferenceTest(unittest.TestCase):
     np.random.seed(seed)
     for i in xrange(numTrainingRecords):
       if spVerbosity > 0:
-        print "Input #%d" % i
+        print "Input #{0:d}".format(i)
       # TODO: See https://github.com/numenta/nupic/issues/2072
       encodedInput = inputs[i]
       decodedOutput = np.zeros(columnDimensions)
       spLearnInfer.compute(encodedInput, learn=True, activeArray=decodedOutput)
 
-    print "\nElapsed time: %.2f seconds\n" % (time.time() - startTime)
+    print "\nElapsed time: {0:.2f} seconds\n".format((time.time() - startTime))
 
     # Test that both SP"s are identical by checking learning stats
     # A more in depth test would check all the coincidences, duty cycles, etc.

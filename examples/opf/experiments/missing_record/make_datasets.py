@@ -54,7 +54,7 @@ def _generateSimple(filename="simple.csv", numSequences=1, elementsPerSeq=3,
   # Create the output file
   scriptDir = os.path.dirname(__file__)
   pathname = os.path.join(scriptDir, 'datasets', filename)
-  print "Creating %s..." % (pathname)
+  print "Creating {0!s}...".format((pathname))
   fields = [('timestamp', 'datetime', 'T'), 
             ('field1', 'string', ''),  
             ('field2', 'float', '')]  

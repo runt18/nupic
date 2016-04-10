@@ -332,7 +332,7 @@ class PermuteChoices(PermuteVariable):
 
   def __repr__(self):
     """See comments in base class."""
-    return "PermuteChoices(choices=%s) [position=%s]" % (self.choices,
+    return "PermuteChoices(choices={0!s}) [position={1!s}]".format(self.choices,
                                       self.choices[self._positionIdx])
 
   def getState(self):
@@ -470,10 +470,10 @@ class PermuteEncoder(PermuteVariable):
     """See comments in base class."""
     suffix = ""
     for key, value in self.kwArgs.items():
-      suffix += "%s=%s, " % (key, value)
+      suffix += "{0!s}={1!s}, ".format(key, value)
 
-    return "PermuteEncoder(fieldName=%s, encoderClass=%s, name=%s, %s)" % (
-        (self.fieldName, self.encoderClass, self.name, suffix))
+    return "PermuteEncoder(fieldName={0!s}, encoderClass={1!s}, name={2!s}, {3!s})".format(*(
+        (self.fieldName, self.encoderClass, self.name, suffix)))
 
   def getDict(self, encoderName, flattenedChosenValues):
     """ Return a dict that can be used to construct this encoder. This dict
@@ -496,7 +496,7 @@ class PermuteEncoder(PermuteVariable):
     for encoderArg, value in self.kwArgs.iteritems():
       # If a permuted variable, get its chosen value.
       if isinstance(value, PermuteVariable):
-        value = flattenedChosenValues["%s:%s" % (encoderName, encoderArg)]
+        value = flattenedChosenValues["{0!s}:{1!s}".format(encoderName, encoderArg)]
 
       encoder[encoderArg] = value
 
@@ -541,7 +541,7 @@ class Tests(object):
     for _ in xrange(iterations):
       pos = var.getPosition()
       if self.verbosity >= 1:
-        print "pos: %f" % (pos),
+        print "pos: {0:f}".format((pos)),
       if self.verbosity >= 2:
         print var
       positions.add(pos)
@@ -560,7 +560,7 @@ class Tests(object):
       var.newPosition(gBestPosition, rng)
 
     positions = sorted(positions)
-    print "Positions visited (%d):" % (len(positions)), positions
+    print "Positions visited ({0:d}):".format((len(positions))), positions
 
     # Validate positions.
     assert (max(positions) <= maxValue)
@@ -582,7 +582,7 @@ class Tests(object):
     for _ in xrange(iterations):
       pos = var.getPosition()
       if self.verbosity >= 1:
-        print "pos: %f" % (pos),
+        print "pos: {0:f}".format((pos)),
       if self.verbosity >= 2:
         print var
 
@@ -600,7 +600,7 @@ class Tests(object):
       var.newPosition(gBestPosition, rng)
 
     # Test that we reached the target.
-    print "Target: %f, Converged on: %f" % (targetValue, pos)
+    print "Target: {0:f}, Converged on: {1:f}".format(targetValue, pos)
     assert abs(pos-targetValue) < 0.001
 
   def _testChoices(self):

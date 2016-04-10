@@ -74,8 +74,8 @@ class ModelFactory(object):
     elif modelConfig['model'] == "PreviousValue":
       modelClass = PreviousValueModel
     else:
-      raise Exception("ModelFactory received unsupported Model type: %s" % \
-                      modelConfig['model'])
+      raise Exception("ModelFactory received unsupported Model type: {0!s}".format( \
+                      modelConfig['model']))
 
     return modelClass(**modelConfig['modelParams'])
 

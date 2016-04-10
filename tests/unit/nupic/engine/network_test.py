@@ -97,13 +97,13 @@ class NetworkTest(unittest.TestCase):
   def testOneRegionNetwork(self):
     n = engine.Network()
 
-    print "Number of regions in new network: %d" % len(n.regions)
+    print "Number of regions in new network: {0:d}".format(len(n.regions))
     self.assertEqual(len(n.regions), 0)
 
     print "Adding level1SP"
     level1SP = n.addRegion("level1SP", "TestNode", "")
-    print "Current dimensions are: %s" % level1SP.dimensions
-    print "Number of regions in network: %d" % len(n.regions)
+    print "Current dimensions are: {0!s}".format(level1SP.dimensions)
+    print "Number of regions in network: {0:d}".format(len(n.regions))
 
     self.assertEqual(len(n.regions), 1)
     self.assertEqual(len(n.regions), len(n.regions))
@@ -112,14 +112,14 @@ class NetworkTest(unittest.TestCase):
 
     print("Attempting to initialize net when "
            "one region has unspecified dimensions")
-    print "Current dimensions are: %s" % level1SP.dimensions
+    print "Current dimensions are: {0!s}".format(level1SP.dimensions)
 
     with self.assertRaises(Exception):
       n.initialize()
 
     # Test Dimensions
     level1SP.dimensions = engine.Dimensions([4, 4])
-    print "Set dimensions of level1SP to %s" % str(level1SP.dimensions)
+    print "Set dimensions of level1SP to {0!s}".format(str(level1SP.dimensions))
 
     n.initialize()
 
@@ -265,7 +265,7 @@ class NetworkTest(unittest.TestCase):
     #     print 'method Network.{0}(): "{1}"'.format(name, x.__doc__)
 
     # Typed methods should return correct type
-    print "real64Param: %.2f" % level1SP.getParameterReal64("real64Param")
+    print "real64Param: {0:.2f}".format(level1SP.getParameterReal64("real64Param"))
 
     # Uncomment to get performance for getParameter
 
@@ -278,7 +278,7 @@ class NetworkTest(unittest.TestCase):
         x = level1SP.getParameterReal64("real64Param")   # unbuffered
       t2 = time.time()
 
-      print "Time for 1M getParameter calls: %.2f seconds" % (t2 - t1)
+      print "Time for 1M getParameter calls: {0:.2f} seconds".format((t2 - t1))
 
 
   @unittest.skipIf(sys.platform.lower().startswith("win"),

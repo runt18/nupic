@@ -53,7 +53,7 @@ def _generateCategory(filename="simple.csv", numSequences=2, elementsPerSeq=1,
   # Create the output file
   scriptDir = os.path.dirname(__file__)
   pathname = os.path.join(scriptDir, 'datasets', filename)
-  print "Creating %s..." % (pathname)
+  print "Creating {0!s}...".format((pathname))
   fields = [('classification', 'string', ''), 
             ('field1', 'string', '')]  
   outFile = FileRecordStream(pathname, write=True, fields=fields)
@@ -99,7 +99,7 @@ def _generateScalar(filename="simple.csv", numSequences=2, elementsPerSeq=1,
   # Create the output file
   scriptDir = os.path.dirname(__file__)
   pathname = os.path.join(scriptDir, 'datasets', filename)
-  print "Creating %s..." % (pathname)
+  print "Creating {0!s}...".format((pathname))
   fields = [('classification', 'float', ''), 
             ('field1', 'float', '')]  
   if includeRandom:

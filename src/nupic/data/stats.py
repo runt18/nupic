@@ -63,7 +63,7 @@ class NumberStatsCollector(object):
 
   def _addFirst(self, value):
     if type(value) not in self.validTypes:
-      raise RuntimeError("NumberStatsCollector -- value '%s' is not a valid type" % value)
+      raise RuntimeError("NumberStatsCollector -- value '{0!s}' is not a valid type".format(value))
 
     value = float(value)
     self.min = value
@@ -104,9 +104,9 @@ class CategoryStatsCollector(object):
 
 def getStatsFilename(filename, statsInfo, filters=[]):
   if not os.path.isabs(filename):
-    raise RuntimeError("Filename %s is not an absolute path" % filename)
+    raise RuntimeError("Filename {0!s} is not an absolute path".format(filename))
   if not filename.endswith(".csv"):
-    raise RuntimeError("generateStats only supports csv files: %s" % filename)
+    raise RuntimeError("generateStats only supports csv files: {0!s}".format(filename))
   d = os.path.dirname(filename)
   basename = os.path.basename(filename).replace("csv", "stats")
   sstring = "stats"
@@ -153,7 +153,7 @@ def generateStats(filename, statsInfo, maxSamples = None, filters=[], cache=True
               (filename, str(unavailableKeys))
         os.remove(filename)
 
-  print "Generating statistics for file '%s' with filters '%s'" % (filename, filters)
+  print "Generating statistics for file '{0!s}' with filters '{1!s}'".format(filename, filters)
   sensor = RecordSensor()
   sensor.dataSource = FileRecordStream(filename)
   sensor.preEncodingFilters = filters
@@ -168,7 +168,7 @@ def generateStats(filename, statsInfo, maxSamples = None, filters=[], cache=True
     elif statsInfo[field] == "category":
       statsInfo[field] = CategoryStatsCollector()
     else:
-      raise RuntimeError("Unknown stats type '%s' for field '%s'" % (statsInfo[field], field))
+      raise RuntimeError("Unknown stats type '{0!s}' for field '{1!s}'".format(statsInfo[field], field))
 
   # Now collect the stats
   if maxSamples is None:

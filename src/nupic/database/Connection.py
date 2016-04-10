@@ -314,10 +314,10 @@ class ConnectionWrapper(object):
 
 
   def __repr__(self):
-    return "%s<dbConn=%r, dbConnImpl=%r, cursor=%r, creationTraceback=%r>" % (
+    return "{0!s}<dbConn={1!r}, dbConnImpl={2!r}, cursor={3!r}, creationTraceback={4!r}>".format(
       self.__class__.__name__, self.dbConn,
       getattr(self.dbConn, "_con", "unknown"),
-      self.cursor, self._creationTracebackString,)
+      self.cursor, self._creationTracebackString)
 
 
   def __enter__(self):
@@ -359,7 +359,7 @@ class ConnectionWrapper(object):
 
     self.__class__._clsNumOutstanding -= 1
     assert self._clsNumOutstanding >= 0,  \
-           "_clsNumOutstanding=%r" % (self._clsNumOutstanding,)
+           "_clsNumOutstanding={0!r}".format(self._clsNumOutstanding)
 
     self._releaser = None
     self.cursor = None

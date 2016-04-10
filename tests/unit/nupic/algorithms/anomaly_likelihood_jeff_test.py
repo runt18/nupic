@@ -59,7 +59,7 @@ class ArtificialAnomalyTest(TestCaseBase):
 
   def assertWithinEpsilon(self, a, b, epsilon=0.001):
     self.assertLessEqual(abs(a - b), epsilon,
-                         "Values %g and %g are not within %g" % (a, b, epsilon))
+                         "Values {0:g} and {1:g} are not within {2:g}".format(a, b, epsilon))
 
 
   @staticmethod

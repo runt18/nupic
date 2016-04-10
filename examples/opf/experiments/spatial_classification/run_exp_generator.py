@@ -90,9 +90,9 @@ if __name__ == '__main__':
   
   # ------------------------------------------------------------------------
   # Run through expGenerator
-  expGenArgs = ['--description=%s' % (json.dumps(searchDef)),
+  expGenArgs = ['--description={0!s}'.format((json.dumps(searchDef))),
                 '--version=v2',
-                '--outDir=%s' % (options.outDir)]
+                '--outDir={0!s}'.format((options.outDir))]
   print "Running ExpGenerator with the following arguments: ", expGenArgs
   expGenerator(expGenArgs)
 
@@ -100,7 +100,7 @@ if __name__ == '__main__':
   # Get the permutations file name
   permutationsFilename = os.path.join(options.outDir, 'permutations.py')
   
-  print "Successfully generated permutations file: %s" % (permutationsFilename)
+  print "Successfully generated permutations file: {0!s}".format((permutationsFilename))
   
 
   

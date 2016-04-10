@@ -276,7 +276,7 @@ class TP10X2(TP):
     try:
       return super(TP, self).__getattr__(name)
     except AttributeError:
-      raise AttributeError("'TP' object has no attribute '%s'" % name)
+      raise AttributeError("'TP' object has no attribute '{0!s}'".format(name))
 
 
   def compute(self, bottomUpInput, enableLearn, computeInfOutput=None):
@@ -552,29 +552,29 @@ class TP10X2(TP):
     if nSegs > 0:
       segList = self.cells4.getNonEmptySegList(c,i)
       gidx = c * self.cellsPerColumn + i
-      print "Column", c, "Cell", i, "(%d)"%(gidx),":", nSegs, "segment(s)"
+      print "Column", c, "Cell", i, "({0:d})".format((gidx)),":", nSegs, "segment(s)"
       for k,segIdx in enumerate(segList):
         seg = self.cells4.getSegment(c, i, segIdx)
         isActive = self.slowIsSegmentActive(seg, 't')
         if onlyActiveSegments and not isActive:
           continue
         isActiveStr = "*" if isActive else " "
-        print "  %sSeg #%-3d" % (isActiveStr, segIdx),
+        print "  {0!s}Seg #{1:<3d}".format(isActiveStr, segIdx),
         print seg.size(),
-        print seg.isSequenceSegment(), "%9.7f" % (seg.dutyCycle(
-              self.cells4.getNLrnIterations(), False, True)),
+        print seg.isSequenceSegment(), "{0:9.7f}".format((seg.dutyCycle(
+              self.cells4.getNLrnIterations(), False, True))),
 
         # numPositive/totalActivations
-        print "(%4d/%-4d)" % (seg.getPositiveActivations(),
+        print "({0:4d}/{1:<4d})".format(seg.getPositiveActivations(),
                            seg.getTotalActivations()),
         # Age
-        print "%4d" % (self.cells4.getNLrnIterations()
-                       - seg.getLastActiveIteration()),
+        print "{0:4d}".format((self.cells4.getNLrnIterations()
+                       - seg.getLastActiveIteration())),
 
         numSyn = seg.size()
         for s in xrange(numSyn):
           sc, si = self.getColCellIdx(seg.getSrcCellIdx(s))
-          print "[%d,%d]%4.2f"%(sc, si, seg.getPermanence(s)),
+          print "[{0:d},{1:d}]{2:4.2f}".format(sc, si, seg.getPermanence(s)),
         print
 
 
@@ -672,7 +672,7 @@ class TP10X2(TP):
     distAges = []
     ageBucketSize = int((self.iterationIdx+20) / 20)
     for i in range(numAgeBuckets):
-      distAges.append(['%d-%d' % (i*ageBucketSize, (i+1)*ageBucketSize-1), 0])
+      distAges.append(['{0:d}-{1:d}'.format(i*ageBucketSize, (i+1)*ageBucketSize-1), 0])
 
 
     for c in xrange(self.numberOfCols):

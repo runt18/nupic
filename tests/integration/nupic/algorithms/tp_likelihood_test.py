@@ -167,7 +167,7 @@ def _computeTPMetric(tp=None, sequences=None, useResets=True, verbosity=1):
       print "--------------------------------------------------------"
     for i, inputPattern in enumerate(seq):
       if verbosity > 2:
-        print "sequence %d, element %d," % (seqIdx, i),
+        print "sequence {0:d}, element {1:d},".format(seqIdx, i),
         print "pattern", inputPattern
 
 
@@ -291,8 +291,7 @@ class TPLikelihoodTest(testcasebase.TestCaseBase):
       trainingSequence = trainingSequences[whichSequence]
 
       if VERBOSITY > 2:
-        print "=========Presentation #%d Sequence #%d==============" % \
-                                              (r, whichSequence)
+        print "=========Presentation #{0:d} Sequence #{1:d}==============".format(r, whichSequence)
       if doResets:
         tp.reset()
       for t, x in enumerate(trainingSequence):
@@ -351,8 +350,7 @@ class TPLikelihoodTest(testcasebase.TestCaseBase):
     #  various TP implementations.
     patternConfidenceScores /= patternConfidenceScores.sum()
 
-    msg = ('Prediction failed with predictionScore: %s. Expected %s but got %s.'
-           % (str(predictionScore2), str(relativeFrequencies),
+    msg = ('Prediction failed with predictionScore: {0!s}. Expected {1!s} but got {2!s}.'.format(str(predictionScore2), str(relativeFrequencies),
               str(patternConfidenceScores[4:])))
     self.assertLess(abs(patternConfidenceScores[4]-relativeFrequencies[0]), 0.1,
                     msg=msg)

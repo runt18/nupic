@@ -54,7 +54,7 @@ def patientLoop(logger, maxWaitExponent, finalErrorString, acceptableError,
       logger.error(finalErrorString)
       if email:
         msg = MIMEText(logger.name)
-        msg['Subject'] = 'URGENT - %s' % finalErrorString
+        msg['Subject'] = 'URGENT - {0!s}'.format(finalErrorString)
         me = 'patientloop@numenta.com'
         you = email
         msg['From'] = me
@@ -82,8 +82,7 @@ def patientLoop(logger, maxWaitExponent, finalErrorString, acceptableError,
       '''
       if errorTime - lastErrorTime > timedelta(seconds=(2**maxWaitExponent)):
         exponent = 0
-      logger.info('Sleeping for %d seconds before attempting again ...' \
-                  % timeout )
+      logger.info('Sleeping for {0:d} seconds before attempting again ...'.format(timeout) )
       time.sleep(timeout)
       # Store our error time for checking next time around
       lastErrorTime = errorTime

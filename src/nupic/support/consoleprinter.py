@@ -77,11 +77,11 @@ class ConsolePrinterMixin(object):
       return
 
     if len(kw) > 1:
-      raise KeyError("Invalid keywords for cPrint: %s" % str(kw.keys()))
+      raise KeyError("Invalid keywords for cPrint: {0!s}".format(str(kw.keys())))
 
     newline = kw.get("newline", True)
     if len(kw) == 1 and 'newline' not in kw:
-      raise KeyError("Invalid keyword for cPrint: %s" % kw.keys()[0])
+      raise KeyError("Invalid keyword for cPrint: {0!s}".format(kw.keys()[0]))
 
     if len(args) == 0:
       if newline:

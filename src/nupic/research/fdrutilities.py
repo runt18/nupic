@@ -599,8 +599,8 @@ def tpDiff2(tp1, tp2, verbosity = 0, relaxSegmentTests =True,
     print "Two TP's have different parameters"
     return False
 
-  tp1Label = "<tp_1 (%s)>" % tp1.__class__.__name__
-  tp2Label = "<tp_2 (%s)>" % tp2.__class__.__name__
+  tp1Label = "<tp_1 ({0!s})>".format(tp1.__class__.__name__)
+  tp2Label = "<tp_2 ({0!s})>".format(tp2.__class__.__name__)
 
   result = True
 
@@ -639,9 +639,9 @@ def tpDiff2(tp1, tp2, verbosity = 0, relaxSegmentTests =True,
   if tp1.getNumSynapses() != tp2.getNumSynapses():
     print "Number of synapses are different", tp1.getNumSynapses(), tp2.getNumSynapses()
     if verbosity >= 3:
-      print "%s: " % tp1Label,
+      print "{0!s}: ".format(tp1Label),
       tp1.printCells()
-      print "\n%s  : " % tp2Label,
+      print "\n{0!s}  : ".format(tp2Label),
       tp2.printCells()
     #result = False
 
@@ -675,9 +675,9 @@ def tpDiff2(tp1, tp2, verbosity = 0, relaxSegmentTests =True,
             print "\nSegments are different for cell:",c,i
             result = False
             if verbosity >= 0:
-              print "%s : " % tp1Label,
+              print "{0!s} : ".format(tp1Label),
               tp1.printCell(c,i)
-              print "\n%s  : " % tp2Label,
+              print "\n{0!s}  : ".format(tp2Label),
               tp2.printCell(c,i)
 
   if result == True and (verbosity > 1):
@@ -730,19 +730,19 @@ def spDiff(SP1,SP2):
         connected1 = SP1._masterConnectedM[i]
         connected2 = SP2._masterConnectedM[i]
         if(connected1!=connected2):
-            print "Connected Matrices for cell %d different"  % (i)
+            print "Connected Matrices for cell {0:d} different".format((i))
             return False
         #grab permanence Matrices and compare them
         permanences1 = SP1._masterPermanenceM[i];
         permanences2 = SP2._masterPermanenceM[i];
         if(permanences1!=permanences2):
-            print "Permanence Matrices for cell %d different" % (i)
+            print "Permanence Matrices for cell {0:d} different".format((i))
             return False
         #grab the potential connection Matrices and compare them
         potential1 = SP1._masterPotentialM[i];
         potential2 = SP2._masterPotentialM[i];
         if(potential1!=potential2):
-            print "Potential Matrices for cell %d different" % (i)
+            print "Potential Matrices for cell {0:d} different".format((i))
             return False
 
     #Check firing boosts

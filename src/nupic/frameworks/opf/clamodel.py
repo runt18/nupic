@@ -97,7 +97,7 @@ class NetworkInfo(object):
     return
 
   def __repr__(self):
-    return "NetworkInfo(net=%r, statsCollectors=%r)" % (
+    return "NetworkInfo(net={0!r}, statsCollectors={1!r})".format(
               self.net, self.statsCollectors)
 
 
@@ -171,7 +171,7 @@ class CLAModel(Model):
 
     # Intitialize logging
     self.__logger = initLogger(self)
-    self.__logger.debug("Instantiating %s." % self.__myClassName)
+    self.__logger.debug("Instantiating {0!s}.".format(self.__myClassName))
 
 
     self._minLikelihoodThreshold = minLikelihoodThreshold
@@ -232,7 +232,7 @@ class CLAModel(Model):
     # Tracks whether finishedLearning() has been called
     self.__finishedLearning = False
 
-    self.__logger.debug("Instantiated %s" % self.__class__.__name__)
+    self.__logger.debug("Instantiated {0!s}".format(self.__class__.__name__))
 
     self._input = None
 
@@ -243,8 +243,8 @@ class CLAModel(Model):
     if paramName == '__numRunCalls':
       return self.__numRunCalls
     else:
-      raise RuntimeError("'%s' parameter is not exposed by clamodel." % \
-        (paramName))
+      raise RuntimeError("'{0!s}' parameter is not exposed by clamodel.".format( \
+        (paramName)))
 
 
   def resetSequenceStates(self):
@@ -423,12 +423,12 @@ class CLAModel(Model):
     # =========================================================================
     # output
     assert (not self.isInferenceEnabled() or results.inferences is not None), \
-            "unexpected inferences: %r" %  results.inferences
+            "unexpected inferences: {0!r}".format(results.inferences)
 
 
     #self.__logger.setLevel(logging.DEBUG)
     if self.__logger.isEnabledFor(logging.DEBUG):
-      self.__logger.debug("inputRecord: %r, results: %r" % (inputRecord,
+      self.__logger.debug("inputRecord: {0!r}, results: {1!r}".format(inputRecord,
                                                             results))
 
     return results
@@ -480,7 +480,7 @@ class CLAModel(Model):
       sensor.compute()
     except StopIteration as e:
       raise Exception("Unexpected StopIteration", e,
-                      "ACTUAL TRACEBACK: %s" % traceback.format_exc())
+                      "ACTUAL TRACEBACK: {0!s}".format(traceback.format_exc()))
 
 
   def _spCompute(self):
@@ -643,8 +643,7 @@ class CLAModel(Model):
 
       if not self._predictedFieldName in self._input:
         raise ValueError(
-          "Expected predicted field '%s' in input row, but was not found!" 
-          % self._predictedFieldName
+          "Expected predicted field '{0!s}' in input row, but was not found!".format(self._predictedFieldName)
         )
       # Calculate the anomaly score using the active columns
       # and previous predicted columns.
@@ -667,7 +666,7 @@ class CLAModel(Model):
         self._getAnomalyClassifier().prepareInputs()
         self._getAnomalyClassifier().compute()
         labels = self._getAnomalyClassifier().getSelf().getLabelResults()
-        inferences[InferenceElement.anomalyLabel] = "%s" % labels
+        inferences[InferenceElement.anomalyLabel] = "{0!s}".format(labels)
 
     inferences[InferenceElement.anomalyScore] = score
     return inferences
@@ -1118,7 +1117,7 @@ class CLAModel(Model):
     if spEnable:
       spParams = spParams.copy()
       spParams['inputWidth'] = prevRegionWidth
-      self.__logger.debug("Adding SPRegion; spParams: %r" % spParams)
+      self.__logger.debug("Adding SPRegion; spParams: {0!r}".format(spParams))
       n.addRegion("SP", "py.SPRegion", json.dumps(spParams))
 
       # Link SP region
@@ -1142,7 +1141,7 @@ class CLAModel(Model):
         assert tpParams['columnCount'] == prevRegionWidth
         tpParams['inputWidth'] = tpParams['columnCount']
 
-      self.__logger.debug("Adding TPRegion; tpParams: %r" % tpParams)
+      self.__logger.debug("Adding TPRegion; tpParams: {0!r}".format(tpParams))
       n.addRegion("TP", "py.TPRegion", json.dumps(tpParams))
 
       # Link TP region
@@ -1162,9 +1161,9 @@ class CLAModel(Model):
     if clEnable and clParams is not None:
       clParams = clParams.copy()
       clRegionName = clParams.pop('regionName')
-      self.__logger.debug("Adding %s; clParams: %r" % (clRegionName,
+      self.__logger.debug("Adding {0!s}; clParams: {1!r}".format(clRegionName,
                                                       clParams))
-      n.addRegion("Classifier", "py.%s" % str(clRegionName), json.dumps(clParams))
+      n.addRegion("Classifier", "py.{0!s}".format(str(clRegionName)), json.dumps(clParams))
 
       n.link("sensor", "Classifier", "UniformLink", "", srcOutput="categoryOut",
              destInput="categoryIn")
@@ -1291,7 +1290,7 @@ class CLAModel(Model):
     if not hasattr(self, '_hasCL'):
       self._hasCL = (self._getClassifierRegion() is not None)
 
-    self.__logger.debug("Restoring %s from state..." % self.__class__.__name__)
+    self.__logger.debug("Restoring {0!s} from state...".format(self.__class__.__name__))
 
 
   @staticmethod
@@ -1536,11 +1535,11 @@ class CLAModel(Model):
     """
 
     assert privateMemberName.startswith("__"), \
-           "%r doesn't start with __" % privateMemberName
+           "{0!r} doesn't start with __".format(privateMemberName)
     assert not privateMemberName.startswith("___"), \
-           "%r starts with ___" % privateMemberName
+           "{0!r} starts with ___".format(privateMemberName)
     assert not privateMemberName.endswith("__"), \
-           "%r ends with more than one underscore" % privateMemberName
+           "{0!r} ends with more than one underscore".format(privateMemberName)
 
     realName = "_" + (self.__myClassName).lstrip("_") + privateMemberName
 

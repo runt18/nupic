@@ -270,12 +270,12 @@ class OPFBenchmarkRunner(unittest.TestCase):
       prep = os.path.join(prep, str(prependDict["iteration"]))
     if (self.BRANCHING_PROP in prependDict and
         len(self.maxBranchings.split(",")) > 1):
-      prep = os.path.join(prep, "maxBranch_%s" %
-                          prependDict[self.BRANCHING_PROP])
+      prep = os.path.join(prep, "maxBranch_{0!s}".format(
+                          prependDict[self.BRANCHING_PROP]))
     if (self.PARTICLE_PROP in prependDict and
         len(self.maxParticles.split(",")) > 1):
-      prep = os.path.join(prep, "maxParticles_%s" %
-                          prependDict[self.PARTICLE_PROP])
+      prep = os.path.join(prep, "maxParticles_{0!s}".format(
+                          prependDict[self.PARTICLE_PROP]))
     return prep
 
 
@@ -448,16 +448,16 @@ class OPFBenchmarkRunner(unittest.TestCase):
 
   def syncFiles(self):
     if(self.onCluster()):
-      os.system("syncDataFiles %s" % self.outdir)
+      os.system("syncDataFiles {0!s}".format(self.outdir))
     return
 
 
   def removeTmpDirs(self):
-    print "Removing temporary directory <%s>" % self.outdir
+    print "Removing temporary directory <{0!s}>".format(self.outdir)
     if(self.onCluster()):
-      os.system("onall rm -r %s" % self.outdir)
+      os.system("onall rm -r {0!s}".format(self.outdir))
     else :
-      os.system("rm -r %s" % self.outdir)
+      os.system("rm -r {0!s}".format(self.outdir))
 
 
   @classmethod
@@ -515,10 +515,10 @@ class OPFBenchmarkRunner(unittest.TestCase):
         "TotalCpuTime(s), JobWallTime, RecordsProcessed, Completion Status"),
     addstr = ""
     for key in optionalKeys:
-      addstr+= ",%s" % key
+      addstr+= ",{0!s}".format(key)
     print >> csv, addstr
     for result in self.__resultList:
-      print >> csv, "%d,%s,%s,%s,%f,%s,%s,%d,%f,%s,%d,%s" % (result['jobID'],
+      print >> csv, "{0:d},{1!s},{2!s},{3!s},{4:f},{5!s},{6!s},{7:d},{8:f},{9!s},{10:d},{11!s}".format(result['jobID'],
             result['outDir'], result['expName'], result['searchType'], \
             result["metric"], result["prodMetric"], \
             result['encoders'], \
@@ -528,7 +528,7 @@ class OPFBenchmarkRunner(unittest.TestCase):
       addstr = ""
       for key in optionalKeys:
         if key in result:
-          addstr+= ",%s" % str(result[key])
+          addstr+= ",{0!s}".format(str(result[key]))
         else:
           addstr+= ",None"
       print >> csv, addstr
@@ -605,7 +605,7 @@ class OPFBenchmarkRunner(unittest.TestCase):
       version=1,
       info="hotgym benchmark test",
       streams=[
-        dict(source="file://%s" % (dataPath),
+        dict(source="file://{0!s}".format((dataPath)),
              info="hotgym.csv",
              # NOTE: Limiting number of records to work around a bug in the
              # Streams Mgr present as of Dec 7, 2011 that shows up if you have
@@ -665,7 +665,7 @@ class OPFBenchmarkRunner(unittest.TestCase):
       version=1,
       info="hotgym benchmark test",
       streams=[
-        dict(source="file://%s" % (dataPath),
+        dict(source="file://{0!s}".format((dataPath)),
              info="sine.csv",
              columns=["Sine","angle"],
              last_record=self.splits['sine']),
@@ -715,7 +715,7 @@ class OPFBenchmarkRunner(unittest.TestCase):
       version=1,
       info="two fields test",
       streams=[
-        dict(source="file://%s" % (dataPath),
+        dict(source="file://{0!s}".format((dataPath)),
              info="linear_two_fields",
              columns=["field1","field2"],
              last_record=self.splits['twovars'],),
@@ -764,7 +764,7 @@ class OPFBenchmarkRunner(unittest.TestCase):
       version=1,
       info="three fields test",
       streams=[
-        dict(source="file://%s" % (dataPath),
+        dict(source="file://{0!s}".format((dataPath)),
              info="linear_two_plus_one_fields",
              columns=["field1","field2","field3"],
              last_record=self.splits['threevars']),
@@ -819,7 +819,7 @@ class OPFBenchmarkRunner(unittest.TestCase):
       version=1,
       info="four fields test",
       streams=[
-        dict(source="file://%s" % (dataPath),
+        dict(source="file://{0!s}".format((dataPath)),
              info="linear_two_plus_one_fields",
              columns=["field1","field2","field3","field4"],
              last_record=self.splits['fourvars']),
@@ -878,7 +878,7 @@ class OPFBenchmarkRunner(unittest.TestCase):
       version=1,
       info="categories test",
       streams=[
-        dict(source="file://%s" % (dataPath),
+        dict(source="file://{0!s}".format((dataPath)),
              info="categories",
              columns=["field1","field2"],
              last_record=self.splits['categories']),
@@ -922,7 +922,7 @@ class OPFBenchmarkRunner(unittest.TestCase):
       version=1,
       info="three fields test",
       streams=[
-        dict(source="file://%s" % (dataPath),
+        dict(source="file://{0!s}".format((dataPath)),
              info="linear_two_fields",
              columns=["field1","field2"],
              last_record=self.splits['twovars2']),
@@ -969,7 +969,7 @@ class OPFBenchmarkRunner(unittest.TestCase):
       version=1,
       info="sawtooth test",
       streams=[
-        dict(source="file://%s" % (dataPath),
+        dict(source="file://{0!s}".format((dataPath)),
              info="sawtooth",
              columns=["value"],
              last_record=self.splits['sawtooth'],),
@@ -1014,7 +1014,7 @@ class OPFBenchmarkRunner(unittest.TestCase):
       version=1,
       info="hotgym spatial classification benchmark test",
       streams=[
-        dict(source="file://%s" % (dataPath),
+        dict(source="file://{0!s}".format((dataPath)),
              info="hotgym.csv",
              # NOTE: Limiting number of records to work around a bug in the
              # Streams Mgr present as of Dec 7, 2011 that shows up if you have
@@ -1091,16 +1091,16 @@ class OPFBenchmarkRunner(unittest.TestCase):
       # TODO BUG: args passed to expGenerator is not defined yet
       ExpGenerator.expGenerator(args)
     args = [
-      "--description=%s" % (json.dumps(expDesc)),
+      "--description={0!s}".format((json.dumps(expDesc))),
       "--version=v2",
-      "--outDir=%s" % (outdirv2noterm)
+      "--outDir={0!s}".format((outdirv2noterm))
     ]
     if self.__doV2noTerm:
       ExpGenerator.expGenerator(args)
     args = [
-      "--description=%s" % (json.dumps(expDesc)),
+      "--description={0!s}".format((json.dumps(expDesc))),
       "--version=v2",
-      "--outDir=%s" % (outdirdef)
+      "--outDir={0!s}".format((outdirdef))
     ]
     if self.__doClusterDef:
       ExpGenerator.expGenerator(args)
@@ -1108,16 +1108,16 @@ class OPFBenchmarkRunner(unittest.TestCase):
 
   def runV2noTerm(self, basedir, expname, searchtype, exportdict):
     v2path = os.path.join(basedir, "v2NoTerm", "base", "permutations.py")
-    maxWorkers = "--maxWorkers=%d" % self.__maxNumWorkers
+    maxWorkers = "--maxWorkers={0:d}".format(self.__maxNumWorkers)
     searchMethod = "--searchMethod=v2"
     useTerms = "--useTerminators"
-    exports = "--exports=%s" % json.dumps(exportdict)
+    exports = "--exports={0!s}".format(json.dumps(exportdict))
     runString = [v2path, maxWorkers, searchMethod, exports]
     if self.__maxPermutations > 0:
-      maxPermutations = "--maxPermutations=%d" % self.__maxPermutations
+      maxPermutations = "--maxPermutations={0:d}".format(self.__maxPermutations)
       runString.append(maxPermutations)
     if self.__timeout != None:
-      timeout = "--timeout=%d" % self.__timeout
+      timeout = "--timeout={0:d}".format(self.__timeout)
       runString.append(timeout)
     if self.__doEnsemble:
       ensemble = "--ensemble"
@@ -1144,16 +1144,16 @@ class OPFBenchmarkRunner(unittest.TestCase):
 
   def runDefault(self, basedir, expname, searchtype, exportdict):
     path = os.path.join(basedir, "cluster_default", "base", "permutations.py")
-    maxWorkers = "--maxWorkers=%d" % self.__maxNumWorkers
+    maxWorkers = "--maxWorkers={0:d}".format(self.__maxNumWorkers)
     searchMethod = "--searchMethod=v2"
     clusterDefault = "--clusterDefault"
-    exports = "--exports=%s" % json.dumps(exportdict)
+    exports = "--exports={0!s}".format(json.dumps(exportdict))
     runString = [path, maxWorkers, clusterDefault, exports]
     if self.__maxPermutations > 0:
-      maxPermutations = "--maxPermutations=%d" % self.__maxPermutations
+      maxPermutations = "--maxPermutations={0:d}".format(self.__maxPermutations)
       runString.append(maxPermutations)
     if self.__timeout != None:
-      timeout = "--timeout=%d" % self.__timeout
+      timeout = "--timeout={0:d}".format(self.__timeout)
       runString.append(timeout)
     if self.__doEnsemble:
       ensemble = "--ensemble"
@@ -1178,16 +1178,16 @@ class OPFBenchmarkRunner(unittest.TestCase):
 
   def runV2Term(self, basedir, expname, searchtype, exportdict):
     v2path = os.path.join(basedir, "v2Term", "base", "permutations.py")
-    maxWorkers = "--maxWorkers=%d" % self.__maxNumWorkers
+    maxWorkers = "--maxWorkers={0:d}".format(self.__maxNumWorkers)
     searchMethod = "--searchMethod=v2"
     useTerms = "--useTerminators"
-    exports = "--exports=%s" % json.dumps(exportdict)
+    exports = "--exports={0!s}".format(json.dumps(exportdict))
     runString = [v2path, maxWorkers, searchMethod, useTerms, exports]
     if self.__maxPermutations > 0:
-      maxPermutations = "--maxPermutations=%d" % self.__maxPermutations
+      maxPermutations = "--maxPermutations={0:d}".format(self.__maxPermutations)
       runString.append(maxPermutations)
     if self.__timeout != None:
-      timeout = "--timeout=%d" % self.__timeout
+      timeout = "--timeout={0:d}".format(self.__timeout)
       runString.append(timeout)
     if self.__doEnsemble:
       ensemble = "--ensemble"
@@ -1277,7 +1277,7 @@ class OPFBenchmarkRunner(unittest.TestCase):
     assert os.path.isabs(scriptAbsPath)
 
     assert os.path.isfile(scriptAbsPath) , (
-        "Expected python script to be present here: <%s>" % scriptAbsPath)
+        "Expected python script to be present here: <{0!s}>".format(scriptAbsPath))
 
     # Test viability of the file as a python script by loading it
     # An exception will be raised if this fails
@@ -1291,7 +1291,7 @@ class OPFBenchmarkRunner(unittest.TestCase):
     # Check for benchmark misspellings
     for bm in self.listOfBenchmarks:
       if not bm in self.allBenchmarks:
-        raise Exception("Unknown benchmark %s" % bm)
+        raise Exception("Unknown benchmark {0!s}".format(bm))
 
     # Set up FIFO queue for handling the different directories that are created
     # for the tests
@@ -1474,7 +1474,7 @@ if __name__ == "__main__":
   if not os.path.isdir(options.outdir):
     options.outdir = tempfile.mkdtemp()
     print "Provided directory to store Benchmark files is invalid.",
-    print "Now storing in <%s> and then deleting" % options.outdir
+    print "Now storing in <{0!s}> and then deleting".format(options.outdir)
     OPFBenchmarkRunner.isSaveResults = False
   OPFBenchmarkRunner.outdir = os.path.abspath(os.path.join(options.outdir,
                                                            "BenchmarkFiles"))
@@ -1501,7 +1501,7 @@ if __name__ == "__main__":
 
   tests = options.searches
   if not OPFBenchmarkRunner.getTests(tests):
-    raise Exception("Incorrect formatting of option \n %s" % helpString)
+    raise Exception("Incorrect formatting of option \n {0!s}".format(helpString))
 
   OPFBenchmarkRunner.listOfBenchmarks = options.benchmarks.lower().split(',')
   OPFBenchmarkRunner.filesOnly = options.filesOnly

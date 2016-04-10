@@ -72,10 +72,10 @@ class FieldMetaInfo(FieldMetaInfoBase):
     """
 
     if not FieldMetaType.isValid(type):
-      raise ValueError('Unexpected field type %r' % (type,))
+      raise ValueError('Unexpected field type {0!r}'.format(type))
 
     if not FieldMetaSpecial.isValid(special):
-      raise ValueError('Unexpected field special attribute %r' % (special,))
+      raise ValueError('Unexpected field special attribute {0!r}'.format(special))
 
     super(FieldMetaInfo, self).__init__(name, type, special)
 

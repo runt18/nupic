@@ -85,8 +85,8 @@ class ConsolePrinterTest(unittest.TestCase):
     expected = open(referenceFilename).readlines()
     actual = open(filename).readlines()
 
-    print ("Comparing files '%s'" % referenceFilename)
-    print ("and             '%s'" % filename)
+    print ("Comparing files '{0!s}'".format(referenceFilename))
+    print ("and             '{0!s}'".format(filename))
 
     self.assertEqual(len(expected), len(actual))
 

@@ -129,8 +129,8 @@ class GeospatialCoordinateEncoder(CoordinateEncoder):
 
   def dump(self):
     print "GeospatialCoordinateEncoder:"
-    print "  w:   %d" % self.w
-    print "  n:   %d" % self.n
+    print "  w:   {0:d}".format(self.w)
+    print "  n:   {0:d}".format(self.n)
 
 
   @classmethod

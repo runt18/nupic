@@ -169,7 +169,7 @@ class Anomaly(object):
     windowSize = 0
     if self._movingAverage is not None:
       windowSize = self._movingAverage.windowSize
-    return "Anomaly:\tmode=%s\twindowSize=%r" % (self._mode, windowSize)
+    return "Anomaly:\tmode={0!s}\twindowSize={1!r}".format(self._mode, windowSize)
 
 
   def __eq__(self, other):

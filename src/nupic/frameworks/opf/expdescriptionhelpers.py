@@ -75,7 +75,7 @@ def importBaseDescription(path, config):
 
   # stash the config in a place where the loading module can find it.
   _config = config
-  mod = imp.load_source("pf_base_description%d" % baseDescriptionImportCount,
+  mod = imp.load_source("pf_base_description{0:d}".format(baseDescriptionImportCount),
                         path)
   # don't want to override __file__ in our caller
   mod.__base_file__ = mod.__file__

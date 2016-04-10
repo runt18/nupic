@@ -1089,7 +1089,7 @@ def testSequence(trainingSequences,
             falsePositives = missingFromInput
 
             if VERBOSITY > 2:
-              print "Predition from %d to %d" % (t, t+i+1)
+              print "Predition from {0:d} to {1:d}".format(t, t+i+1)
               print "\t\tFalse Negatives:", falseNegatives
               print "\t\tFalse Positivies:", falsePositives
 
@@ -1977,7 +1977,7 @@ def hubCapacity():
 
   f = open('results-numPerfect.11.22.10.txt', 'w')
   for i,r in enumerate(results):
-      print >>f, '{%d,%d,%d,%d,%d,%d,%d,%d,%d},' % r
+      print >>f, '{{{0:d},{1:d},{2:d},{3:d},{4:d},{5:d},{6:d},{7:d},{8:d}}},'.format(*r)
   f.close()
 
 

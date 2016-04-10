@@ -116,7 +116,7 @@ def logEntryExit(getLoggerCallback=logging.getLogger,
       if logArgs:
         argsRepr = ', '.join(
           [repr(a) for a in args] +
-          ['%s=%r' % (k,v,) for k,v in kwargs.iteritems()])
+          ['{0!s}={1!r}'.format(k, v) for k,v in kwargs.iteritems()])
       else:
         argsRepr = ''
 
@@ -186,7 +186,7 @@ def retry(timeoutSec, initialRetryDelaySec, maxRetryDelaySec,
   assert timeoutSec >= 0, str(timeoutSec)
 
   assert maxRetryDelaySec >= initialRetryDelaySec, \
-      "%r < %r" % (maxRetryDelaySec, initialRetryDelaySec)
+      "{0!r} < {1!r}".format(maxRetryDelaySec, initialRetryDelaySec)
 
   assert isinstance(retryExceptions, tuple), (
     "retryExceptions must be tuple, but got %r") % (type(retryExceptions),)

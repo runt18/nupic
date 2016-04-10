@@ -159,7 +159,7 @@ class CategoryEncoderTest(unittest.TestCase):
 
     # -------------------------------------------------------------
     # Test with width = 9, removing some bits end the encoded output
-    categories = ["cat%d" % (x) for x in range(1, 10)]
+    categories = ["cat{0:d}".format((x)) for x in range(1, 10)]
      # forced: is not recommended, but is used here for readability.
      # see scalar.py
     e = CategoryEncoder(w=9, categoryList=categories, forced=True)

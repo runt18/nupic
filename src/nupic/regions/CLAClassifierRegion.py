@@ -224,7 +224,7 @@ class CLAClassifierRegion(PyRegion):
     # Convert the steps designation to a list
     self.classifierImp = implementation
     self.steps = steps
-    self.stepsList = eval("[%s]" % (steps))
+    self.stepsList = eval("[{0!s}]".format((steps)))
     self.alpha = alpha
     self.verbosity = clVerbosity
 

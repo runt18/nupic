@@ -152,13 +152,11 @@ def test():
 
 
   schemaPath = os.path.join(os.path.dirname(__file__), "testSchema.json")
-  print "Validating schemaPath method in positive test using %s..." % \
-            (os.path.abspath(schemaPath),)
+  print "Validating schemaPath method in positive test using {0!s}...".format(os.path.abspath(schemaPath))
   validate(d, schemaPath=schemaPath)
   print "ok\n"
 
-  print "Validating schemaPath method in negative test using %s..." % \
-            (os.path.abspath(schemaPath),)
+  print "Validating schemaPath method in negative test using {0!s}...".format(os.path.abspath(schemaPath))
   try:
     validate({}, schemaPath=schemaPath)
   except ValidationError:

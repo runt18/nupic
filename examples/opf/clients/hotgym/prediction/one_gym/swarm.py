@@ -52,14 +52,14 @@ def modelParamsToString(modelParams):
 
 def writeModelParamsToFile(modelParams, name):
   cleanName = name.replace(" ", "_").replace("-", "_")
-  paramsName = "%s_model_params.py" % cleanName
+  paramsName = "{0!s}_model_params.py".format(cleanName)
   outDir = os.path.join(os.getcwd(), 'model_params')
   if not os.path.isdir(outDir):
     os.mkdir(outDir)
   outPath = os.path.join(os.getcwd(), 'model_params', paramsName)
   with open(outPath, "wb") as outFile:
     modelParamsString = modelParamsToString(modelParams)
-    outFile.write("MODEL_PARAMS = \\\n%s" % modelParamsString)
+    outFile.write("MODEL_PARAMS = \\\n{0!s}".format(modelParamsString))
   return outPath
 
 
@@ -95,12 +95,12 @@ def printSwarmSizeWarning(size):
 def swarm(filePath):
   name = os.path.splitext(os.path.basename(filePath))[0]
   print "================================================="
-  print "= Swarming on %s data..." % name
+  print "= Swarming on {0!s} data...".format(name)
   printSwarmSizeWarning(SWARM_DESCRIPTION["swarmSize"])
   print "================================================="
   modelParams = swarmForBestModelParams(SWARM_DESCRIPTION, name)
   print "\nWrote the following model param files:"
-  print "\t%s" % modelParams
+  print "\t{0!s}".format(modelParams)
 
 
 

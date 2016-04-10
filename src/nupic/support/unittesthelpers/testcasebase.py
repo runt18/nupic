@@ -56,8 +56,8 @@ class TestCaseBase(unittest.TestCase):
 
     print
     print "###############################################################"
-    print "Running %s..." % (self,)
-    print "[%s UTC]" % (datetime.utcnow())
+    print "Running {0!s}...".format(self)
+    print "[{0!s} UTC]".format((datetime.utcnow()))
     print "###############################################################"
     sys.stdout.flush()
     return
@@ -69,7 +69,7 @@ class TestCaseBase(unittest.TestCase):
     print
     print "==============================================================="
     print msg % args
-    print >> sys.stdout, "[%s UTC; %s]" % (datetime.utcnow(), self,)
+    print >> sys.stdout, "[{0!s} UTC; {1!s}]".format(datetime.utcnow(), self)
     print "==============================================================="
     sys.stdout.flush()
     return
@@ -169,6 +169,6 @@ def longTest(testMethod):
     if TestOptionParser.__long__:
       return testMethod(*args, **kwargs)
     else:
-      msg = 'Skipping long test: %s' % testMethod.__name__
+      msg = 'Skipping long test: {0!s}'.format(testMethod.__name__)
       return unittest.skip(msg)(testMethod)(*args, **kwargs)
   return newTestMethod

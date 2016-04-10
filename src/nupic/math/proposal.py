@@ -54,7 +54,7 @@ class RangeWrapper(Proposal):
       if (self.min is not None) and (value < self.min): done = False
       if (self.max is not None) and (value > self.max): done = False
       if iterations >= self.maxIterations:
-        raise RuntimeError("Failed to sample in %d iterations." % self.maxIterations)
+        raise RuntimeError("Failed to sample in {0:d} iterations.".format(self.maxIterations))
     prop = tuple([value] + list(prop[1:]))
     return prop
 

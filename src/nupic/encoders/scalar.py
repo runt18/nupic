@@ -191,7 +191,7 @@ class ScalarEncoder(Encoder):
     self.verbosity = verbosity
     self.w = w
     if (w % 2 == 0):
-      raise Exception("Width must be an odd number (%f)" % w)
+      raise Exception("Width must be an odd number ({0:f})".format(w))
 
     self.minval = minval
     self.maxval = maxval
@@ -231,7 +231,7 @@ class ScalarEncoder(Encoder):
     if name is not None:
       self.name = name
     else:
-      self.name = "[%s:%s]" % (self.minval, self.maxval)
+      self.name = "[{0!s}:{1!s}]".format(self.minval, self.maxval)
 
     # This matrix is used for the topDownCompute. We build it the first time
     #  topDownCompute is called
@@ -323,7 +323,7 @@ class ScalarEncoder(Encoder):
     else:
       self.range = self.rangeInternal + self.resolution
 
-    name = "[%s:%s]" % (self.minval, self.maxval)
+    name = "[{0!s}:{1!s}]".format(self.minval, self.maxval)
 
 
   def getDescription(self):
@@ -343,28 +343,25 @@ class ScalarEncoder(Encoder):
         # Don't clip periodic inputs. Out-of-range input is always an error
         if self.clipInput and not self.periodic:
           if self.verbosity > 0:
-            print "Clipped input %s=%.2f to minval %.2f" % (self.name, input,
+            print "Clipped input {0!s}={1:.2f} to minval {2:.2f}".format(self.name, input,
                                                             self.minval)
           input = self.minval
         else:
-          raise Exception('input (%s) less than range (%s - %s)' %
-                          (str(input), str(self.minval), str(self.maxval)))
+          raise Exception('input ({0!s}) less than range ({1!s} - {2!s})'.format(str(input), str(self.minval), str(self.maxval)))
 
       if self.periodic:
         # Don't clip periodic inputs. Out-of-range input is always an error
         if input >= self.maxval:
-          raise Exception('input (%s) greater than periodic range (%s - %s)' %
-                          (str(input), str(self.minval), str(self.maxval)))
+          raise Exception('input ({0!s}) greater than periodic range ({1!s} - {2!s})'.format(str(input), str(self.minval), str(self.maxval)))
       else:
         if input > self.maxval:
           if self.clipInput:
             if self.verbosity > 0:
-              print "Clipped input %s=%.2f to maxval %.2f" % (self.name, input,
+              print "Clipped input {0!s}={1:.2f} to maxval {2:.2f}".format(self.name, input,
                                                               self.maxval)
             input = self.maxval
           else:
-            raise Exception('input (%s) greater than range (%s - %s)' %
-                            (str(input), str(self.minval), str(self.maxval)))
+            raise Exception('input ({0!s}) greater than range ({1!s} - {2!s})'.format(str(input), str(self.minval), str(self.maxval)))
 
       if self.periodic:
         centerbin = int((input - self.minval) * self.nInternal / self.range) \
@@ -408,7 +405,7 @@ class ScalarEncoder(Encoder):
 
     if input is not None and not isinstance(input, numbers.Number):
       raise TypeError(
-          "Expected a scalar input but got input of type %s" % type(input))
+          "Expected a scalar input but got input of type {0!s}".format(type(input)))
 
     if type(input) is float and math.isnan(input):
       input = SENTINEL_VALUE_FOR_MISSING_DATA
@@ -566,7 +563,7 @@ class ScalarEncoder(Encoder):
     desc = self._generateRangeDescription(ranges)
     # Return result
     if parentFieldName != '':
-      fieldName = "%s.%s" % (parentFieldName, self.name)
+      fieldName = "{0!s}.{1!s}".format(parentFieldName, self.name)
     else:
       fieldName = self.name
 
@@ -579,9 +576,9 @@ class ScalarEncoder(Encoder):
     numRanges = len(ranges)
     for i in xrange(numRanges):
       if ranges[i][0] != ranges[i][1]:
-        desc += "%.2f-%.2f" % (ranges[i][0], ranges[i][1])
+        desc += "{0:.2f}-{1:.2f}".format(ranges[i][0], ranges[i][1])
       else:
-        desc += "%.2f" % (ranges[i][0])
+        desc += "{0:.2f}".format((ranges[i][0]))
       if i < numRanges - 1:
         desc += ", "
     return desc
@@ -698,16 +695,16 @@ class ScalarEncoder(Encoder):
 
   def dump(self):
     print "ScalarEncoder:"
-    print "  min: %f" % self.minval
-    print "  max: %f" % self.maxval
-    print "  w:   %d" % self.w
-    print "  n:   %d" % self.n
-    print "  resolution: %f" % self.resolution
-    print "  radius:     %f" % self.radius
-    print "  periodic: %s" % self.periodic
-    print "  nInternal: %d" % self.nInternal
-    print "  rangeInternal: %f" % self.rangeInternal
-    print "  padding: %d" % self.padding
+    print "  min: {0:f}".format(self.minval)
+    print "  max: {0:f}".format(self.maxval)
+    print "  w:   {0:d}".format(self.w)
+    print "  n:   {0:d}".format(self.n)
+    print "  resolution: {0:f}".format(self.resolution)
+    print "  radius:     {0:f}".format(self.radius)
+    print "  periodic: {0!s}".format(self.periodic)
+    print "  nInternal: {0:d}".format(self.nInternal)
+    print "  rangeInternal: {0:f}".format(self.rangeInternal)
+    print "  padding: {0:d}".format(self.padding)
 
 
   @classmethod

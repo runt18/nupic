@@ -71,13 +71,13 @@ class IterationPhaseSpecLearnOnly(object):
     nIters:       Number of iterations to remain in this phase. An iteration
                   corresponds to a single OPFTaskDriver.handleInputRecord() call.
     """
-    assert nIters > 0, "nIter=%s" % nIters
+    assert nIters > 0, "nIter={0!s}".format(nIters)
 
     self.__nIters = nIters
     return
 
   def __repr__(self):
-    s = "%s(nIters=%r)" % (self.__class__.__name__, self.__nIters)
+    s = "{0!s}(nIters={1!r})".format(self.__class__.__name__, self.__nIters)
     return s
 
 
@@ -106,14 +106,14 @@ class IterationPhaseSpecInferOnly(object):
                   A dictionary of arguments required for inference. These
                   depend on the InferenceType of the current model
     """
-    assert nIters > 0, "nIters=%s" % nIters
+    assert nIters > 0, "nIters={0!s}".format(nIters)
 
     self.__nIters = nIters
     self.__inferenceArgs = inferenceArgs
     return
 
   def __repr__(self):
-    s = "%s(nIters=%r)" % (self.__class__.__name__, self.__nIters)
+    s = "{0!s}(nIters={1!r})".format(self.__class__.__name__, self.__nIters)
     return s
 
   def _getImpl(self, model):
@@ -143,14 +143,14 @@ class IterationPhaseSpecLearnAndInfer(object):
                   A dictionary of arguments required for inference. These
                   depend on the InferenceType of the current model
     """
-    assert nIters > 0, "nIters=%s" % nIters
+    assert nIters > 0, "nIters={0!s}".format(nIters)
 
     self.__nIters = nIters
     self.__inferenceArgs = inferenceArgs
     return
 
   def __repr__(self):
-    s = "%s(nIters=%r)" % (self.__class__.__name__, self.__nIters)
+    s = "{0!s}(nIters={1!r})".format(self.__class__.__name__, self.__nIters)
     return s
 
   def _getImpl(self, model):
@@ -299,7 +299,7 @@ class OPFTaskDriver(object):
 
     Returns:      An opfutils.ModelResult object
     """
-    assert inputRecord, "Invalid inputRecord: %r" % inputRecord
+    assert inputRecord, "Invalid inputRecord: {0!r}".format(inputRecord)
 
     results = self.__phaseManager.handleInputRecord(inputRecord)
     metrics = self.__metricsMgr.update(results)
@@ -357,8 +357,7 @@ class _PhaseManager(object):
 
 
   def __repr__(self):
-    return "%s(phases=%r)" % \
-                (self.__class__.__name__,
+    return "{0!s}(phases={1!r})".format(self.__class__.__name__,
                  self.__phases)
 
 
@@ -409,7 +408,7 @@ class _IterationPhase(object):
     nIters:       Number of iterations; MUST be greater than 0
     """
 
-    assert nIters > 0, "nIters=%s" % nIters
+    assert nIters > 0, "nIters={0!s}".format(nIters)
     self.__nIters = nIters
 
     return

@@ -148,8 +148,7 @@ def getDatasets(baseDatasets, generate=False):
       return (a, b)
 
     if config['b0Likelihood'] is not None:
-      print "In the B dataset, there is a %d%% chance of getting a B value of 0" \
-            % (int(100 * config['b0Likelihood']))
+      print "In the B dataset, there is a {0:d}% chance of getting a B value of 0".format((int(100 * config['b0Likelihood'])))
       # likelihood of B0 is: (numB0) / (numB0 + numBvalues)
       # solving for numB0 = numBValues / (1 - likelihood)
       numB0Values = int(round(len(bValues) / (1.0 - config['b0Likelihood'])))
@@ -172,9 +171,8 @@ def getDatasets(baseDatasets, generate=False):
       print
 
       # Write out the test set
-      print "Creating test set: %s..." % (testingFilename)
-      print "Contains %d unique combinations of A and B chosen from the %d possible" \
-              % (testSetSize, numUnique)
+      print "Creating test set: {0!s}...".format((testingFilename))
+      print "Contains {0:d} unique combinations of A and B chosen from the {1:d} possible".format(testSetSize, numUnique)
       with File(testingFilename, fields=fields) as o:
         numSamples = 0
         while numSamples < config['iterationCount']:
@@ -188,13 +186,13 @@ def getDatasets(baseDatasets, generate=False):
 
     # ------------------------------------------------------------------------
     # Write out the training set
-    print "Creating training set: %s..." % (trainingFilename)
+    print "Creating training set: {0!s}...".format((trainingFilename))
     if len(testSet) > 0:
       print "Contains %d samples, chosen from %d of the possible %d combinations " \
             "that are not in the test set" % (config['iterationCount'], 
             numUnique - testSetSize, numUnique)
     else:
-      print "Contains %d samples" % (config['iterationCount'])
+      print "Contains {0:d} samples".format((config['iterationCount']))
     print
     with FileRecordStream(trainingFilename, write=True, fields=fields) as o:
       numSamples = 0
@@ -330,7 +328,7 @@ def getDescription(datasets):
   if True:
     datasetName = 'bothTraining'
     inferSteps.append(
-      dict(name = '%s_baseline' % datasetName, 
+      dict(name = '{0!s}_baseline'.format(datasetName), 
            iterationCount = config['iterationCount'],
            setup = [sensorOpen(datasets['trainingFilename'])],
            ppOptions = dict(printLearnedCoincidences=True),
@@ -338,7 +336,7 @@ def getDescription(datasets):
       )
 
     inferSteps.append(
-      dict(name = '%s_acc' % datasetName, 
+      dict(name = '{0!s}_acc'.format(datasetName), 
            iterationCount = config['iterationCount'],
            setup = [sensorOpen(datasets['trainingFilename'])],
            ppOptions = dict(onlyClassificationAcc=True,
@@ -353,7 +351,7 @@ def getDescription(datasets):
   if 'testingFilename' in datasets:
     datasetName = 'bothTesting'
     inferSteps.append(
-      dict(name = '%s_baseline' % datasetName, 
+      dict(name = '{0!s}_baseline'.format(datasetName), 
            iterationCount = config['iterationCount'],
            setup = [sensorOpen(datasets['testingFilename'])],
            ppOptions = dict(printLearnedCoincidences=False),
@@ -361,7 +359,7 @@ def getDescription(datasets):
       )
 
     inferSteps.append(
-      dict(name = '%s_acc' % datasetName, 
+      dict(name = '{0!s}_acc'.format(datasetName), 
            iterationCount = config['iterationCount'],
            setup = [sensorOpen(datasets['testingFilename'])],
            ppOptions = dict(onlyClassificationAcc=True,

@@ -344,8 +344,8 @@ def runNetwork(network, numRecords, writer):
 
   # Output absolute average error for each level
   if numRecords > 1:
-    print "L1 ave abs class. error: %f" % (l1ErrorSum / (numRecords - 1))
-    print "L2 ave abs class. error: %f" % (l2ErrorSum / (numRecords - 1))
+    print "L1 ave abs class. error: {0:f}".format((l1ErrorSum / (numRecords - 1)))
+    print "L2 ave abs class. error: {0:f}".format((l2ErrorSum / (numRecords - 1)))
 
 
 
@@ -358,7 +358,7 @@ def runDemo():
   with open(outputPath, "w") as outputFile:
     writer = csv.writer(outputFile)
     print "Running network"
-    print "Writing output to: %s" % outputPath
+    print "Writing output to: {0!s}".format(outputPath)
     runNetwork(network, numRecords, writer)
   print "Hierarchy demo finished"
 

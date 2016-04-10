@@ -351,7 +351,7 @@ control = {
         u'info': u'82b42f21-7f86-47b3-bab4-3738703bf612',
         u'streams': [   {   u'columns': [u'c0', u'c1'],
                             u'info': u'82b42f21-7f86-47b3-bab4-3738703bf612',
-                            u'source': 'file://%s' % (os.path.abspath(config['dataPath'])),
+                            u'source': 'file://{0!s}'.format((os.path.abspath(config['dataPath']))),
                             u'types': [u'datetime', u'float']}],
         u'timeField': u'c0',
         u'version': 1},

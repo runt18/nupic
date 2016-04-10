@@ -433,7 +433,7 @@ class SpatialPoolerCompatabilityTest(unittest.TestCase):
     d1 = d1.nonzero()[0].tolist()
     d2 = d2.nonzero()[0].tolist()
     self.assertListEqual(
-        d1, d2, "SP outputs are not equal: \n%s \n%s" % (str(d1), str(d2)))
+        d1, d2, "SP outputs are not equal: \n{0!s} \n{1!s}".format(str(d1), str(d2)))
 
 
   @unittest.skip("Currently fails due to non-fixed randomness in C++ SP.")
@@ -459,7 +459,7 @@ class SpatialPoolerCompatabilityTest(unittest.TestCase):
     d1 = d1.nonzero()[0].tolist()
     d2 = d2.nonzero()[0].tolist()
     self.assertListEqual(
-        d1, d2, "SP outputs are not equal: \n%s \n%s" % (str(d1), str(d2)))
+        d1, d2, "SP outputs are not equal: \n{0!s} \n{1!s}".format(str(d1), str(d2)))
 
 
 

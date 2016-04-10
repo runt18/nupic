@@ -80,7 +80,7 @@ class Configuration(object):
       cls._readStdConfigFiles()
 
     # Allow configuration properties to be overridden via environment variables
-    envValue = os.environ.get("%s%s" % (cls.envPropPrefix,
+    envValue = os.environ.get("{0!s}{1!s}".format(cls.envPropPrefix,
                                         prop.replace('.', '_')), None)
     if envValue is not None:
       return envValue
@@ -103,7 +103,7 @@ class Configuration(object):
     value = cls.getInt(prop)
     
     if value not in (0, 1):
-      raise ValueError("Expected 0 or 1, but got %r in config property %s" % (
+      raise ValueError("Expected 0 or 1, but got {0!r} in config property {1!s}".format(
         value, prop))
     
     return bool(value)
@@ -258,7 +258,7 @@ class Configuration(object):
           with open(filePath, 'r') as inp:
             contents = inp.read()
         except Exception:
-          raise RuntimeError("Expected configuration file at %s" % filePath)
+          raise RuntimeError("Expected configuration file at {0!s}".format(filePath))
       else:
         # If the file was not found in the normal search paths, which includes
         # checking the NTA_CONF_PATH, we'll try loading it from pkg_resources.

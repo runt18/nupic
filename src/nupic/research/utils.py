@@ -190,7 +190,7 @@ def printStatesWithTitles(ts):
   maxes = combined.max(1)
   s = str(combined)
   numpy.set_printoptions(linewidth=lw)
-  print "\n".join(("%s %s %f" % (t, l, m)) for t, l, m in
+  print "\n".join(("{0!s} {1!s} {2:f}".format(t, l, m)) for t, l, m in
       zip(titles, s.splitlines(), maxes))
 
 

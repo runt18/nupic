@@ -62,7 +62,7 @@ class PluggableEncoderSensor(PyRegion):
     if name == 'encoded':
       return self.encoder.getWidth()
     else:
-      raise Exception('Unrecognized output %s' % name)
+      raise Exception('Unrecognized output {0!s}'.format(name))
 
   def getSensedValue(self):
     return self._sensedValue
@@ -77,10 +77,10 @@ class PluggableEncoderSensor(PyRegion):
     if parameter == 'sensedValue':
       raise Exception('For the PluggableEncoderSensor, get the sensedValue via the getSensedValue method')
     else:
-      raise Exception('Unrecognized parameter %s' % parameterName)
+      raise Exception('Unrecognized parameter {0!s}'.format(parameterName))
 
   def setParameter(self, parameterName, index, parameterValue):
     if parameter == 'sensedValue':
       raise Exception('For the PluggableEncoderSensor, set the sensedValue via the setSensedValue method')
     else:
-      raise Exception('Unrecognized parameter %s' % parameterName)
+      raise Exception('Unrecognized parameter {0!s}'.format(parameterName))

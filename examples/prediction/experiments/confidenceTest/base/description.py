@@ -173,13 +173,13 @@ def getDatasets(baseDatasets, generate=False):
 
   # At some point, this prefix will be modified to be unique for each 
   #   possible variation of parameters into the data generation script. 
-  prefix = '%s' % (config['dataDesc'])
+  prefix = '{0!s}'.format((config['dataDesc']))
   datasets['filenameTrain'] = os.path.join(dataPath, 
-                                           '%s_train.csv' % prefix)
+                                           '{0!s}_train.csv'.format(prefix))
   datasets['filenameTest'] = os.path.join(dataPath, 
-                                           '%s_test.csv' % prefix)
+                                           '{0!s}_test.csv'.format(prefix))
   datasets['filenameCategory'] = os.path.join(dataPath, 
-                                            '%s_categories.txt' % prefix)
+                                            '{0!s}_categories.txt'.format(prefix))
   
   if not generate:
     return datasets
@@ -329,7 +329,7 @@ def getDescription(datasets):
   if config['trainTP']:
     description['tpTrain'] = []
     for i in xrange(config['trainTPRepeats']):
-      stepDict = dict(name='step_%d' % (i), 
+      stepDict = dict(name='step_{0:d}'.format((i)), 
                       setup=sensorRewind, 
                       iterationCount=config['iterationCountTrain'],
                       )

@@ -43,7 +43,7 @@ def generateFunction(info):
   d["date"] = t
   d["amount"] = amount
   for i in xrange(info['nRandomFields']):
-    d["random%d" %i] = random.randint(0, info['randomFieldWidth'])
+    d["random{0:d}".format(i)] = random.randint(0, info['randomFieldWidth'])
   return d
 
 
@@ -59,7 +59,7 @@ def getDescription(datasets):
   encoder.addEncoder("amount", LogEncoder(name="amount", maxval=1000))
   for i in xrange(0, nRandomFields):
     s = ScalarEncoder(name="scalar", minval=0, maxval=randomFieldWidth, resolution=1, w=3)
-    encoder.addEncoder("random%d" % i, s)
+    encoder.addEncoder("random{0:d}".format(i), s)
 
   dataSource = FunctionSource(generateFunction, dict(nRandomFields=nRandomFields,
                                                  randomFieldWidth=randomFieldWidth))

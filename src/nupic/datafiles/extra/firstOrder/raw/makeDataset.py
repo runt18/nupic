@@ -32,7 +32,7 @@ from nupic.data.file import File
 
 def createFirstOrderModel(numCategories=5, alpha=0.5):
   
-  categoryList = ['cat%02d' % i for i in range(numCategories)]
+  categoryList = ['cat{0:02d}'.format(i) for i in range(numCategories)]
   
   initProbability = numpy.ones(numCategories)/numCategories
   
@@ -45,13 +45,13 @@ def createFirstOrderModel(numCategories=5, alpha=0.5):
 def generateFirstOrderData(model, numIterations=10000, seqLength=5,
                            resets=True, suffix='train'):
   
-  print "Creating %d iteration file with seqLength %d" % (numIterations, seqLength)
+  print "Creating {0:d} iteration file with seqLength {1:d}".format(numIterations, seqLength)
   print "Filename", 
   categoryList, initProbability, transitionTable = model
   initProbability = initProbability.cumsum()
   transitionTable = transitionTable.cumsum(axis=1)
   
-  outputFile = 'fo_%d_%d_%s.csv' % (numIterations, seqLength, suffix)
+  outputFile = 'fo_{0:d}_{1:d}_{2!s}.csv'.format(numIterations, seqLength, suffix)
   print "Filename", outputFile
   fields = [('reset', 'int', 'R'), ('name', 'string', '')]
   o = File(outputFile, fields)
@@ -97,8 +97,8 @@ if __name__=='__main__':
                                numIterations=numIterations,
                                seqLength=seqLength,
                                resets=resets,
-                               suffix='train_%s' % ('resets' if resets else 'noresets',))
+                               suffix='train_{0!s}'.format('resets' if resets else 'noresets'))
     
       generateFirstOrderData(model, numIterations=10000, seqLength=seqLength,
                            resets=resets,
-                           suffix='test_%s' % ('resets' if resets else 'noresets',))  
+                           suffix='test_{0!s}'.format('resets' if resets else 'noresets'))  

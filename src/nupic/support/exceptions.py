@@ -62,7 +62,7 @@ class NupicJobFailException(Exception):
                     "worker_completion_message" field in jobs table
     """
 
-    msg = "%s: %s\n%s" % (self.__errorCode, self.__msg, traceback.format_exc())
+    msg = "{0!s}: {1!s}\n{2!s}".format(self.__errorCode, self.__msg, traceback.format_exc())
 
     return msg
 
@@ -84,7 +84,7 @@ class NupicJobFailException(Exception):
     traceback = sys.exc_info()[2]
     assert traceback is not None
 
-    newMsg = "%s: %r" % (msg, e)
+    newMsg = "{0!s}: {1!r}".format(msg, e)
 
     e = NupicJobFailException(errorCode=errorCode, msg=newMsg)
 

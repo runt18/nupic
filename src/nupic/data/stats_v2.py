@@ -84,11 +84,11 @@ class BaseStatsCollector(object):
 
     if VERBOSITY > 1:
       print "-"*40
-      print "Field '%s'" % self.fieldname
+      print "Field '{0!s}'".format(self.fieldname)
       print "--"
       print "Counts:"
-      print "Total number of entries:%d" % totalNumEntries
-      print "Total number of distinct entries:%d" % totalNumDistinctEntries
+      print "Total number of entries:{0:d}".format(totalNumEntries)
+      print "Total number of distinct entries:{0:d}".format(totalNumDistinctEntries)
 
 class StringStatsCollector(BaseStatsCollector):
 
@@ -110,7 +110,7 @@ class StringStatsCollector(BaseStatsCollector):
                                key=operator.itemgetter(1),
                                reverse=True,)[:topN]:
 
-        print "%s:%d" % (key, value)
+        print "{0!s}:{1:d}".format(key, value)
       if len(valueCountDict) > topN:
         print "..."
 
@@ -235,7 +235,7 @@ class DateTimeStatsCollector(BaseStatsCollector):
       print "--"
       print "Sub-encoders:"
       for subEncoderName,_ in encoderDescription:
-        print "%s:%s" % (subEncoderName, stats[self.fieldname][subEncoderName])
+        print "{0!s}:{1!s}".format(subEncoderName, stats[self.fieldname][subEncoderName])
 
 def generateStats(filename, maxSamples = None,):
   """
@@ -268,7 +268,7 @@ def generateStats(filename, maxSamples = None,):
 
   filename = resource_filename("nupic.datafiles", filename)
   print "*"*40
-  print "Collecting statistics for file:'%s'" % (filename,)
+  print "Collecting statistics for file:'{0!s}'".format(filename)
   dataFile = FileRecordStream(filename)
 
   # Initialize collector objects

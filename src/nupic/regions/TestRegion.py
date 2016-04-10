@@ -188,7 +188,7 @@ class TestRegion(PyRegion):
   def getParameterArrayCount(self, name, index):
     p = self.getParameter(name)
     if (not hasattr(p, '__len__')):
-      raise Exception("Attempt to access parameter '%s' as an array but it is not an array" % name)
+      raise Exception("Attempt to access parameter '{0!s}' as an array but it is not an array".format(name))
     return len(p)
 
 
@@ -199,7 +199,7 @@ class TestRegion(PyRegion):
 
     p = self.getParameter(name)
     if (not hasattr(p, '__len__')):
-      raise Exception("Attempt to access parameter '%s' as an array but it is not an array" % name)
+      raise Exception("Attempt to access parameter '{0!s}' as an array but it is not an array".format(name))
 
     if len(p) >  0:
       a[:] = p[:]
@@ -481,8 +481,7 @@ def _debugOut(msg):
   global g_debug
   if g_debug:
     callerTraceback = whois_callers_caller()
-    print "TEST_REGION (f=%s;line=%s): %s" % \
-                          (callerTraceback.function, callerTraceback.lineno, msg,)
+    print "TEST_REGION (f={0!s};line={1!s}): {2!s}".format(callerTraceback.function, callerTraceback.lineno, msg)
     sys.stdout.flush()
 
   return

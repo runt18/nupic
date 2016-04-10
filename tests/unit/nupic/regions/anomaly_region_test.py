@@ -97,11 +97,11 @@ class AnomalyRegionTest(unittest.TestCase):
       score2 = outputs['rawAnomalyScore'][0]
       self.assertAlmostEqual(
           score1, anomalyExpected[i], places=5,
-          msg="Anomaly score of %f doesn't match expected of %f" % (
+          msg="Anomaly score of {0:f} doesn't match expected of {1:f}".format(
               score1, anomalyExpected[i]))
       self.assertAlmostEqual(
           score2, anomalyExpected[i], places=5,
-          msg="Anomaly score of %f doesn't match expected of %f" % (
+          msg="Anomaly score of {0:f} doesn't match expected of {1:f}".format(
               score2, anomalyExpected[i]))
 
 

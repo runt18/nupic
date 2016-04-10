@@ -186,7 +186,7 @@ class BasicPredictionMetricsLogger(PredictionMetricsLoggerIface):
 
 
   def __repr__(self):
-    return ("%s(experimentDir=%r,label=%r)" % (self.__class__.__name__,
+    return ("{0!s}(experimentDir={1!r},label={2!r})".format(self.__class__.__name__,
                                                self.__experimentDir,
                                                self.__label))
 
@@ -249,7 +249,7 @@ class BasicPredictionMetricsLogger(PredictionMetricsLoggerIface):
         return obj.tolist()
 
       else:
-        raise TypeError("UNEXPECTED OBJ: %s; class=%s" % (obj, obj.__class__))
+        raise TypeError("UNEXPECTED OBJ: {0!s}; class={1!s}".format(obj, obj.__class__))
 
 
     jsonString = json.dumps(metricsDict, indent=4, default=_mapNumpyValues)
@@ -441,8 +441,8 @@ class _BasicPredictionWriter(PredictionWriterIface):
     self.__datasetPath = os.path.join(inferenceDir, filename)
 
     # Create the output dataset
-    print "OPENING OUTPUT FOR PREDICTION WRITER AT: %r" % self.__datasetPath
-    print "Prediction field-meta: %r" % ([tuple(i) for i in self.__outputFieldsMeta],)
+    print "OPENING OUTPUT FOR PREDICTION WRITER AT: {0!r}".format(self.__datasetPath)
+    print "Prediction field-meta: {0!r}".format([tuple(i) for i in self.__outputFieldsMeta])
     self.__dataset = FileRecordStream(streamID=self.__datasetPath, write=True,
                                      fields=self.__outputFieldsMeta)
 
@@ -456,10 +456,10 @@ class _BasicPredictionWriter(PredictionWriterIface):
       try:
         header = reader.next()
       except StopIteration:
-        print "Empty record checkpoint initializer for %r" % (self.__datasetPath,)
+        print "Empty record checkpoint initializer for {0!r}".format(self.__datasetPath)
       else:
         assert tuple(self.__dataset.getFieldNames()) == tuple(header), \
-          "dataset.getFieldNames(): %r; predictionCheckpointFieldNames: %r" % (
+          "dataset.getFieldNames(): {0!r}; predictionCheckpointFieldNames: {1!r}".format(
           tuple(self.__dataset.getFieldNames()), tuple(header))
 
       # Copy the rows from checkpoint
@@ -477,7 +477,7 @@ class _BasicPredictionWriter(PredictionWriterIface):
 
       self.__dataset.flush()
 
-      print "Restored %d rows from checkpoint for %r" % (
+      print "Restored {0:d} rows from checkpoint for {1!r}".format(
         numRowsCopied, self.__datasetPath)
 
       # Dispose of our checkpoint cache
@@ -704,7 +704,7 @@ class _BasicPredictionWriter(PredictionWriterIface):
       numWritten +=1
 
     assert numWritten == numToWrite, \
-      "numWritten (%s) != numToWrite (%s)" % (numWritten, numToWrite)
+      "numWritten ({0!s}) != numToWrite ({1!s})".format(numWritten, numToWrite)
 
 
     checkpointSink.flush()
@@ -820,7 +820,7 @@ class BasicPredictionLogger(opfenv.PredictionLoggerIface):
     #assert len(fields) > 0
 
     self.__reprString = (
-      "%s(fields=%r)" % (
+      "{0!s}(fields={1!r})".format(
         self.__class__.__name__, fields))
 
 

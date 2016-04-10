@@ -37,7 +37,7 @@ def run():
       consumption = float(row[1])
       if isTuesday(date) and withinOctober(date):
         consumption = 5.0
-      outputCache += "%s,%f\n" % (dateString, consumption)
+      outputCache += "{0!s},{1:f}\n".format(dateString, consumption)
 
   with open(ORIGINAL, 'wb') as outputFile:
     outputFile.write(outputCache)

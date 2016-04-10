@@ -76,7 +76,7 @@ def registerBuiltInRegions():
 registerBuiltInRegions()
 
 for a in arrayTypes:
-  exec('from %s import %s as %s' % (engine.__name__, a, a))
+  exec('from {0!s} import {1!s} as {2!s}'.format(engine.__name__, a, a))
 
 # Intercept the default exception handling for the purposes of stripping
 # parts of the stack trace that can confuse users. If you want the original
@@ -534,8 +534,8 @@ class Region(LockAttributesMixin):
         g = getattr(self, 'g' + x) # get the typed getParameter method
         s = getattr(self, 's' + x) # get the typed setParameter method
       except AttributeError:
-        raise Exception("Internal error: unknown parameter type %s" %
-                        dataTypeName)
+        raise Exception("Internal error: unknown parameter type {0!s}".format(
+                        dataTypeName))
       info = (s, g)
     else:
       if dataTypeName == "Byte":
@@ -553,8 +553,7 @@ class Region(LockAttributesMixin):
     if getter is None:
       import exceptions
       raise exceptions.Exception(
-          "getParameter -- parameter name '%s' does not exist in region %s of type %s"
-          % (paramName, self.name, self.type))
+          "getParameter -- parameter name '{0!s}' does not exist in region {1!s} of type {2!s}".format(paramName, self.name, self.type))
     return getter(paramName)
 
   def setParameter(self, paramName, value):
@@ -563,8 +562,7 @@ class Region(LockAttributesMixin):
     if setter is None:
       import exceptions
       raise exceptions.Exception(
-          "setParameter -- parameter name '%s' does not exist in region %s of type %s"
-          % (paramName, self.name, self.type))
+          "setParameter -- parameter name '{0!s}' does not exist in region {1!s} of type {2!s}".format(paramName, self.name, self.type))
     setter(paramName, value)
 
   def _get(self, method):

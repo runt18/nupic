@@ -416,7 +416,7 @@ record={"test":gt[i]})
       waae.addInstance(gt[i], p[i])
     target = 3.0
     self.assertTrue( abs(waae.getMetric()["value"]-target) \
-< OPFMetricsTest.DELTA, "Got %s" %waae.getMetric())
+< OPFMetricsTest.DELTA, "Got {0!s}".format(waae.getMetric()))
 
 
   def testAccuracy(self):
@@ -623,7 +623,7 @@ record={"test":gt[i]})
     failed = False
     for lookBack in range(3):
       customFunc = """def getError(pred,ground,tools):
-          return tools.getPrediction(%d)""" % lookBack
+          return tools.getPrediction({0:d})""".format(lookBack)
 
       customEM = getModule(MetricSpec("custom_error_metric", None, None,
 {"customFuncSource":customFunc}))
@@ -647,7 +647,7 @@ record={"test":gt[i]})
     #Windowed
     for lookBack in range(5):
       customFunc = """def getError(pred,ground,tools):
-          return tools.getPrediction(%d)""" % lookBack
+          return tools.getPrediction({0:d})""".format(lookBack)
 
       customEM = getModule(MetricSpec("custom_error_metric", None, None,
 {"customFuncSource":customFunc,"storeWindow":storeWindow}))
@@ -675,7 +675,7 @@ record={"test":gt[i]})
     #Not-Windowed
     for lookBack in range(3):
       customFunc = """def getError(pred,ground,tools):
-          return tools.getGroundTruth(%d)""" % lookBack
+          return tools.getGroundTruth({0:d})""".format(lookBack)
 
       customEM = getModule(MetricSpec("custom_error_metric", None, None,
 {"customFuncSource":customFunc}))
@@ -699,7 +699,7 @@ record={"test":gt[i]})
     #Windowed
     for lookBack in range(5):
       customFunc = """def getError(pred,ground,tools):
-          return tools.getGroundTruth(%d)""" % lookBack
+          return tools.getGroundTruth({0:d})""".format(lookBack)
 
       customEM = getModule(MetricSpec("custom_error_metric", None, None,
 {"customFuncSource":customFunc,"storeWindow":storeWindow}))
@@ -725,7 +725,7 @@ record={"test":gt[i]})
     #Not-Windowed Scalar
     for lookBack in range(3):
       customFunc = """def getError(pred,ground,tools):
-          return tools.getFieldValue(%d,"test1")""" % lookBack
+          return tools.getFieldValue({0:d},"test1")""".format(lookBack)
 
       customEM = getModule(MetricSpec("custom_error_metric", None, None,
 {"customFuncSource":customFunc}))
@@ -749,7 +749,7 @@ record={"test":gt[i]})
     #Windowed Scalar
     for lookBack in range(3):
       customFunc = """def getError(pred,ground,tools):
-          return tools.getFieldValue(%d,"test1")""" % lookBack
+          return tools.getFieldValue({0:d},"test1")""".format(lookBack)
 
       customEM = getModule(MetricSpec("custom_error_metric", None, None,
 {"customFuncSource":customFunc,"storeWindow":storeWindow}))
@@ -773,7 +773,7 @@ record={"test":gt[i]})
     #Not-Windowed category
     for lookBack in range(3):
       customFunc = """def getError(pred,ground,tools):
-          return tools.getFieldValue(%d,"test1")""" % lookBack
+          return tools.getFieldValue({0:d},"test1")""".format(lookBack)
 
       customEM = getModule(MetricSpec("custom_error_metric", None, None,
 {"customFuncSource":customFunc}))
@@ -798,7 +798,7 @@ record={"test":gt[i]})
     #Windowed category
     for lookBack in range(3):
       customFunc = """def getError(pred,ground,tools):
-          return tools.getFieldValue(%d,"test1")""" % lookBack
+          return tools.getFieldValue({0:d},"test1")""".format(lookBack)
 
       customEM = getModule(MetricSpec("custom_error_metric", None, None,
 {"customFuncSource":customFunc,"storeWindow":storeWindow}))
@@ -893,7 +893,7 @@ record={"test":gt[i]})
       else:
         check=0.2*float(v10) + 0.8*float(v1000)
       metricValue = multi.addInstance(gt[i], p[i])
-      self.assertEqual(check, metricValue, "iter i= %s gt=%s pred=%s multi=%s sub1=%s sub2=%s" % (i, gt[i], p[i], metricValue, v10, v1000))
+      self.assertEqual(check, metricValue, "iter i= {0!s} gt={1!s} pred={2!s} multi={3!s} sub1={4!s} sub2={5!s}".format(i, gt[i], p[i], metricValue, v10, v1000))
 
 
 

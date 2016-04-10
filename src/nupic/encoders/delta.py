@@ -58,7 +58,7 @@ class DeltaEncoder(AdaptiveScalarEncoder):
   def encodeIntoArray(self, input, output, learn=None):
     if not isinstance(input, numbers.Number):
       raise TypeError(
-          "Expected a scalar input but got input of type %s" % type(input))
+          "Expected a scalar input but got input of type {0!s}".format(type(input)))
 
     if learn is None:
       learn =  self._learningEnabled

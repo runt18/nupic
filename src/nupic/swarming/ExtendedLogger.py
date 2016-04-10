@@ -40,7 +40,7 @@ class ExtendedLogger(logging.Logger):
 
 
   def getExtendedMsg(self, msg):
-    extendedMsg = '%s' % (ExtendedLogger.__logPrefix) + msg
+    extendedMsg = '{0!s}'.format((ExtendedLogger.__logPrefix)) + msg
     return extendedMsg
 
 

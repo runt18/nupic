@@ -151,7 +151,7 @@ class Encoder(object):
       for (name, encoder, offset) in self.encoders:
         subNames = encoder.getScalarNames(parentFieldName=name)
         if parentFieldName != '':
-          subNames = ['%s.%s' % (parentFieldName, name) for name in subNames]
+          subNames = ['{0!s}.{1!s}'.format(parentFieldName, name) for name in subNames]
         names.extend(subNames)
     else:
       if parentFieldName != '':
@@ -352,9 +352,9 @@ class Encoder(object):
     desc = ''
     for (name, value) in zip(scalarNames, scalarValues):
       if len(desc) > 0:
-        desc += ", %s:%.2f" % (name, value)
+        desc += ", {0!s}:{1:.2f}".format(name, value)
       else:
-        desc += "%s:%.2f" % (name, value)
+        desc += "{0!s}:{1:.2f}".format(name, value)
 
     return desc
 
@@ -391,7 +391,7 @@ class Encoder(object):
         break
 
     if i >= len(description)-1:
-      raise RuntimeError("Field name %s not found in this encoder" % fieldName)
+      raise RuntimeError("Field name {0!s} not found in this encoder".format(fieldName))
 
     # Return the offset and width
     return (offset, description[i+1][1] - offset)
@@ -429,7 +429,7 @@ class Encoder(object):
     width = self.getDisplayWidth() if formatted else self.getWidth()
 
     if prevFieldOffset is None or bitOffset > self.getWidth():
-      raise IndexError("Bit is outside of allowable range: [0 - %d]" % width)
+      raise IndexError("Bit is outside of allowable range: [0 - {0:d}]".format(width))
 
     return (prevFieldName, bitOffset - prevFieldOffset)
 
@@ -446,7 +446,7 @@ class Encoder(object):
     for i in xrange(len(description) - 1):
       name = description[i][0]
       width = description[i+1][1] - description[i][1]
-      formatStr = "%%-%ds |" % width
+      formatStr = "%-{0:d}s |".format(width)
       if len(name) > width:
         pname = name[0:width]
       else:
@@ -468,7 +468,7 @@ class Encoder(object):
     for i in xrange(len(description) - 1):
       offset = description[i][1]
       nextoffset = description[i+1][1]
-      print "%s |" % bitsToString(output[offset:nextoffset]),
+      print "{0!s} |".format(bitsToString(output[offset:nextoffset])),
     print
 
 
@@ -542,7 +542,7 @@ class Encoder(object):
     if parentFieldName == '':
       parentName = self.name
     else:
-      parentName = "%s.%s" % (parentFieldName, self.name)
+      parentName = "{0!s}.{1!s}".format(parentFieldName, self.name)
 
     if self.encoders is not None:
       # Merge decodings of all child encoders together
@@ -576,11 +576,11 @@ class Encoder(object):
     for fieldName in fieldsOrder:
       (ranges, rangesStr) = fieldsDict[fieldName]
       if len(desc) > 0:
-        desc += ", %s:" % (fieldName)
+        desc += ", {0!s}:".format((fieldName))
       else:
-        desc += "%s:" % (fieldName)
+        desc += "{0!s}:".format((fieldName))
 
-      desc += "[%s]" % (rangesStr)
+      desc += "[{0!s}]".format((rangesStr))
 
     return desc
 

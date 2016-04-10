@@ -89,7 +89,7 @@ class AutoResetFilter(object):
 
   def getShortName(self):
     if interval is not None:
-      s = "autoreset_%d_%d" % (interval.days, interval.seconds)
+      s = "autoreset_{0:d}_{1:d}".format(interval.days, interval.seconds)
     else:
       s = "autoreset_none"
     return s
@@ -128,4 +128,4 @@ class DeltaFilter(object):
     return True
 
   def getShortName(self):
-    return "delta_%s" % self.origField
+    return "delta_{0!s}".format(self.origField)

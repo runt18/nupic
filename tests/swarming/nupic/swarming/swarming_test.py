@@ -122,7 +122,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
     """
 
     print "###############################################################"
-    print "Running test: %s.%s..." % (self.__class__, self._testMethodName)
+    print "Running test: {0!s}.{1!s}...".format(self.__class__, self._testMethodName)
 
 
   def _setDataPath(self, env):
@@ -138,7 +138,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
     
     # If already have a path, concatenate to it
     if "NTA_DATA_PATH" in env:
-      newPath = "%s%s%s" % (env["NTA_DATA_PATH"], os.pathsep, g_myEnv.testSrcDataDir)
+      newPath = "{0!s}{1!s}{2!s}".format(env["NTA_DATA_PATH"], os.pathsep, g_myEnv.testSrcDataDir)
     else:
       newPath = g_myEnv.testSrcDataDir
       
@@ -255,7 +255,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
         version = 1,
         info = "TestHypersearch",
         streams = [
-          dict(source="file://%s" % (dataPath),
+          dict(source="file://{0!s}".format((dataPath)),
                info=dataPath,
                columns=["*"],
                first_record=0,
@@ -349,8 +349,8 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
       jobID = continueJobId
 
     # Command line args.
-    args = ['ignoreThis', '--jobID=%d' % (jobID),
-            '--logLevel=%d' % (loggingLevel)]
+    args = ['ignoreThis', '--jobID={0:d}'.format((jobID)),
+            '--logLevel={0:d}'.format((loggingLevel))]
     if continueJobId is None:
       args.append('--clearModels')
 
@@ -386,7 +386,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
         metricResults.append(None)
       if not ignoreErrModels:
         self.assertNotEqual(result.completionReason, cjDAO.CMPL_REASON_ERROR,
-            "Model did not complete successfully:\n%s" % (result.completionMsg))
+            "Model did not complete successfully:\n{0!s}".format((result.completionMsg)))
 
     # Print worker completion message
     jobInfo = cjDAO.jobInfo(jobID)
@@ -429,13 +429,13 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
       envItems = []
       for (key, value) in env.iteritems():
         if (sys.platform.startswith('win')):
-          envItems.append("set \"%s=%s\"" % (key, value))
+          envItems.append("set \"{0!s}={1!s}\"".format(key, value))
         else:
-          envItems.append("export %s=%s" % (key, value))
+          envItems.append("export {0!s}={1!s}".format(key, value))
       if (sys.platform.startswith('win')):
-        envStr = "%s &" % (' & '.join(envItems))
+        envStr = "{0!s} &".format((' & '.join(envItems)))
       else:
-        envStr = "%s;" % (';'.join(envItems))
+        envStr = "{0!s};".format((';'.join(envItems)))
     else:
       envStr = ''
 
@@ -455,8 +455,8 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
                           % (envStr, jobID, loggingLevel)
     workers = self._launchWorkers(cmdLine=workerCmdLine, numWorkers=maxNumWorkers)
 
-    print "Successfully submitted new test job, jobID=%d" % (jobID)
-    print "Each of %d workers executing the command line: " % (maxNumWorkers), \
+    print "Successfully submitted new test job, jobID={0:d}".format((jobID))
+    print "Each of {0:d} workers executing the command line: ".format((maxNumWorkers)), \
             cmdLine
 
     if not waitForCompletion:
@@ -480,7 +480,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
     lastActiveSwarms = None
     lastEngStatus = None
     modelIDs = []
-    print "\n%-15s    %-15s %-15s %-15s %-15s" % ("jobStatus", "modelsStarted",
+    print "\n{0:<15!s}    {1:<15!s} {2:<15!s} {3:<15!s} {4:<15!s}".format("jobStatus", "modelsStarted",
                                 "modelsCompleted", "modelErrs", "modelOrphans")
     print "-------------------------------------------------------------------"
     while (lastJobStatus != ClientJobsDAO.STATUS_COMPLETED) \
@@ -496,8 +496,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
       if jobInfo.status != lastJobStatus:
         if jobInfo.status == ClientJobsDAO.STATUS_RUNNING \
             and lastJobStatus != ClientJobsDAO.STATUS_RUNNING:
-          print "# Swarm job now running. jobID=%s" \
-                % (jobInfo.jobId)
+          print "# Swarm job now running. jobID={0!s}".format((jobInfo.jobId))
 
         lastJobStatus = jobInfo.status
         printUpdate = True
@@ -517,7 +516,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
           lastJobResults = jobInfo.results
 
         if jobInfo.engStatus != lastEngStatus:
-          print '>> Status: "%s"' % jobInfo.engStatus
+          print '>> Status: "{0!s}"'.format(jobInfo.engStatus)
           print
           lastEngStatus = jobInfo.engStatus
 
@@ -560,7 +559,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
         lastUpdate = time.time()
         if g_myEnv.options.verbosity >= 1:
           print ">>",
-        print "%-15s %-15d %-15d %-15d %-15d" % (lastJobStatus, lastStarted,
+        print "{0:<15!s} {1:<15d} {2:<15d} {3:<15d} {4:<15d}".format(lastJobStatus, lastStarted,
                 lastCompleted,
                 lastCompletedWithError,
                 lastCompletedAsOrphan)
@@ -568,7 +567,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
 
     # ========================================================================
     # Final total
-    print "\n<< %-15s %-15d %-15d %-15d %-15d" % (lastJobStatus, lastStarted,
+    print "\n<< {0:<15!s} {1:<15d} {2:<15d} {3:<15d} {4:<15d}".format(lastJobStatus, lastStarted,
                 lastCompleted,
                 lastCompletedWithError,
                 lastCompletedAsOrphan)
@@ -596,7 +595,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
         metricResults.append(None)
       if not ignoreErrModels:
         self.assertNotEqual(result.completionReason, cjDAO.CMPL_REASON_ERROR,
-          "Model did not complete successfully:\n%s" % (result.completionMsg))
+          "Model did not complete successfully:\n{0!s}".format((result.completionMsg)))
 
 
     return (jobID, jobInfo, results, metricResults)
@@ -680,9 +679,9 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
 
     # Print job status
     print "\n------------------------------------------------------------------"
-    print "Hadoop completion reason: %s" % (jobInfo.completionReason)
-    print "Worker completion reason: %s" % (jobInfo.workerCompletionReason)
-    print "Worker completion msg: %s" % (jobInfo.workerCompletionMsg)
+    print "Hadoop completion reason: {0!s}".format((jobInfo.completionReason))
+    print "Worker completion reason: {0!s}".format((jobInfo.workerCompletionReason))
+    print "Worker completion msg: {0!s}".format((jobInfo.workerCompletionMsg))
 
     if jobInfo.engWorkerState is not None:
       print "\nEngine worker state:"
@@ -707,9 +706,8 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
       # Get model info
       cjDAO = ClientJobsDAO.get()
       modelParams = cjDAO.modelsGetParams([minModelID])[0].params
-      print "Model params for best model: \n%s" \
-                              % (pprint.pformat(json.loads(modelParams)))
-      print "Best model result: %f" % (minErrScore)
+      print "Model params for best model: \n{0!s}".format((pprint.pformat(json.loads(modelParams))))
+      print "Best model result: {0:f}".format((minErrScore))
 
     else:
       print "No models finished"
@@ -745,7 +743,7 @@ class OneNodeTests(ExperimentTestBaseClass):
       env = dict()
     env["NTA_TEST_numIterations"] = '99'
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] = \
-                         '%d' % (g_repeatableSwarmMaturityWindow)
+                         '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
            = self.runPermutations(expDir,
@@ -777,7 +775,7 @@ class OneNodeTests(ExperimentTestBaseClass):
     if env is None:
       env = dict()
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] = \
-                         '%d' % (g_repeatableSwarmMaturityWindow)
+                         '{0:d}'.format((g_repeatableSwarmMaturityWindow))
     env["NTA_TEST_exitAfterNModels"] = str(20)
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
@@ -807,7 +805,7 @@ class OneNodeTests(ExperimentTestBaseClass):
       env = dict()
     env["NTA_TEST_numIterations"] = '99'
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] = \
-                         '%d' % (g_repeatableSwarmMaturityWindow)
+                         '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
            = self.runPermutations(expDir,
@@ -946,7 +944,7 @@ class OneNodeTests(ExperimentTestBaseClass):
 
     env = dict()
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] = \
-               '%d' % (g_repeatableSwarmMaturityWindow)
+               '{0:d}'.format((g_repeatableSwarmMaturityWindow))
     env["NTA_TEST_exitAfterNModels"] =  '100'
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
@@ -999,9 +997,9 @@ class OneNodeTests(ExperimentTestBaseClass):
     #   that we expect to see in our unit tests.
     env = dict()
     env["NTA_TEST_numIterations"] = '2'
-    env["NTA_TEST_sysExitModelRange"] = '%d,%d' % (modelRange[0], modelRange[1])
+    env["NTA_TEST_sysExitModelRange"] = '{0:d},{1:d}'.format(modelRange[0], modelRange[1])
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] \
-            =  '%d' % (g_repeatableSwarmMaturityWindow)
+            =  '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
          = self.runPermutations(expDir,
@@ -1075,9 +1073,9 @@ class OneNodeTests(ExperimentTestBaseClass):
     #   multiple workers, so this insures that we can find the "best" model
     #   that we expect to see in our unit tests.
     env = dict()
-    env["NTA_TEST_errModelRange"] = '%d,%d' % (modelRange[0], modelRange[1])
+    env["NTA_TEST_errModelRange"] = '{0:d},{1:d}'.format(modelRange[0], modelRange[1])
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] \
-            =  '%d' % (g_repeatableSwarmMaturityWindow)
+            =  '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
          = self.runPermutations(expDir,
@@ -1141,9 +1139,9 @@ class OneNodeTests(ExperimentTestBaseClass):
     #   multiple workers, so this insures that we can find the "best" model
     #   that we expect to see in our unit tests.
     env = dict()
-    env["NTA_TEST_errModelRange"] = '%d,%d' % (modelRange[0], modelRange[1])
+    env["NTA_TEST_errModelRange"] = '{0:d},{1:d}'.format(modelRange[0], modelRange[1])
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] \
-            =  '%d' % (g_repeatableSwarmMaturityWindow)
+            =  '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
          = self.runPermutations(expDir,
@@ -1173,14 +1171,14 @@ class OneNodeTests(ExperimentTestBaseClass):
       env = dict()
     env["NTA_TEST_numIterations"] = '99'
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] = \
-                         '%d' % (g_repeatableSwarmMaturityWindow)
+                         '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     env["NTA_CONF_PROP_nupic_hypersearch_max_field_branching"] = \
-                         '%d' % (0)
+                         '{0:d}'.format((0))
     env["NTA_CONF_PROP_nupic_hypersearch_minParticlesPerSwarm"] = \
-                         '%d' % (2)
+                         '{0:d}'.format((2))
     env["NTA_CONF_PROP_nupic_hypersearch_min_field_contribution"] = \
-                         '%f' % (100)
+                         '{0:f}'.format((100))
 
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
@@ -1207,15 +1205,14 @@ class OneNodeTests(ExperimentTestBaseClass):
 
     self.assertEqual(params["particleState"]["swarmId"], 
                      expectedSwarmId,
-                     "Actual swarm id = %s\nExpcted swarm id = %s" \
-                     % (params["particleState"]["swarmId"], 
+                     "Actual swarm id = {0!s}\nExpcted swarm id = {1!s}".format(params["particleState"]["swarmId"], 
                         expectedSwarmId))
     self.assertEqual( bestModel.optimizedMetric, 75)
 
 
     #==========================================================================
     env["NTA_CONF_PROP_nupic_hypersearch_min_field_contribution"] = \
-                         '%f' % (20)
+                         '{0:f}'.format((20))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
            = self.runPermutations(expDir,
@@ -1241,8 +1238,7 @@ class OneNodeTests(ExperimentTestBaseClass):
             'visitor_winloss'])
     self.assertEqual(params["particleState"]["swarmId"], 
                      expectedSwarmId,
-                     "Actual swarm id = %s\nExpcted swarm id = %s" \
-                     % (params["particleState"]["swarmId"], 
+                     "Actual swarm id = {0!s}\nExpcted swarm id = {1!s}".format(params["particleState"]["swarmId"], 
                         expectedSwarmId))
     assert bestModel.optimizedMetric == 55, bestModel.optimizedMetric
 
@@ -1251,7 +1247,7 @@ class OneNodeTests(ExperimentTestBaseClass):
     #==========================================================================
     # Find best combo possible
     env["NTA_CONF_PROP_nupic_hypersearch_min_field_contribution"] = \
-                         '%f' % (0.0)
+                         '{0:f}'.format((0.0))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
            = self.runPermutations(expDir,
@@ -1280,8 +1276,7 @@ class OneNodeTests(ExperimentTestBaseClass):
             'visitor_winloss'])
     self.assertEqual(params["particleState"]["swarmId"], 
                      expectedSwarmId,
-                     "Actual swarm id = %s\nExpcted swarm id = %s" \
-                     % (params["particleState"]["swarmId"], 
+                     "Actual swarm id = {0!s}\nExpcted swarm id = {1!s}".format(params["particleState"]["swarmId"], 
                         expectedSwarmId))
 
     assert bestModel.optimizedMetric == 25, bestModel.optimizedMetric
@@ -1299,7 +1294,7 @@ class OneNodeTests(ExperimentTestBaseClass):
       env = dict()
     env["NTA_TEST_numIterations"] = '99'
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] = \
-                         '%d' % (g_repeatableSwarmMaturityWindow)
+                         '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
            = self.runPermutations(expDir,
@@ -1345,8 +1340,7 @@ class OneNodeTests(ExperimentTestBaseClass):
 
     self.assertEqual(params["particleState"]["swarmId"], 
                      expectedSwarmId,
-                     "Actual swarm id = %s\nExpcted swarm id = %s" \
-                     % (params["particleState"]["swarmId"], 
+                     "Actual swarm id = {0!s}\nExpcted swarm id = {1!s}".format(params["particleState"]["swarmId"], 
                         expectedSwarmId))
 
 
@@ -1371,9 +1365,9 @@ class OneNodeTests(ExperimentTestBaseClass):
     env["NTA_TEST_inputPredictedField"] = "auto"
     env["NTA_TEST_numIterations"] = '99'
     env["NTA_CONF_PROP_nupic_hypersearch_minParticlesPerSwarm"] = \
-                         '%d' % (2)
+                         '{0:d}'.format((2))
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] = \
-                         '%d' % (g_repeatableSwarmMaturityWindow)
+                         '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
            = self.runPermutations(expDir,
@@ -1395,9 +1389,9 @@ class OneNodeTests(ExperimentTestBaseClass):
     env["NTA_TEST_inputPredictedField"] = "yes"
     env["NTA_TEST_numIterations"] = '99'
     env["NTA_CONF_PROP_nupic_hypersearch_minParticlesPerSwarm"] = \
-                         '%d' % (2)
+                         '{0:d}'.format((2))
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] = \
-                         '%d' % (g_repeatableSwarmMaturityWindow)
+                         '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
            = self.runPermutations(expDir,
@@ -1431,14 +1425,14 @@ class OneNodeTests(ExperimentTestBaseClass):
     env["NTA_TEST_numIterations"] = '99'
     env["NTA_TEST_inputPredictedField"] = "auto"
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] = \
-                         '%d' % (g_repeatableSwarmMaturityWindow)
+                         '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     env["NTA_CONF_PROP_nupic_hypersearch_max_field_branching"] = \
-                         '%d' % (0)
+                         '{0:d}'.format((0))
     env["NTA_CONF_PROP_nupic_hypersearch_minParticlesPerSwarm"] = \
-                         '%d' % (2)
+                         '{0:d}'.format((2))
     env["NTA_CONF_PROP_nupic_hypersearch_min_field_contribution"] = \
-                         '%f' % (0)
+                         '{0:f}'.format((0))
 
 
     if True:
@@ -1468,8 +1462,7 @@ class OneNodeTests(ExperimentTestBaseClass):
   
       self.assertEqual(params["particleState"]["swarmId"], 
                        expectedSwarmId,
-                       "Actual swarm id = %s\nExpcted swarm id = %s" \
-                       % (params["particleState"]["swarmId"], 
+                       "Actual swarm id = {0!s}\nExpcted swarm id = {1!s}".format(params["particleState"]["swarmId"], 
                           expectedSwarmId))
       self.assertEqual( bestModel.optimizedMetric, -50)
   
@@ -1500,9 +1493,9 @@ class OneNodeTests(ExperimentTestBaseClass):
       #   timestamp_dayOfWeek fields. 
       # This should bring our best error score up to 50-30-40 = -20  
       env["NTA_CONF_PROP_nupic_hypersearch_min_field_contribution"] = \
-                           '%f' % (55)
+                           '{0:f}'.format((55))
       env["NTA_CONF_PROP_nupic_hypersearch_max_field_branching"] = \
-                         '%d' % (5)
+                         '{0:d}'.format((5))
   
       (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
              = self.runPermutations(expDir,
@@ -1527,8 +1520,7 @@ class OneNodeTests(ExperimentTestBaseClass):
               'timestamp_timeOfDay'])
       self.assertEqual(params["particleState"]["swarmId"], 
                        expectedSwarmId,
-                       "Actual swarm id = %s\nExpcted swarm id = %s" \
-                       % (params["particleState"]["swarmId"], 
+                       "Actual swarm id = {0!s}\nExpcted swarm id = {1!s}".format(params["particleState"]["swarmId"], 
                           expectedSwarmId))
       self.assertEqual( bestModel.optimizedMetric, -20)
 
@@ -1556,9 +1548,9 @@ class OneNodeTests(ExperimentTestBaseClass):
       # gym fields. 
       # This should bring our error score to 50-30-40-20 = -40
       env["NTA_CONF_PROP_nupic_hypersearch_min_field_contribution"] = \
-                           '%f' % (0)
+                           '{0:f}'.format((0))
       env["NTA_CONF_PROP_nupic_hypersearch_max_field_branching"] = \
-                           '%d' % (3)
+                           '{0:d}'.format((3))
   
       (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
              = self.runPermutations(expDir,
@@ -1584,8 +1576,7 @@ class OneNodeTests(ExperimentTestBaseClass):
               'timestamp_timeOfDay'])
       self.assertEqual(params["particleState"]["swarmId"], 
                        expectedSwarmId,
-                       "Actual swarm id = %s\nExpcted swarm id = %s" \
-                       % (params["particleState"]["swarmId"], 
+                       "Actual swarm id = {0!s}\nExpcted swarm id = {1!s}".format(params["particleState"]["swarmId"], 
                           expectedSwarmId))
       self.assertEqual( bestModel.optimizedMetric, -40)
 
@@ -1595,14 +1586,14 @@ class OneNodeTests(ExperimentTestBaseClass):
       # Now, test setting max models so that no swarm can finish completely.
       # Make sure we get the expected field contributions
       env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] = \
-                           '%d' % (g_repeatableSwarmMaturityWindow)
+                           '{0:d}'.format((g_repeatableSwarmMaturityWindow))
   
       env["NTA_CONF_PROP_nupic_hypersearch_max_field_branching"] = \
-                           '%d' % (0)
+                           '{0:d}'.format((0))
       env["NTA_CONF_PROP_nupic_hypersearch_minParticlesPerSwarm"] = \
-                           '%d' % (5)
+                           '{0:d}'.format((5))
       env["NTA_CONF_PROP_nupic_hypersearch_min_field_contribution"] = \
-                           '%f' % (0)
+                           '{0:f}'.format((0))
   
       (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
              = self.runPermutations(expDir,
@@ -1626,8 +1617,7 @@ class OneNodeTests(ExperimentTestBaseClass):
               'timestamp_dayOfWeek'])
       self.assertEqual(params["particleState"]["swarmId"], 
                        expectedSwarmId,
-                       "Actual swarm id = %s\nExpcted swarm id = %s" \
-                       % (params["particleState"]["swarmId"], 
+                       "Actual swarm id = {0!s}\nExpcted swarm id = {1!s}".format(params["particleState"]["swarmId"], 
                           expectedSwarmId))
       self.assertEqual( bestModel.optimizedMetric, 10)
 
@@ -1684,10 +1674,10 @@ class MultiNodeTests(ExperimentTestBaseClass):
       env = dict()
     env["NTA_TEST_numIterations"] = '99'
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] = \
-                         '%d' % (g_repeatableSwarmMaturityWindow)
+                         '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     env["NTA_CONF_PROP_nupic_hypersearch_minParticlesPerSwarm"] = \
-                         '%d' % (1)
+                         '{0:d}'.format((1))
 
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
@@ -1765,10 +1755,10 @@ class MultiNodeTests(ExperimentTestBaseClass):
       env = dict()
     env["NTA_TEST_numIterations"] = '99'
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] = \
-                         '%d' % (g_repeatableSwarmMaturityWindow)
+                         '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     env["NTA_CONF_PROP_nupic_hypersearch_minParticlesPerSwarm"] = \
-                         '%d' % (1)
+                         '{0:d}'.format((1))
 
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
@@ -1835,14 +1825,14 @@ class MultiNodeTests(ExperimentTestBaseClass):
       env = dict()
     env["NTA_TEST_numIterations"] = '99'
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] = \
-                         '%d' % (g_repeatableSwarmMaturityWindow)
+                         '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     env["NTA_CONF_PROP_nupic_hypersearch_max_field_branching"] = \
-                         '%d' % (4)
+                         '{0:d}'.format((4))
     env["NTA_CONF_PROP_nupic_hypersearch_min_field_contribution"] = \
-                         '%f' % (-20.0)
+                         '{0:f}'.format((-20.0))
     env["NTA_CONF_PROP_nupic_hypersearch_minParticlesPerSwarm"] = \
-                         '%d' % (2)
+                         '{0:d}'.format((2))
 
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
@@ -1871,7 +1861,7 @@ class MultiNodeTests(ExperimentTestBaseClass):
     assert bestModel.optimizedMetric == 432, bestModel.optimizedMetric
 
     env["NTA_CONF_PROP_nupic_hypersearch_max_field_branching"] = \
-                         '%d' % (3)
+                         '{0:d}'.format((3))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
            = self.runPermutations(expDir,
@@ -1900,7 +1890,7 @@ class MultiNodeTests(ExperimentTestBaseClass):
     assert bestModel.optimizedMetric == 465, bestModel.optimizedMetric
 
     env["NTA_CONF_PROP_nupic_hypersearch_max_field_branching"] = \
-                         '%d' % (5)
+                         '{0:d}'.format((5))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
            = self.runPermutations(expDir,
@@ -1930,7 +1920,7 @@ class MultiNodeTests(ExperimentTestBaseClass):
 
     #Find best combo with 3 fields
     env["NTA_CONF_PROP_nupic_hypersearch_max_field_branching"] = \
-                         '%d' % (0)
+                         '{0:d}'.format((0))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
            = self.runPermutations(expDir,
@@ -1983,7 +1973,7 @@ class MultiNodeTests(ExperimentTestBaseClass):
       env = dict()
     env["NTA_TEST_numIterations"] = '99'
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] = \
-                         '%d' % (g_repeatableSwarmMaturityWindow)
+                         '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
            = self.runPermutations(expDir,
@@ -2079,10 +2069,10 @@ class MultiNodeTests(ExperimentTestBaseClass):
     #  iterations.
     env = dict()
     env["NTA_TEST_numIterations"] = '99'
-    env["NTA_TEST_sysExitModelRange"] = '%d,%d' % (modelRange[0], modelRange[1])
+    env["NTA_TEST_sysExitModelRange"] = '{0:d},{1:d}'.format(modelRange[0], modelRange[1])
     env["NTA_CONF_PROP_nupic_hypersearch_modelOrphanIntervalSecs"] = '1'
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] \
-            =  '%d' % (g_repeatableSwarmMaturityWindow)
+            =  '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
          = self.runPermutations(expDir,
@@ -2114,10 +2104,10 @@ class MultiNodeTests(ExperimentTestBaseClass):
     #  iterations.
     env = dict()
     env["NTA_TEST_numIterations"] = '99'
-    env["NTA_TEST_delayModelRange"] = '%d,%d' % (modelRange[0], modelRange[1])
+    env["NTA_TEST_delayModelRange"] = '{0:d},{1:d}'.format(modelRange[0], modelRange[1])
     env["NTA_CONF_PROP_nupic_hypersearch_modelOrphanIntervalSecs"] = '1'
     env["NTA_CONF_PROP_nupic_hypersearch_swarmMaturityWindow"] \
-            =  '%d' % (g_repeatableSwarmMaturityWindow)
+            =  '{0:d}'.format((g_repeatableSwarmMaturityWindow))
 
     (jobID, jobInfo, resultInfos, metricResults, minErrScore) \
          = self.runPermutations(expDir,
@@ -2218,7 +2208,7 @@ class MultiNodeTests(ExperimentTestBaseClass):
     cjDB = ClientJobsDAO.get()
 
     self.assertGreaterEqual(len(resultInfos), numModels,
-                     "%d were run. Expecting %s"%(len(resultInfos), numModels+1))
+                     "{0:d} were run. Expecting {1!s}".format(len(resultInfos), numModels+1))
     completionReasons = [x.completionReason for x in resultInfos]
     self.assertGreaterEqual(completionReasons.count(cjDB.CMPL_REASON_EOF), numModels)
     self.assertGreaterEqual(completionReasons.count(cjDB.CMPL_REASON_ORPHAN), 1)
@@ -2292,8 +2282,8 @@ class ModelMaturityTests(ExperimentTestBaseClass):
   def setUp(self):
     # Ignore the global hypersearch version setting. Always test hypersearch v2
     hsVersion = 2
-    self.expDir = os.path.join(g_myEnv.testSrcExpDir, 'dummyV%d' %hsVersion)
-    self.hsImp = "v%d" % hsVersion
+    self.expDir = os.path.join(g_myEnv.testSrcExpDir, 'dummyV{0:d}'.format(hsVersion))
+    self.hsImp = "v{0:d}".format(hsVersion)
 
     self.env = {'NTA_CONF_PROP_nupic_hypersearch_enableModelTermination':'0',
                 'NTA_CONF_PROP_nupic_hypersearch_enableModelMaturity':'1',
@@ -2311,7 +2301,7 @@ class ModelMaturityTests(ExperimentTestBaseClass):
     """
     self._printTestHeader()
     self.expDir =  os.path.join(g_myEnv.testSrcExpDir,
-                               'dummy_multi_v%d' % 2)
+                               'dummy_multi_v{0:d}'.format(2))
     self.env['NTA_TEST_max_num_models'] = '2'
     jobID,_,_,_,_ = self.runPermutations(self.expDir, hsImp=self.hsImp, maxModels=2,
                                 loggingLevel = g_myEnv.options.logLevel,
@@ -2343,7 +2333,7 @@ class ModelMaturityTests(ExperimentTestBaseClass):
 
     self.assertEqual(records[1], 500)
     self.assertTrue(records[0] > 100 and records[0] < 500,
-                    "Model 2 num records: 100 < %d < 500 " % records[1])
+                    "Model 2 num records: 100 < {0:d} < 500 ".format(records[1]))
 
     self.assertEqual(completionReasons[1], cjDB.CMPL_REASON_EOF)
     self.assertEqual(completionReasons[0], cjDB.CMPL_REASON_STOPPED)
@@ -2509,7 +2499,7 @@ def getHypersearchWinningModelID(jobID):
   
   cjDAO = ClientJobsDAO.get()
   jobResults = cjDAO.jobGetFields(jobID, ['results'])[0]
-  print "Hypersearch job results: %r" % (jobResults,)
+  print "Hypersearch job results: {0!r}".format(jobResults)
   jobResults = json.loads(jobResults)
   return jobResults['bestModel']
 
@@ -2578,7 +2568,7 @@ def _getTestList():
   for suite in suiteNames:
     for f in dir(eval(suite)):
       if f.startswith('test'):
-        testNames.append('%s.%s' % (suite, f))
+        testNames.append('{0!s}.{1!s}'.format(suite, f))
 
   return testNames
 
@@ -2610,7 +2600,7 @@ class _ArgParser(object):
     # Update help string
     allTests = _getTestList()
     for test in allTests:
-      helpString += "\n    %s" % (test)
+      helpString += "\n    {0!s}".format((test))
 
     # ============================================================================
     # Process command line arguments

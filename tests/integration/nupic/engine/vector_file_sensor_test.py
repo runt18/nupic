@@ -87,8 +87,8 @@ class VectorFileSensorTest(unittest.TestCase):
     thrown.
     """
     print 'VectorFileSensorTest parameters:'
-    print 'PYTHONPATH: %s' % os.environ.get('PYTHONPATH', 'NOT SET')
-    print 'filename: %s' % self.filename
+    print 'PYTHONPATH: {0!s}'.format(os.environ.get('PYTHONPATH', 'NOT SET'))
+    print 'filename: {0!s}'.format(self.filename)
 
     self._testRunWithoutFile()
     self._testNetLoad()
@@ -148,7 +148,7 @@ class VectorFileSensorTest(unittest.TestCase):
 
     res = r.getParameter('vectorCount')
     self.assertEqual(
-        res, 0, "getting vectorCount:\n Expected '0',  got back  '%d'\n" % res)
+        res, 0, "getting vectorCount:\n Expected '0',  got back  '{0:d}'\n".format(res))
 
     self.sensor = r
 
@@ -177,15 +177,14 @@ class VectorFileSensorTest(unittest.TestCase):
       ' isLabeled = 0 repeatCount = 1 vectorCount = 0 iterations = 0\n'
     self.assertEqual(
         res, expected,
-        "repeat count test:\n   expected '%s'\n   got      '%s'\n" %
-        (expected, res))
+        "repeat count test:\n   expected '{0!s}'\n   got      '{1!s}'\n".format(expected, res))
 
     # Set to 42, check it and return it back to 1
     sensor.setParameter('repeatCount', 42)
 
     res = sensor.getParameter('repeatCount')
     self.assertEqual(
-        res, 42, "set repeatCount to 42:\n   got back     '%d'\n" % res)
+        res, 42, "set repeatCount to 42:\n   got back     '{0:d}'\n".format(res))
 
     res = sensor.executeCommand(['dump'])
     expected = (self.sensorName +
@@ -193,8 +192,7 @@ class VectorFileSensorTest(unittest.TestCase):
                 'iterations = 0\n')
     self.assertEqual(
         res, expected,
-        "set to 42 test:\n   expected '%s'\n   got      '%s'\n" %
-        (expected, res))
+        "set to 42 test:\n   expected '{0!s}'\n   got      '{1!s}'\n".format(expected, res))
     sensor.setParameter('repeatCount', 1)
 
 
@@ -211,11 +209,11 @@ class VectorFileSensorTest(unittest.TestCase):
 
     self.assertTrue(res == '' or
                     res.startswith('VectorFileSensor read in file'),
-                    'loading a real file: %s' % str(res))
+                    'loading a real file: {0!s}'.format(str(res)))
 
     # Check recent file
     res = self.sensor.getParameter('recentFile')
-    self.assertEqual(res, dataFile, 'recent file, got: %s' % (res))
+    self.assertEqual(res, dataFile, 'recent file, got: {0!s}'.format((res)))
 
     # Check summary of file contents
     res = self.sensor.executeCommand(['dump'])
@@ -223,8 +221,7 @@ class VectorFileSensorTest(unittest.TestCase):
                 ' isLabeled = 0 repeatCount = 1 vectorCount = 5 iterations = ' +
                 iterations + '\n')
     self.assertEqual(res, expected,
-                     'file summary:\n   expected "%s"\n   got      "%s"\n' %
-                     (expected, res))
+                     'file summary:\n   expected "{0!s}"\n   got      "{1!s}"\n'.format(expected, res))
 
 
   def _testAppendFile(self, dataFile, fileFormat= '', iterations='',
@@ -241,25 +238,24 @@ class VectorFileSensorTest(unittest.TestCase):
 
     self.assertTrue(res == '' or
                     res.startswith('VectorFileSensor read in file'),
-                    'loading a real file: %s' % str(res))
+                    'loading a real file: {0!s}'.format(str(res)))
 
     # Check recent file
     res = self.sensor.getParameter('recentFile')
-    self.assertEqual(res, dataFile, 'recent file, got: %s' % res)
+    self.assertEqual(res, dataFile, 'recent file, got: {0!s}'.format(res))
 
     # Check summary of file contents
     res = self.sensor.executeCommand(['dump'])
     expected = self.sensorName + ' isLabeled = 0 repeatCount = 1' + \
         ' vectorCount = '+str(numVecs)+' iterations = ' + iterations + '\n'
     self.assertEqual(res, expected,
-                     'file summary:\n   expected "%s"\n   got      "%s"\n' %
-                     (expected, res))
+                     'file summary:\n   expected "{0!s}"\n   got      "{1!s}"\n'.format(expected, res))
 
     # Check vectorCount parameter
     res = self.sensor.getParameter('vectorCount')
     self.assertEqual(res, numVecs,
                      'getting position:\n Expected ' + str(numVecs) +
-                     ',  got back  "%s"\n' % res)
+                     ',  got back  "{0!s}"\n'.format(res))
 
 
   def _testRun(self):
@@ -282,8 +278,8 @@ class VectorFileSensorTest(unittest.TestCase):
 
           # Check outputs
           #sum = reduce(lambda x,y:int(x)+int(y),outputs)
-          self.assertEqual(outputs[vec], vec+1, 'output = %s' % str(outputs))
-          self.assertEqual(sum(outputs), vec+1, 'output = %s' % str(outputs))
+          self.assertEqual(outputs[vec], vec+1, 'output = {0!s}'.format(str(outputs)))
+          self.assertEqual(sum(outputs), vec+1, 'output = {0!s}'.format(str(outputs)))
 
     # Set repeat count back to 1
     self.sensor.setParameter('repeatCount', 1)
@@ -296,21 +292,21 @@ class VectorFileSensorTest(unittest.TestCase):
     res = self.sensor.getParameter('maxOutputVectorCount')
     self.assertEqual(res, vectorCount,
                      "getting maxOutputVectorCount:\n Expected '" +
-                     str(vectorCount) + "',  got back  '%d'\n" % (res))
+                     str(vectorCount) + "',  got back  '{0:d}'\n".format((res)))
 
     self.sensor.setParameter('repeatCount', 3)
 
     res = self.sensor.getParameter('maxOutputVectorCount')
     self.assertEqual(res, 3 * vectorCount,
                      'getting maxOutputVectorCount:\n Expected ' +
-                     str(3*vectorCount)+',  got back  "%d"\n' % res)
+                     str(3*vectorCount)+',  got back  "{0:d}"\n'.format(res))
     self.sensor.setParameter('repeatCount', 1)
 
     # Test activeOutputCount
     res = self.sensor.getParameter('activeOutputCount')
     self.assertEqual(
         res, 11,
-        'getting activeOutputCount :\n Expected 11,  got back  "%d"\n' % res)
+        'getting activeOutputCount :\n Expected 11,  got back  "{0:d}"\n'.format(res))
 
 
   def _testPosition(self):
@@ -320,14 +316,14 @@ class VectorFileSensorTest(unittest.TestCase):
     self.sensor.compute()
     outputs = self.sensor.getOutputData('dataOut')
 
-    self.assertEqual(outputs[2], 3, 'output = %s' % str(outputs))
-    self.assertEqual(sum(outputs), 3, 'output = %s' % str(outputs))
+    self.assertEqual(outputs[2], 3, 'output = {0!s}'.format(str(outputs)))
+    self.assertEqual(sum(outputs), 3, 'output = {0!s}'.format(str(outputs)))
 
     # Now it should have incremented the position
     res = self.sensor.getParameter('position')
     self.assertEqual(res, 3,
-                     'getting position:\n Expected "3",  got back  "%d"\n' %
-                     res)
+                     'getting position:\n Expected "3",  got back  "{0:d}"\n'.format(
+                     res))
 
 
   def _testScaling(self, dataFile, fileFormat= ''):
@@ -336,21 +332,21 @@ class VectorFileSensorTest(unittest.TestCase):
     # Retrieve scalingMode after a netLoad. Should be 'none'
     res = self.sensor.getParameter('scalingMode')
     self.assertEqual(res, 'none',
-                     'Getting scalingMode:\n Expected "none", got back "%s"\n' %
-                     res)
+                     'Getting scalingMode:\n Expected "none", got back "{0!s}"\n'.format(
+                     res))
 
     # Retrieve scaling and offset after netLoad - should be 1 and zero
     # respectively.
     a = Array('Real32', 11)
     self.sensor.getParameterArray('scaleVector', a)
     self.assertEqual(str(a), '[ 1 1 1 1 1 1 1 1 1 1 1 ]',
-                     'Error getting ones scaleVector:\n Got back "%s"\n' %
-                     str(res))
+                     'Error getting ones scaleVector:\n Got back "{0!s}"\n'.format(
+                     str(res)))
 
     self.sensor.getParameterArray('offsetVector', a)
     self.assertEqual(str(a), '[ 0 0 0 0 0 0 0 0 0 0 0 ]',
-                     'Error getting zero offsetVector:\n Got back "%s"\n' %
-                     str(res))
+                     'Error getting zero offsetVector:\n Got back "{0!s}"\n'.format(
+                     str(res)))
 
     # load data file, set scaling and offset to standardForm and check
     self.sensor.executeCommand(['loadFile', dataFile, fileFormat])
@@ -360,13 +356,13 @@ class VectorFileSensorTest(unittest.TestCase):
          '0.745356 0.559017 0.447214 2.23607 ]')
     self.assertEqual(
         str(a), s,
-        'Error getting standardForm scaleVector:\n Got back "%s"\n' % res)
+        'Error getting standardForm scaleVector:\n Got back "{0!s}"\n'.format(res))
 
     o = '[ -0.2 -0.4 -0.6 -0.8 -1 -0.2 -0.4 -0.6 -0.8 -1 -0.2 ]'
     self.sensor.getParameterArray('offsetVector', a)
     self.assertEqual(
         str(a), o,
-        'Error getting standardForm offsetVector:\n Got back "%s"\n' % res)
+        'Error getting standardForm offsetVector:\n Got back "{0!s}"\n'.format(res))
 
     # set to custom value and check
 
@@ -376,8 +372,8 @@ class VectorFileSensorTest(unittest.TestCase):
     self.sensor.setParameterArray('scaleVector', scaleVector)
     self.sensor.getParameterArray('scaleVector', a)
     self.assertEqual(str(a), str(scaleVector),
-                     'Error getting modified scaleVector:\n Got back "%s"\n' %
-                     str(res))
+                     'Error getting modified scaleVector:\n Got back "{0!s}"\n'.format(
+                     str(res)))
 
     offsetVector = Array('Real32', 11)
     for i, x in enumerate((1, 2, 3, 4, 1, 1, 1, 1, 1, 2, 1)):
@@ -386,14 +382,14 @@ class VectorFileSensorTest(unittest.TestCase):
     self.sensor.setParameterArray('offsetVector', offsetVector)
     self.sensor.getParameterArray('offsetVector', a)
     self.assertEqual(str(a), str(offsetVector),
-                     'Error getting modified offsetVector:\n Got back "%s"\n' %
-                     str(res))
+                     'Error getting modified offsetVector:\n Got back "{0!s}"\n'.format(
+                     str(res)))
 
     # scalingMode should now be custom
     mode = self.sensor.getParameter('scalingMode')
     self.assertEqual(
         mode, 'custom',
-        'Getting scalingMode:\n Expected "custom", got back "%s"\n' % res)
+        'Getting scalingMode:\n Expected "custom", got back "{0!s}"\n'.format(res))
 
     # At this point we test loading a data file using loadFile. The scaling
     # params should still be active and applied to the new vectors.
@@ -417,14 +413,14 @@ class VectorFileSensorTest(unittest.TestCase):
     for i in range(11):
       noScaling[i] = 1
     self.assertEqual(str(a), str(noScaling),
-                     'Error getting ones scaleVector:\n Got back "%s"\n' % res)
+                     'Error getting ones scaleVector:\n Got back "{0!s}"\n'.format(res))
 
     noOffset = Array('Real32', 11)
     for i in range(11):
       noOffset[i] = 0
     self.sensor.getParameterArray('offsetVector', a)
     self.assertEqual(str(a), str(noOffset),
-                     'Error getting zero offsetVector:\n Got back "%s"\n' % res)
+                     'Error getting zero offsetVector:\n Got back "{0!s}"\n'.format(res))
 
 
   def _testUnknownCommand(self):
@@ -460,8 +456,8 @@ class VectorFileSensorTest(unittest.TestCase):
           resetOuts.append(a[0])
 
           # Check outputs
-          self.assertEqual(outputs[vec], vec+1, 'output = %s' % str(outputs))
-          self.assertEqual(sum(outputs), vec+1, 'output = %s' % str(outputs))
+          self.assertEqual(outputs[vec], vec+1, 'output = {0!s}'.format(str(outputs)))
+          self.assertEqual(sum(outputs), vec+1, 'output = {0!s}'.format(str(outputs)))
 
     self.assertEqual(categories, 2 * ([6] * 12 + [8] * 3))
     self.assertEqual(resetOuts,
