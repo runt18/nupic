@@ -247,13 +247,13 @@ class SpatialPooler(object):
     numColumns = columnDimensions.prod()
 
     if not isinstance(numColumns, (int, long)) or numColumns <= 0:
-      raise InvalidSPParamValueError("Invalid number of columns ({})"
+      raise InvalidSPParamValueError("Invalid number of columns ({0})"
                                      .format(repr(numColumns)))
     inputDimensions = numpy.array(inputDimensions, ndmin=1)
     numInputs = inputDimensions.prod()
 
     if not isinstance(numInputs, (int, long)) or numInputs <= 0:
-      raise InvalidSPParamValueError("Invalid number of inputs ({}"
+      raise InvalidSPParamValueError("Invalid number of inputs ({0}"
                                      .format(repr(numInputs)))
 
     if inputDimensions.size != columnDimensions.size:
@@ -288,7 +288,7 @@ class SpatialPooler(object):
 
     if self._synPermTrimThreshold >= self._synPermConnected:
       raise InvalidSPParamValueError(
-        "synPermTrimThreshold ({}) must be less than synPermConnected ({})"
+        "synPermTrimThreshold ({0}) must be less than synPermConnected ({1})"
         .format(repr(self._synPermTrimThreshold),
                 repr(self._synPermConnected)))
 

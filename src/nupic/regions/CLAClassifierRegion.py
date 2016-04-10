@@ -483,7 +483,7 @@ class CLAClassifierRegion(PyRegion):
     elif outputName == "actualValues":
       return self.maxCategoryCount
     else:
-      raise ValueError("Unknown output {}.".format(outputName))
+      raise ValueError("Unknown output {0}.".format(outputName))
 
 
 
