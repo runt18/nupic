@@ -1832,7 +1832,7 @@ def _generateMetricSpecs(options):
 
 
     # Custom Error Metric
-    if not options["customErrorMetric"] == None :
+    if not options["customErrorMetric"] is None :
       #If errorWindow is not specified, make it equal to the default window
       if not "errorWindow" in options["customErrorMetric"]:
         options["customErrorMetric"]["errorWindow"] = metricWindow
@@ -2006,7 +2006,7 @@ def expGenerator(args):
   # -----------------------------------------------------------------
   # Check for use of mutually-exclusive options
   #
-  activeOptions = filter(lambda x: getattr(options, x) != None,
+  activeOptions = filter(lambda x: getattr(options, x) is not None,
                          ('description', 'showSchema'))
   if len(activeOptions) > 1:
     raise _InvalidCommandArgException(

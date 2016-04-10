@@ -485,13 +485,13 @@ class RecordSensor(PyRegion):
       return 1
 
     elif name == "dataOut":
-      if self.encoder == None:
+      if self.encoder is None:
         raise Exception("NuPIC requested output element count for 'dataOut' on a "
                         "RecordSensor node, but the encoder has not been set")
       return self.encoder.getWidth()
 
     elif name == "sourceOut":
-      if self.encoder == None:
+      if self.encoder is None:
         raise Exception("NuPIC requested output element count for 'sourceOut' "
                         "on a RecordSensor node, but the encoder has not been set")
       return len(self.encoder.getDescription())
@@ -500,7 +500,7 @@ class RecordSensor(PyRegion):
       return self.numCategories
 
     elif name == 'spatialTopDownOut' or name == 'temporalTopDownOut':
-      if self.encoder == None:
+      if self.encoder is None:
         raise Exception("NuPIC requested output element count for 'sourceOut' "
                         "on a RecordSensor node, but the encoder has not been set")
       return len(self.encoder.getDescription())
