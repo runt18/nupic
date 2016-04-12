@@ -1148,7 +1148,9 @@ class TP(ConsolePrinterMixin):
     Class used to carry instructions for updating a segment.
     """
 
-    def __init__(self, c, i, seg=None, activeSynapses=[]):
+    def __init__(self, c, i, seg=None, activeSynapses=None):
+      if activeSynapses is None:
+        activeSynapses = []
       self.columnIdx = c
       self.cellIdx = i
       self.segment = seg # The segment object itself, not an index (can be None)

@@ -35,7 +35,7 @@ class ModifyFields:
   """
 
 
-  def __init__(self, fields=[], operation='setToZero', seed=-1):
+  def __init__(self, fields=None, operation='setToZero', seed=-1):
     """ Construct the filter
 
     Parameters:
@@ -45,6 +45,8 @@ class ModifyFields:
                  - setToZero: set fields to all 0's.
 
     """
+    if fields is None:
+      fields = []
 
     assert operation in ['setToZero']
 

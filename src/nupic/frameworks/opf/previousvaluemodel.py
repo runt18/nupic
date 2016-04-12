@@ -33,10 +33,10 @@ class PreviousValueModel(model.Model):
   """Previous value model."""
 
   def __init__(self, inferenceType=InferenceType.TemporalNextStep,
-               fieldNames=[],
-               fieldTypes=[],
+               fieldNames=None,
+               fieldTypes=None,
                predictedField=None,
-               predictionSteps=[]):
+               predictionSteps=None):
     """ PVM constructor.
 
     inferenceType: An opfutils.InferenceType value that specifies what type of
@@ -47,6 +47,12 @@ class PreviousValueModel(model.Model):
     predictionSteps: a list of steps for which a prediction is made. This is
         only needed in the case of multi step predictions
     """
+    if fieldNames is None:
+      fieldNames = []
+    if fieldTypes is None:
+      fieldTypes = []
+    if predictionSteps is None:
+      predictionSteps = []
     super(PreviousValueModel, self).__init__(inferenceType)
 
     self._logger = opfutils.initLogger(self)

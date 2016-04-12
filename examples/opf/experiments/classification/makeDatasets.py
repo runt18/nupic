@@ -130,7 +130,7 @@ def _generateScalar(filename="simple.csv", numSequences=2, elementsPerSeq=1,
 
 
 def _generateOverlapping(filename="overlap.csv", numSequences=2, elementsPerSeq=3, 
-                    numRepeats=10, hub=[0,1], hubOffset=1, resets=False):
+                    numRepeats=10, hub=None, hubOffset=1, resets=False):
   
   """ Generate a temporal dataset containing sequences that overlap one or more
   elements with other sequences. 
@@ -147,6 +147,8 @@ def _generateOverlapping(filename="overlap.csv", numSequences=2, elementsPerSeq=
   hubOffset:      where, within each sequence, to place the hub
   resets:         if True, turn on reset at start of each sequence
   """
+  if hub is None:
+    hub = [0,1]
   
   # Check for conflicts in arguments
   assert (hubOffset + len(hub) <= elementsPerSeq)

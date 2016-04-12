@@ -125,7 +125,7 @@ def generateVectors(numVectors=100, length=500, activity=50):
 
 
 
-def generateSimpleSequences(nCoinc=10, seqLength=[5,6,7], nSeq=100):
+def generateSimpleSequences(nCoinc=10, seqLength=None, nSeq=100):
   """
   Generate a set of simple sequences. The elements of the sequences will be
   integers from 0 to 'nCoinc'-1. The length of each sequence will be
@@ -141,6 +141,8 @@ def generateSimpleSequences(nCoinc=10, seqLength=[5,6,7], nSeq=100):
   retval:      a list of sequences. Each sequence is itself a list
                containing the coincidence indices for that sequence.
   """
+  if seqLength is None:
+    seqLength = [5,6,7]
 
   coincList = range(nCoinc)
   seqList  = []
@@ -159,7 +161,7 @@ def generateSimpleSequences(nCoinc=10, seqLength=[5,6,7], nSeq=100):
 
 
 
-def generateHubSequences(nCoinc=10, hubs = [2,6], seqLength=[5,6,7], nSeq=100):
+def generateHubSequences(nCoinc=10, hubs = None, seqLength=None, nSeq=100):
   """
   Generate a set of hub sequences. These are sequences which contain a hub
   element in the middle. The elements of the sequences will be integers
@@ -178,6 +180,10 @@ def generateHubSequences(nCoinc=10, hubs = [2,6], seqLength=[5,6,7], nSeq=100):
   retval:        a list of sequences. Each sequence is itself a list
                 containing the coincidence indices for that sequence.
   """
+  if hubs is None:
+    hubs = [2,6]
+  if seqLength is None:
+    seqLength = [5,6,7]
 
 
   coincList = range(nCoinc)
@@ -195,7 +201,7 @@ def generateHubSequences(nCoinc=10, hubs = [2,6], seqLength=[5,6,7], nSeq=100):
 
 
 def genTestSeqsForLookback(nPatterns=10, patternLen=500, patternActivity=50,
-                           seqLength=[5,6,7], nSequences=50):
+                           seqLength=None, nSequences=50):
   """
   Generate two sets of sequences. The first set of sequences is used to train
   the sequence learner till it fills up capacity. The second set is then used
@@ -218,6 +224,8 @@ def genTestSeqsForLookback(nPatterns=10, patternLen=500, patternActivity=50,
                                   containing the input pattern indices for that sequence.
                     patterns: the input patterns used in the seqList.
   """
+  if seqLength is None:
+    seqLength = [5,6,7]
   # Create the input patterns
   patterns = generateCoincMatrix(nCoinc=nPatterns, length=patternLen,
              activity=patternActivity)
@@ -276,7 +284,7 @@ def generateSimpleCoincMatrix(nCoinc=10, length=500, activity=50):
 
 
 def generateSequences(nPatterns=10, patternLen=500, patternActivity=50,
-                    hubs=[2,6],  seqLength=[5,6,7],
+                    hubs=None,  seqLength=None,
                     nSimpleSequences=50,  nHubSequences=50):
   """
   Generate a set of simple and hub sequences. A simple sequence contains
@@ -300,6 +308,10 @@ def generateSequences(nPatterns=10, patternLen=500, patternActivity=50,
                                   containing the input pattern indices for that sequence.
                     patterns: the input patterns used in the seqList.
   """
+  if hubs is None:
+    hubs = [2,6]
+  if seqLength is None:
+    seqLength = [5,6,7]
 
   # Create the input patterns
   patterns = generateCoincMatrix(nCoinc=nPatterns, length=patternLen,
@@ -316,7 +328,7 @@ def generateSequences(nPatterns=10, patternLen=500, patternActivity=50,
 
 
 
-def generateL2Sequences(nL1Patterns=10, l1Hubs=[2,6], l1SeqLength=[5,6,7],
+def generateL2Sequences(nL1Patterns=10, l1Hubs=None, l1SeqLength=None,
                   nL1SimpleSequences=50,  nL1HubSequences=50,
                   l1Pooling=4, perfectStability=False, spHysteresisFactor=1.0,
                   patternLen=500, patternActivity=50):
@@ -356,6 +368,10 @@ def generateL2Sequences(nL1Patterns=10, l1Hubs=[2,6], l1SeqLength=[5,6,7],
                             sequence.
                         patterns: the input patterns used in the L2 seqList.
   """
+  if l1Hubs is None:
+    l1Hubs = [2,6]
+  if l1SeqLength is None:
+    l1SeqLength = [5,6,7]
 
   # First, generate the L1 sequences
   l1SeqList = generateSimpleSequences(nCoinc=nL1Patterns, seqLength=l1SeqLength,

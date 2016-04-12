@@ -59,7 +59,9 @@ class CLAModelClassifierHelper(object):
 
   __VERSION__ = 3
 
-  def __init__(self, clamodel, anomalyParams={}):
+  def __init__(self, clamodel, anomalyParams=None):
+    if anomalyParams is None:
+      anomalyParams = {}
     if anomalyParams is None:
       anomalyParams = {}
     self.clamodel = clamodel

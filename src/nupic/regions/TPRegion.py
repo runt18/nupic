@@ -54,7 +54,7 @@ def _getTPClass(temporalImp):
 
 
 
-def _buildArgs(f, self=None, kwargs={}):
+def _buildArgs(f, self=None, kwargs=None):
   """
   Get the default arguments from the function and assign as instance vars.
 
@@ -66,6 +66,8 @@ def _buildArgs(f, self=None, kwargs={}):
 
   Pops any values from kwargs that go to the function.
   """
+  if kwargs is None:
+    kwargs = {}
   # Get the name, description, and default value for each argument
   argTuples = getArgumentDescriptions(f)
   argTuples = argTuples[1:]  # Remove 'self'
@@ -106,7 +108,7 @@ def _buildArgs(f, self=None, kwargs={}):
   return argTuples
 
 
-def _getAdditionalSpecs(temporalImp, kwargs={}):
+def _getAdditionalSpecs(temporalImp, kwargs=None):
   """Build the additional specs in three groups (for the inspector)
 
   Use the type of the default argument to set the Spec type, defaulting
@@ -116,6 +118,8 @@ def _getAdditionalSpecs(temporalImp, kwargs={}):
   It defaults to TemporalPooler.
   Determines the temporal parameters based on the temporalImp
   """
+  if kwargs is None:
+    kwargs = {}
   typeNames = {int: 'UInt32', float: 'Real32', str: 'Byte', bool: 'bool', tuple: 'tuple'}
 
   def getArgType(arg):

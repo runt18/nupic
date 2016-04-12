@@ -66,8 +66,10 @@ class SineWave(Distributions):
   """Generates a sinewave of a given period, amplitude and phase shift"""
 
 
-  def __init__(self, params={}):
+  def __init__(self, params=None):
 
+    if params is None:
+      params = {}
     if 'period' in params: self.period=params.pop('period')
     else: self.period=pi
     if 'amplitude' in params:
@@ -102,7 +104,9 @@ class RandomCategories(Distributions):
   """Generates random categories"""
 
 
-  def __init__(self, params={}):
+  def __init__(self, params=None):
+    if params is None:
+      params = {}
     self.valueNum=0
     self.alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
@@ -128,8 +132,10 @@ class GaussianDistribution(Distributions):
   """Generates a gaussian distribution"""
 
 
-  def __init__(self, params={}):
+  def __init__(self, params=None):
 
+    if params is None:
+      params = {}
     self.valueNum=0
     assert 'numOfValues' in params
     self.numOfValues = params.pop('numOfValues')

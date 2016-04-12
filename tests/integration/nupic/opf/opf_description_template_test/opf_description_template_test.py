@@ -156,7 +156,7 @@ class MyTestCaseBase(HelperTestCaseBase):
   def __executePositiveRunExperimentTest(self,
                                         runnerPath,
                                         experimentDirPath,
-                                        customOptions=[],
+                                        customOptions=None,
                                         short=False):
     """ Executes a positive RunExperiment.py test and performs
     basic validation
@@ -174,6 +174,8 @@ class MyTestCaseBase(HelperTestCaseBase):
 
     Returns:            result from _executeExternalCmdAndReapOutputs
     """
+    if customOptions is None:
+      customOptions = []
     #----------------------------------------
     # Set up args
     command = [

@@ -1945,9 +1945,11 @@ class ClientJobsDAO(object):
 
   @logExceptions(_LOGGER)
   @g_retrySQL
-  def getActiveJobsForClientInfo(self, clientInfo, fields=[]):
+  def getActiveJobsForClientInfo(self, clientInfo, fields=None):
     """ Fetch jobIDs for jobs in the table with optional fields given a
     specific clientInfo """
+    if fields is None:
+        fields = []
 
     # Form the sequence of field name strings that will go into the
     #  request
@@ -1966,9 +1968,11 @@ class ClientJobsDAO(object):
 
   @logExceptions(_LOGGER)
   @g_retrySQL
-  def getActiveJobsForClientKey(self, clientKey, fields=[]):
+  def getActiveJobsForClientKey(self, clientKey, fields=None):
     """ Fetch jobIDs for jobs in the table with optional fields given a
     specific clientKey """
+    if fields is None:
+        fields = []
 
     # Form the sequence of field name strings that will go into the
     #  request
@@ -1987,8 +1991,10 @@ class ClientJobsDAO(object):
 
   @logExceptions(_LOGGER)
   @g_retrySQL
-  def getJobs(self, fields=[]):
+  def getJobs(self, fields=None):
     """ Fetch jobIDs for jobs in the table with optional fields """
+    if fields is None:
+        fields = []
 
     # Form the sequence of field name strings that will go into the
     #  request
@@ -2005,7 +2011,7 @@ class ClientJobsDAO(object):
 
   @logExceptions(_LOGGER)
   @g_retrySQL
-  def getFieldsForActiveJobsOfType(self, jobType, fields=[]):
+  def getFieldsForActiveJobsOfType(self, jobType, fields=None):
     """ Helper function for querying the models table including relevant job
     info where the job type matches the specified jobType.  Only records for
     which there is a matching jobId in both tables is returned, and only the
@@ -2022,6 +2028,8 @@ class ClientJobsDAO(object):
 
     Returns:    List of tuples containing the jobId and requested field values
     """
+    if fields is None:
+        fields = []
     dbFields = [self._jobs.pubToDBNameDict[x] for x in fields]
     dbFieldsStr = ','.join(['job_id'] + dbFields)
     with ConnectionFactory.get() as conn:

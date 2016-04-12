@@ -102,7 +102,9 @@ class CategoryStatsCollector(object):
   def getStats(self):
     return dict(categories = self.categories)
 
-def getStatsFilename(filename, statsInfo, filters=[]):
+def getStatsFilename(filename, statsInfo, filters=None):
+  if filters is None:
+    filters = []
   if not os.path.isabs(filename):
     raise RuntimeError("Filename {0!s} is not an absolute path".format(filename))
   if not filename.endswith(".csv"):
@@ -120,9 +122,11 @@ def getStatsFilename(filename, statsInfo, filters=[]):
   statsFilename = os.path.join(d, sstring + "_" + basename)
   return statsFilename
 
-def generateStats(filename, statsInfo, maxSamples = None, filters=[], cache=True):
+def generateStats(filename, statsInfo, maxSamples = None, filters=None, cache=True):
   """Generate requested statistics for a dataset and cache to a file.
   If filename is None, then don't cache to a file"""
+  if filters is None:
+    filters = []
 
   # Sanity checking
   if not isinstance(statsInfo, dict):

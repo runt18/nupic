@@ -116,19 +116,19 @@ class CLAModel(Model):
 
 
   def __init__(self,
-      sensorParams={},
+      sensorParams=None,
       inferenceType=InferenceType.TemporalNextStep,
       predictedField=None,
       spEnable=True,
-      spParams={},
+      spParams=None,
 
       # TODO: We can't figure out what this is. Remove?
       trainSPNetOnlyIfRequested=False,
       tpEnable=True,
-      tpParams={},
+      tpParams=None,
       clEnable=True,
-      clParams={},
-      anomalyParams={},
+      clParams=None,
+      anomalyParams=None,
       minLikelihoodThreshold=DEFAULT_LIKELIHOOD_THRESHOLD,
       maxPredictionsPerStep=DEFAULT_MAX_PREDICTIONS_PER_STEP,
       network=None):
@@ -157,6 +157,16 @@ class CLAModel(Model):
           each step in inferences. The predictions with highest likelihood are
           included.
     """
+    if sensorParams is None:
+      sensorParams = {}
+    if spParams is None:
+      spParams = {}
+    if tpParams is None:
+      tpParams = {}
+    if clParams is None:
+      clParams = {}
+    if anomalyParams is None:
+      anomalyParams = {}
     if not inferenceType in self.__supportedInferenceKindSet:
       raise ValueError("{0} received incompatible inference type: {1}"\
                        .format(self.__class__, inferenceType))
