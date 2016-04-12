@@ -64,8 +64,8 @@ def generatePlot(outputs, origData):
       intOrigDist = int(origDist.sum()/2+0.1)
   
       if intDist < 2 and intOrigDist > 10:
-        print 'Elements %d,%d has very small SP distance: %d' % (i, j, intDist)
-        print 'Input elements distance is %d' % intOrigDist
+        print 'Elements {0:d},{1:d} has very small SP distance: {2:d}'.format(i, j, intDist)
+        print 'Input elements distance is {0:d}'.format(intOrigDist)
               
       x = int(PLOT_PRECISION*intDist/40.0)
       y = int(PLOT_PRECISION*intOrigDist/42.0)
@@ -245,7 +245,7 @@ def testSP():
       appendInputWithNSimilarValues(inputs, 42)
     
     inputSize = len(inputs)
-    print 'Num random records = %d, inputs to process %d' % (numRecords, inputSize)  
+    print 'Num random records = {0:d}, inputs to process {1:d}'.format(numRecords, inputSize)  
     
     # Run a number of iterations, with learning on or off,
     # retrieve results from the last iteration only
@@ -282,9 +282,9 @@ def testSP():
       else:
         title +=  ', learning OFF'
         
-      title += ', inputs = %d' % len(inputs)
-      title += ', iterations = %d' % numIter
-      title += ', poolPct =%f' % poolPct
+      title += ', inputs = {0:d}'.format(len(inputs))
+      title += ', iterations = {0:d}'.format(numIter)
+      title += ', poolPct ={0:f}'.format(poolPct)
       
       plt.suptitle(title, fontsize=12)
       plt.show()
@@ -428,16 +428,16 @@ def testSPNew():
       #else:
       #  title +=  ', learning OFF'
         
-      title += ', learn sets = %d' % numLearns
-      title += ', test sets = %d' % numTests
-      title += ', iter = %d' % numIter
-      title += ', groups = %d' % numGroups
-      title += ', Pct =%f' % poolPct
+      title += ', learn sets = {0:d}'.format(numLearns)
+      title += ', test sets = {0:d}'.format(numTests)
+      title += ', iter = {0:d}'.format(numIter)
+      title += ', groups = {0:d}'.format(numGroups)
+      title += ', Pct ={0:f}'.format(poolPct)
       
       plt.suptitle(title, fontsize=12)
       #plt.show()
       
-      plt.savefig(os.path.join('~/Desktop/ExperimentResults/videosNew', '%s' % i))
+      plt.savefig(os.path.join('~/Desktop/ExperimentResults/videosNew', '{0!s}'.format(i)))
       
       plt.clf()
       distribMatrix = np.zeros((PLOT_PRECISION+1,PLOT_PRECISION+1))
@@ -551,17 +551,17 @@ def testSPFile():
 
     if True:
       plt.imshow(distribMatrix, origin='lower', interpolation = "nearest")
-      plt.ylabel('SP (%d/%d) distance in pct' % (spSize, spSet))
-      plt.xlabel('Input (%d/%d) distance in pct' % (elemSize, numSet))
+      plt.ylabel('SP ({0:d}/{1:d}) distance in pct'.format(spSize, spSet))
+      plt.xlabel('Input ({0:d}/{1:d}) distance in pct'.format(elemSize, numSet))
       
       title = 'SP distribution'
-      title += ', iter = %d' % iter
-      title += ', Pct =%f' % poolPct
+      title += ', iter = {0:d}'.format(iter)
+      title += ', Pct ={0:f}'.format(poolPct)
       
       plt.suptitle(title, fontsize=12)
 
       #plt.savefig(os.path.join('~/Desktop/ExperimentResults/videosArtData', '%s' % iter))
-      plt.savefig(os.path.join(outdir, '%s' % iter))
+      plt.savefig(os.path.join(outdir, '{0!s}'.format(iter)))
       
       plt.clf()
       distribMatrix = np.zeros((PLOT_PRECISION+1,PLOT_PRECISION+1))

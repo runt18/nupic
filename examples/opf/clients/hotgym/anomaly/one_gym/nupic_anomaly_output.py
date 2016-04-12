@@ -78,8 +78,8 @@ class NuPICFileOutput(NuPICOutput):
       'timestamp', 'kw_energy_consumption', 'prediction',
       'anomaly_score', 'anomaly_likelihood'
     ]
-    outputFileName = "%s_out.csv" % self.name
-    print "Preparing to output %s data to %s" % (self.name, outputFileName)
+    outputFileName = "{0!s}_out.csv".format(self.name)
+    print "Preparing to output {0!s} data to {1!s}".format(self.name, outputFileName)
     self.outputFile = open(outputFileName, "w")
     self.outputWriter = csv.writer(self.outputFile)
     self.outputWriter.writerow(headerRow)
@@ -100,7 +100,7 @@ class NuPICFileOutput(NuPICOutput):
 
   def close(self):
     self.outputFile.close()
-    print "Done. Wrote %i data lines to %s." % (self.lineCount, self.name)
+    print "Done. Wrote {0:d} data lines to {1!s}.".format(self.lineCount, self.name)
 
 
 
@@ -200,7 +200,7 @@ class NuPICPlotOutput(NuPICOutput):
 
 
   def initializeLines(self, timestamp):
-    print "initializing %s" % self.name
+    print "initializing {0!s}".format(self.name)
     anomalyRange = (0.0, 1.0)
     self.dates = deque([timestamp] * WINDOW, maxlen=WINDOW)
     self.convertedDates = deque(

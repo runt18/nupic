@@ -267,8 +267,8 @@ class StreamReader(RecordStreamIface):
     if saveOutput:
       tmpDir = tempfile.mkdtemp()
       outFilename = os.path.join(tmpDir, "generated_output.csv")
-      self._logger.info("StreamReader: Saving generated records to: '%s'" %
-                        outFilename)
+      self._logger.info("StreamReader: Saving generated records to: '{0!s}'".format(
+                        outFilename))
       self._writer = FileRecordStream(streamID=outFilename,
                                       write=True,
                                       fields=self._streamFields)

@@ -73,4 +73,4 @@ for feature in FEATURES_LIST:
   for field in required_fields:
     val = feature.get(field)
     if not val:
-      raise Exception('Field "%s" is required. Feature: %s' % (field, str(feature)))
+      raise Exception('Field "{0!s}" is required. Feature: {1!s}'.format(field, str(feature)))

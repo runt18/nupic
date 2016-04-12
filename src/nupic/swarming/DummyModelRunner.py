@@ -71,8 +71,8 @@ class OPFDummyModelRunner(OPFModelRunner):
     version = 1,
     info = "test_NoProviders",
     streams = [
-      dict(source="file://%s" % (os.path.join("extra", "hotgym",
-                                              "joined_mosman_2011.csv")),
+      dict(source="file://{0!s}".format((os.path.join("extra", "hotgym",
+                                              "joined_mosman_2011.csv"))),
            info="hotGym.csv",
            columns=["*"],
            #last_record=-1,
@@ -411,7 +411,7 @@ class OPFDummyModelRunner(OPFModelRunner):
   def run(self):
     """ Runs the given OPF task against the given Model instance """
 
-    self._logger.debug("Starting Dummy Model: modelID=%s;" % (self._modelID))
+    self._logger.debug("Starting Dummy Model: modelID={0!s};".format((self._modelID)))
 
     # =========================================================================
     # Initialize periodic activities (e.g., for model result updates)
@@ -546,7 +546,7 @@ class OPFDummyModelRunner(OPFModelRunner):
 
       self._finalize()
 
-    self._logger.info("Finished: modelID=%r "% (self._modelID))
+    self._logger.info("Finished: modelID={0!r} ".format((self._modelID)))
 
     return (self._cmpReason, None)
 

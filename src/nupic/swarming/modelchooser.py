@@ -60,7 +60,7 @@ class ModelChooser(object):
     if logLevel is not None:
       self.logger.setLevel(logLevel)
 
-    self.logger.info("Created new ModelChooser for job %s" % str(jobID))
+    self.logger.info("Created new ModelChooser for job {0!s}".format(str(jobID)))
 
 
   def updateResultsForJob(self, forceUpdate=True):
@@ -91,8 +91,7 @@ class ModelChooser(object):
         return
 
     self._lastUpdateAttemptTime = time.time()
-    self.logger.info("Succesfully updated selection sweep timestamp jobid=%d updateTime=%f"\
-                     %(self._jobID, self._lastUpdateAttemptTime))
+    self.logger.info("Succesfully updated selection sweep timestamp jobid={0:d} updateTime={1:f}".format(self._jobID, self._lastUpdateAttemptTime))
 
     minUpdateRecords = self._MIN_UPDATE_THRESHOLD
 
@@ -102,8 +101,7 @@ class ModelChooser(object):
 
     candidateIDs, bestMetric = self._cjDB.modelsGetCandidates(self._jobID, minUpdateRecords)
 
-    self.logger.info("Candidate models=%s, metric=%s, jobID=%s"\
-                     %(candidateIDs, bestMetric, self._jobID))
+    self.logger.info("Candidate models={0!s}, metric={1!s}, jobID={2!s}".format(candidateIDs, bestMetric, self._jobID))
 
     if len(candidateIDs) == 0:
       return
@@ -118,7 +116,7 @@ class ModelChooser(object):
       results = {'bestModel':None, 'bestValue':None}
     else:
       results = json.loads(results)
-      self.logger.debug("Updating old results %s"%(results))
+      self.logger.debug("Updating old results {0!s}".format((results)))
 
     oldCandidateID = results['bestModel']
     oldMetricValue = results['bestValue']
@@ -137,7 +135,7 @@ class ModelChooser(object):
                        "metric=%f"%(candidateID, metricValue))
 
 
-    self.logger.debug("New Results %s"%(results))
+    self.logger.debug("New Results {0!s}".format((results)))
     self._cjDB.jobUpdateResults(self._jobID, json.dumps(results))
 
 

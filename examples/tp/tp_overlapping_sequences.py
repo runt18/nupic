@@ -371,10 +371,9 @@ def evalSequences(tps,
   for trainingNum in xrange(nTrainRepetitions):
     if VERBOSITY >= 2:
       print "\n##############################################################"
-      print "################# Training round #%d of %d #################" \
-                % (trainingNum, nTrainRepetitions)
+      print "################# Training round #{0:d} of {1:d} #################".format(trainingNum, nTrainRepetitions)
       for (name,tp) in tps.iteritems():
-        print "TP parameters for %s: " % (name)
+        print "TP parameters for {0!s}: ".format((name))
         print "---------------------"
         tp.printParameters()
         print
@@ -386,8 +385,7 @@ def evalSequences(tps,
       numTimeSteps = len(trainingSequence)
 
       if VERBOSITY >= 2:
-        print "\n================= Sequence #%d of %d ================" \
-                  % (sequenceNum, numSequences)
+        print "\n================= Sequence #{0:d} of {1:d} ================".format(sequenceNum, numSequences)
 
       if doResets:
         for tp in tps.itervalues():
@@ -402,8 +400,7 @@ def evalSequences(tps,
           print
           if VERBOSITY >= 3:
             print "------------------------------------------------------------"
-          print "--------- sequence: #%d of %d, timeStep: #%d of %d -----------" \
-                  % (sequenceNum, numSequences, t, numTimeSteps)
+          print "--------- sequence: #{0:d} of {1:d}, timeStep: #{2:d} of {3:d} -----------".format(sequenceNum, numSequences, t, numTimeSteps)
           firstTP.printInput(x)
           print "input nzs:", x.nonzero()
 
@@ -415,7 +412,7 @@ def evalSequences(tps,
         # Print the input and output states
         if VERBOSITY >= 3:
           for (name,tp) in tps.iteritems():
-            print "I/O states of %s TP:" % (name)
+            print "I/O states of {0!s} TP:".format((name))
             print "-------------------------------------",
             tp.printStates(printPrevious = (VERBOSITY >= 5))
             print
@@ -426,18 +423,16 @@ def evalSequences(tps,
         if VERBOSITY >= 2:
           for (name,tp) in tps.iteritems():
             stats = tp.getStats()
-            print "# of unpredicted columns for %s TP: %d of %d" \
-                % (name, stats['curMissing'], x.sum())
+            print "# of unpredicted columns for {0!s} TP: {1:d} of {2:d}".format(name, stats['curMissing'], x.sum())
             numBurstingCols = tp.infActiveState['t'].min(axis=1).sum()
-            print "# of bursting columns for %s TP: %d of %d" \
-                % (name, numBurstingCols, x.sum())
+            print "# of bursting columns for {0!s} TP: {1:d} of {2:d}".format(name, numBurstingCols, x.sum())
 
 
       # Print the trained cells
       if VERBOSITY >= 4:
-        print "Sequence %d finished." % (sequenceNum)
+        print "Sequence {0:d} finished.".format((sequenceNum))
         for (name,tp) in tps.iteritems():
-          print "All cells of %s TP:" % (name)
+          print "All cells of {0!s} TP:".format((name))
           print "-------------------------------------",
           tp.printCells()
           print
@@ -451,8 +446,7 @@ def evalSequences(tps,
     for (name,tp) in tps.iteritems():
       stats = tp.getStats()
       if VERBOSITY >= 1:
-        print "Stats for %s TP over all sequences for training round #%d of %d:" \
-                % (name, trainingNum, nTrainRepetitions)
+        print "Stats for {0!s} TP over all sequences for training round #{1:d} of {2:d}:".format(name, trainingNum, nTrainRepetitions)
         print "   total missing:", stats['totalMissing']
         print "   total extra:", stats['totalExtra']
 
@@ -483,7 +477,7 @@ def evalSequences(tps,
   if VERBOSITY >= 4:
     print "Training completed. Complete state:"
     for (name,tp) in tps.iteritems():
-      print "%s:" % (name)
+      print "{0!s}:".format((name))
       tp.printCells()
       print
 
@@ -507,8 +501,7 @@ def evalSequences(tps,
 
     # Identify this sequence
     if VERBOSITY >= 2:
-      print "\n================= Sequence %d of %d ================" \
-                % (sequenceNum, numSequences)
+      print "\n================= Sequence {0:d} of {1:d} ================".format(sequenceNum, numSequences)
 
     # Send in the rest
     if doResets:
@@ -524,8 +517,7 @@ def evalSequences(tps,
         print
         if VERBOSITY >= 3:
           print "------------------------------------------------------------"
-        print "--------- sequence: #%d of %d, timeStep: #%d of %d -----------" \
-                % (sequenceNum, numSequences, t, numTimeSteps)
+        print "--------- sequence: #{0:d} of {1:d}, timeStep: #{2:d} of {3:d} -----------".format(sequenceNum, numSequences, t, numTimeSteps)
         firstTP.printInput(x)
         print "input nzs:", x.nonzero()
 
@@ -539,13 +531,12 @@ def evalSequences(tps,
       if VERBOSITY >= 2:
         for (name,tp) in tps.iteritems():
           stats = tp.getStats()
-          print "# of unpredicted columns for %s TP: %d of %d" \
-              % (name, stats['curMissing'], x.sum())
+          print "# of unpredicted columns for {0!s} TP: {1:d} of {2:d}".format(name, stats['curMissing'], x.sum())
 
       # Debug print of internal state
       if VERBOSITY >= 3:
         for (name,tp) in tps.iteritems():
-          print "I/O states of %s TP:" % (name)
+          print "I/O states of {0!s} TP:".format((name))
           print "-------------------------------------",
           tp.printStates(printPrevious = (VERBOSITY >= 5),
                          printLearnState = False)
@@ -556,7 +547,7 @@ def evalSequences(tps,
     if VERBOSITY >= 4:
       print
       for (name,tp) in tps.iteritems():
-        print "Interim internal stats for %s TP:" % (name)
+        print "Interim internal stats for {0!s} TP:".format((name))
         print "---------------------------------"
         pprint.pprint(tp.getStats())
         print
@@ -571,13 +562,13 @@ def evalSequences(tps,
   for (name,tp) in tps.iteritems():
     tpStats[name] = stats = tp.getStats()
     if VERBOSITY >= 2:
-      print "Stats for %s TP over all sequences:" % (name)
+      print "Stats for {0!s} TP over all sequences:".format((name))
       print "   total missing:", stats['totalMissing']
       print "   total extra:", stats['totalExtra']
 
   for (name,tp) in tps.iteritems():
     if VERBOSITY >= 3:
-      print "\nAll internal stats for %s TP:" % (name)
+      print "\nAll internal stats for {0!s} TP:".format((name))
       print "-------------------------------------",
       pprint.pprint(tpStats[name])
       print
@@ -630,15 +621,12 @@ def testConfig(baseParams, expMissingMin=0, expMissingMax=0, **mods):
   # -----------------------------------------------------------------------
   # Make sure there are the expected number of missing predictions
   for (name, stats) in tpStats.iteritems():
-    print "Detected %d missing predictions overall during inference" \
-              % (stats['totalMissing'])
+    print "Detected {0:d} missing predictions overall during inference".format((stats['totalMissing']))
     if expMissingMin is not None and stats['totalMissing'] < expMissingMin:
-      print "FAILURE: Expected at least %d total missing but got %d" \
-          % (expMissingMin, stats['totalMissing'])
+      print "FAILURE: Expected at least {0:d} total missing but got {1:d}".format(expMissingMin, stats['totalMissing'])
       assert False
     if expMissingMax is not None and stats['totalMissing'] > expMissingMax:
-      print "FAILURE: Expected at most %d total missing but got %d" \
-          % (expMissingMax, stats['totalMissing'])
+      print "FAILURE: Expected at most {0:d} total missing but got {1:d}".format(expMissingMax, stats['totalMissing'])
       assert False
 
 

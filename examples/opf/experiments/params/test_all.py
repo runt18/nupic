@@ -56,11 +56,11 @@ def testAll(experiments):
       #config['modelParams']['tpParams']['cellsPerColumn'] = 16
       config['modelParams']['tpParams']['columnCount'] = i
       config['modelParams']['spParams']['columnCount'] = i
-      print 'Running with 32 cells per column and %i columns.' % i
+      print 'Running with 32 cells per column and {0:d} columns.'.format(i)
       start = time.time()
       result = runOneExperiment(config, control['inferenceArgs'], metricSpecs,
                                 datasetPath)
-      print 'Total time: %d.' % (time.time() - start)
+      print 'Total time: {0:d}.'.format((time.time() - start))
       pprint(result)
 
 

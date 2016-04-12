@@ -497,7 +497,7 @@ class ExperimentTestBaseClass(testcasebase.TestCaseBase):
     else:
       testName = "TestSL1"
 
-    print "\nRunning %s..." % testName
+    print "\nRunning {0!s}...".format(testName)
 
     trainingSet, testSet = self._buildSegmentLearningTrainingSet(numOnes,
                                                                  numRepetitions)
@@ -509,10 +509,10 @@ class ExperimentTestBaseClass(testcasebase.TestCaseBase):
     testResult = self._testSegmentLearningSequence(tps, trainingSet, testSet)
 
     if testResult:
-      print "%s PASS" % testName
+      print "{0!s} PASS".format(testName)
       return 1
     else:
-      print "%s FAILED" % testName
+      print "{0!s} FAILED".format(testName)
       return 0
 
 
@@ -525,7 +525,7 @@ class ExperimentTestBaseClass(testcasebase.TestCaseBase):
     else:
       testName = "TestSL2"
 
-    print "\nRunning %s..." % testName
+    print "\nRunning {0!s}...".format(testName)
 
     trainingSet, testSet = self._buildSL2TrainingSet(numOnes, numRepetitions)
     numCols = len(trainingSet[0][0])
@@ -536,10 +536,10 @@ class ExperimentTestBaseClass(testcasebase.TestCaseBase):
     testResult = self._testSegmentLearningSequence(tps, trainingSet, testSet)
 
     if testResult:
-      print "%s PASS" % testName
+      print "{0!s} PASS".format(testName)
       return 1
     else:
-      print "%s FAILED" % testName
+      print "{0!s} FAILED".format(testName)
       return 0
 
 
@@ -559,8 +559,8 @@ class TPSegmentLearningTests(ExperimentTestBaseClass):
     """Test segment learning with fixed resources"""
 
     if not g_options.long:
-      print "Test %s only enabled with the --long option" % \
-                                (self._testMethodName)
+      print "Test {0!s} only enabled with the --long option".format( \
+                                (self._testMethodName))
       return
 
     self._testSL1(fixedResources=True,
@@ -571,8 +571,8 @@ class TPSegmentLearningTests(ExperimentTestBaseClass):
     """Test segment learning without fixed resources"""
 
     if not g_options.long:
-      print "Test %s only enabled with the --long option" % \
-                                (self._testMethodName)
+      print "Test {0!s} only enabled with the --long option".format( \
+                                (self._testMethodName))
       return
 
     self._testSL2(fixedResources=False,
@@ -583,8 +583,8 @@ class TPSegmentLearningTests(ExperimentTestBaseClass):
     """Test segment learning with fixed resources"""
 
     if not g_options.long:
-      print "Test %s only enabled with the --long option" % \
-                                (self._testMethodName)
+      print "Test {0!s} only enabled with the --long option".format( \
+                                (self._testMethodName))
       return
 
     self._testSL2(fixedResources=True,

@@ -106,5 +106,5 @@ if __name__ == "__main__":
   outputPath = os.path.join(os.path.dirname(__file__), _OUTPUT_PATH)
   with open(outputPath, "w") as outputFile:
     writer = csv.writer(outputFile)
-    print "Writing output to %s" % outputPath
+    print "Writing output to {0!s}".format(outputPath)
     runNetwork(network, writer)

@@ -49,7 +49,7 @@ class ModelTerminator(object):
     if logLevel is not None:
       self.logger.setLevel(logLevel)
 
-    self.logger.info("Created new ModelTerminator for model %d"%modelID)
+    self.logger.info("Created new ModelTerminator for model {0:d}".format(modelID))
 
 
   def getTerminationCallbacks(self, terminationFunc):
@@ -78,8 +78,7 @@ class ModelTerminator(object):
 
     # Right now we're assuming that we want to minize the metric
     if metric >= (1.0 + tolerance) * bestMetric:
-      self.logger.info("Model %d underperforming (metric:%f, best:%f). Canceling..."
-                       %(metric, bestMetric))
+      self.logger.info("Model {0:d} underperforming (metric:{1:f}, best:{2:f}). Canceling...".format(metric, bestMetric))
 
       self._cjDB.modelSetFields(self._modelID,
                                 {'engCancel':True},

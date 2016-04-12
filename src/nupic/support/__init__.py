@@ -181,7 +181,7 @@ def bringToFront(title):
   set_foreground_window = ctypes.windll.user32.SetForegroundWindow
   hwnd = find_window(None, title)
   if hwnd == 0:
-    raise Exception('There is no window titled: "%s"' % title)
+    raise Exception('There is no window titled: "{0!s}"'.format(title))
   set_foreground_window(hwnd)
 
 
@@ -417,7 +417,7 @@ def initLogging(verbose=False, console='stdout', consoleLevel='DEBUG'):
 
   def makeKey(name):
     """ Makes replacement key """
-    return "$$%s$$" % (name)
+    return "$${0!s}$$".format((name))
 
   platform = sys.platform.lower()
   if platform.startswith('java'):
@@ -434,8 +434,8 @@ def initLogging(verbose=False, console='stdout', consoleLevel='DEBUG'):
   elif platform.startswith('win'):
     replacements[makeKey('SYSLOG_HANDLER_ADDRESS')] = '"log"'
   else:
-    raise RuntimeError("This platform is neither darwin, win32, nor linux: %s" % (
-      sys.platform,))
+    raise RuntimeError("This platform is neither darwin, win32, nor linux: {0!s}".format(
+      sys.platform))
 
   # Nupic logs go to file
   replacements[makeKey('PERSISTENT_LOG_HANDLER')] = 'fileHandler'
@@ -480,7 +480,7 @@ def initLogging(verbose=False, console='stdout', consoleLevel='DEBUG'):
                           "contains a string not found in our replacement "
                           "dict.") % (line, lineNum, configFilePath))
 
-    customConfig.write("%s\n" % line)
+    customConfig.write("{0!s}\n".format(line))
 
   customConfig.seek(0)
   if python_version()[:3] >= '2.6':
@@ -511,9 +511,9 @@ def _genLoggingFilePath():
   appName = os.path.splitext(os.path.basename(sys.argv[0]))[0] or 'UnknownApp'
   appLogDir = os.path.abspath(os.path.join(
     os.environ['NTA_LOG_DIR'],
-    'numenta-logs-%s' % (os.environ['USER'],),
+    'numenta-logs-{0!s}'.format(os.environ['USER']),
     appName))
-  appLogFileName = '%s-%s-%s.log' % (
+  appLogFileName = '{0!s}-{1!s}-{2!s}.log'.format(
     appName, long(time.mktime(time.gmtime())), os.getpid())
   return os.path.join(appLogDir, appLogFileName)
   

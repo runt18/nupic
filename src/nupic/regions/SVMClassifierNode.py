@@ -478,7 +478,7 @@ class SVMClassifierNode(PyNode, MemoryAwareness):
                        description="""Specifies the type of kernel to use.  Valid choices
                           are: 'rbf' (for radial basis function kernel), or 'linear' (for
                           linear kernel.)  Default is 'rbf'.""",
-                          constraints="enum: %s,%s" % (
+                          constraints="enum: {0!s},{1!s}".format(
                                         ",".join(_kKernelTypes),
                                         ",".join(map(str, xrange(len(_kKernelTypes))))
                                       )),
@@ -1061,15 +1061,14 @@ class SVMClassifierNode(PyNode, MemoryAwareness):
       # Make sure progress does not reach 1.0 before the end of finishLearning
       progressEnd = min(0.99, progressEnd)
 
-      logging.debug("SVM recursion %d, sample %d: C is %.2f, gamma is %.2f"
-                    % (recursionIndex, i, samplePoint[0], samplePoint[1]))
+      logging.debug("SVM recursion {0:d}, sample {1:d}: C is {2:.2f}, gamma is {3:.2f}".format(recursionIndex, i, samplePoint[0], samplePoint[1]))
       accuracy, svmModel = self._validateSvm(samplePoint[0], samplePoint[1],
                                              progressStart, progressEnd)
       if accuracy is None:
         # User canceled
         return (None, None, None)
 
-      logging.debug("Accuracy: %.2f" % (accuracy * 100))
+      logging.debug("Accuracy: {0:.2f}".format((accuracy * 100)))
       if accuracy > bestAccuracy:
         bestAccuracy = accuracy
         bestSamplePoint = samplePoint
@@ -1358,8 +1357,7 @@ class SVMClassifierNode(PyNode, MemoryAwareness):
     """
 
     if self._upcomingPartitionIds:
-      raise Exception("PartitionIds already exist: %s"
-                      % str(self._upcomingPartitionIds))
+      raise Exception("PartitionIds already exist: {0!s}".format(str(self._upcomingPartitionIds)))
 
     if not partitionIds:
       return
@@ -1464,5 +1462,5 @@ if __name__=='__main__':
   from nupic.network import CreateNode
 
   name = os.path.splitext(os.path.basename(__file__))[0]
-  n = CreateNode('nupic.pynodes.extra.%(m)s.%(m)s' % {'m':name})
+  n = CreateNode('nupic.pynodes.extra.{m!s}.{m!s}'.format(**{'m':name}))
   n.nodeHelp()

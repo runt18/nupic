@@ -125,7 +125,7 @@ def _sortChunk(records, key, chunkIndex, fields):
   _sortChunk() will write the sorted records to a standard File
   named "chunk_<chunk index>.csv" (chunk_0.csv, chunk_1.csv,...).
   """
-  title(additional='(key=%s, chunkIndex=%d)' % (str(key), chunkIndex))
+  title(additional='(key={0!s}, chunkIndex={1:d})'.format(str(key), chunkIndex))
 
   assert len(records) > 0
 
@@ -134,7 +134,7 @@ def _sortChunk(records, key, chunkIndex, fields):
 
   # Write to a chunk file
   if chunkIndex is not None:
-    filename = 'chunk_%d.csv' % chunkIndex
+    filename = 'chunk_{0:d}.csv'.format(chunkIndex)
     with FileRecordStream(filename, write=True, fields=fields) as o:
       for r in records:
         o.appendRecord(r)
@@ -155,12 +155,12 @@ def _mergeFiles(key, chunkCount, outputFile, fields):
   title()
 
   # Open all chun files
-  files = [FileRecordStream('chunk_%d.csv' % i) for i in range(chunkCount)]
+  files = [FileRecordStream('chunk_{0:d}.csv'.format(i)) for i in range(chunkCount)]
 
   # Open output file
   with FileRecordStream(outputFile, write=True, fields=fields) as o:
     # Open all chunk files
-    files = [FileRecordStream('chunk_%d.csv' % i) for i in range(chunkCount)]
+    files = [FileRecordStream('chunk_{0:d}.csv'.format(i)) for i in range(chunkCount)]
     records = [f.getNextRecord() for f in files]
 
     # This loop will run until all files are exhausted
@@ -183,7 +183,7 @@ def _mergeFiles(key, chunkCount, outputFile, fields):
   # Cleanup chunk files
   for i, f in enumerate(files):
     f.close()
-    os.remove('chunk_%d.csv' % i)
+    os.remove('chunk_{0:d}.csv'.format(i))
 
 def writeTestFile(testFile, fields, big):
   if big:

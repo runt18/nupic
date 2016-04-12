@@ -281,7 +281,7 @@ def _parseCommandLineOptions(args):
   if len(experiments) != 1:
     _reportCommandLineUsageErrorAndExit(
         parser,
-        "Exactly ONE experiment must be specified, but got %s (%s)" % (
+        "Exactly ONE experiment must be specified, but got {0!s} ({1!s})".format(
             len(experiments), experiments))
 
   # Done with parser
@@ -462,8 +462,8 @@ def _runExperimentImpl(options, model=None):
     taskIndexList = [taskLabelsList.index(label) for label in
                      customTaskExecutionLabelsList]
 
-    print "#### Executing custom task list: %r" % [taskLabelsList[i] for
-                                                   i in taskIndexList]
+    print "#### Executing custom task list: {0!r}".format([taskLabelsList[i] for
+                                                   i in taskIndexList])
 
   # Run all experiment tasks
   for taskIndex in taskIndexList:
@@ -765,7 +765,7 @@ class _TaskRunner(object):
 
       def __call__(self):
         self.__numIterationsSoFar += self.PROGRESS_UPDATE_PERIOD_TICKS
-        self.__logger.debug("%s: ITERATION PROGRESS: %s of %s" % (
+        self.__logger.debug("{0!s}: ITERATION PROGRESS: {1!s} of {2!s}".format(
                               self.__taskLabel,
                               self.__numIterationsSoFar,
                               self.__requestedIterationCount))

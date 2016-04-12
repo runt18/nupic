@@ -69,8 +69,7 @@ class SDRCategoryEncoder(Encoder):
 
       # Another arbitrary cutoff to catch likely mistakes
       if self.w < 21:
-        raise ValueError("Number of bits in the SDR (%d) must be greater than 2, and should be >= 21, pass forced=True to init() to override this check"
-                           % self.w)
+        raise ValueError("Number of bits in the SDR ({0:d}) must be greater than 2, and should be >= 21, pass forced=True to init() to override this check".format(self.w))
 
     self._initOverlap()
 
@@ -259,7 +258,7 @@ class SDRCategoryEncoder(Encoder):
     if self.verbosity >= 2:
       print "Overlaps for decoding:"
       for i in xrange(0, self.ncategories):
-        print "%d %s" % (overlaps[i], self.categories[i])
+        print "{0:d} {1!s}".format(overlaps[i], self.categories[i])
 
     matchingCategories =  (overlaps > self.thresholdOverlap).nonzero()[0]
 
@@ -270,7 +269,7 @@ class SDRCategoryEncoder(Encoder):
       resultRanges.append([int(index),int(index)])
 
     if parentFieldName != '':
-      fieldName = "%s.%s" % (parentFieldName, self.name)
+      fieldName = "{0!s}.{1!s}".format(parentFieldName, self.name)
     else:
       fieldName = self.name
     return ({fieldName: (resultRanges, resultString)}, [fieldName])

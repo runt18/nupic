@@ -874,20 +874,20 @@ class ConfigurationCustomTest(unittest.TestCase):
     actualValue = configuration.Configuration.get(
         'var.environment.standalone.user')
     self.assertTrue(actualValue == expectedValue,
-                    "expected %r, but got %r" % (expectedValue, actualValue))
+                    "expected {0!r}, but got {1!r}".format(expectedValue, actualValue))
 
     expectedValue = "The user " + os.environ['USER'] + " rocks!"
     actualValue = configuration.Configuration.get(
         'var.environment.user.in.the.middle')
     self.assertTrue(actualValue == expectedValue,
-                    "expected %r, but got %r" % (expectedValue, actualValue))
+                    "expected {0!r}, but got {1!r}".format(expectedValue, actualValue))
 
     expectedValue = ("User " + os.environ['USER'] + " and home " +
                      os.environ['HOME'] + " in the middle")
     actualValue = configuration.Configuration.get(
         'var.environment.user.and.home.in.the.middle')
     self.assertTrue(actualValue == expectedValue,
-                    "expected %r, but got %r" % (expectedValue, actualValue))
+                    "expected {0!r}, but got {1!r}".format(expectedValue, actualValue))
 
     env['NTA_CONF_PROP_database_host'] = 'FooBar'
 
@@ -943,20 +943,20 @@ class ConfigurationCustomTest(unittest.TestCase):
     actualValue = configuration.Configuration.get(
         'var.environment.standalone.user')
     self.assertEqual(actualValue, expectedValue,
-                     "expected %r, but got %r" % (expectedValue, actualValue))
+                     "expected {0!r}, but got {1!r}".format(expectedValue, actualValue))
 
     expectedValue = "The user " + os.environ['USER'] + " rocks!"
     actualValue = configuration.Configuration.get(
         'var.environment.user.in.the.middle')
     self.assertEqual(actualValue, expectedValue,
-                     "expected %r, but got %r" % (expectedValue, actualValue))
+                     "expected {0!r}, but got {1!r}".format(expectedValue, actualValue))
 
     expectedValue = ("User " + os.environ['USER'] + " and home " +
       os.environ['HOME'] + " in the middle")
     actualValue = configuration.Configuration.get(
         'var.environment.user.and.home.in.the.middle')
     self.assertEqual(actualValue, expectedValue,
-                     "expected %r, but got %r" % (expectedValue, actualValue))
+                     "expected {0!r}, but got {1!r}".format(expectedValue, actualValue))
 
     env['NTA_CONF_PROP_database_host'] = 'FooBar'
 

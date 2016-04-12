@@ -743,12 +743,12 @@ class SpatialPooler(object):
         the indices of the active columns, and 0's everywhere else.
     """
     if not isinstance(inputVector, numpy.ndarray):
-      raise TypeError("Input vector must be a numpy array, not %s" %
-                      str(type(inputVector)))
+      raise TypeError("Input vector must be a numpy array, not {0!s}".format(
+                      str(type(inputVector))))
 
     if inputVector.size != self._numInputs:
       raise ValueError(
-          "Input vector dimensions don't match. Expecting %s but got %s" % (
+          "Input vector dimensions don't match. Expecting {0!s} but got {1!s}".format(
               inputVector.size, self._numInputs))
 
     self._updateBookeepingVars(learn)

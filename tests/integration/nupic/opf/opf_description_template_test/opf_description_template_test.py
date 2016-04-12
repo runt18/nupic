@@ -53,30 +53,29 @@ class MyTestEnvironment(object):
                              "..", "..", "..", "..", "..")
     examplesDir = os.path.join(nupic_dir, "examples")
 
-    _debugOut("examplesDir=<%s>" % (examplesDir,))
+    _debugOut("examplesDir=<{0!s}>".format(examplesDir))
 
     assert os.path.exists(examplesDir), \
-           "%s is not present in filesystem" % examplesDir
+           "{0!s} is not present in filesystem".format(examplesDir)
 
     # This is where we find OPF binaries (e.g., run_opf_experiment.py, etc.)
     # In the autobuild, it is a read-only directory
     self.__opfBinDir = os.path.join(nupic_dir, "scripts")
     assert os.path.exists(self.__opfBinDir), \
-           "%s is not present in filesystem" % self.__opfBinDir
-    _debugOut("self.__opfBinDir=<%s>" % self.__opfBinDir)
+           "{0!s} is not present in filesystem".format(self.__opfBinDir)
+    _debugOut("self.__opfBinDir=<{0!s}>".format(self.__opfBinDir))
 
     # Where this script is running from (our autotest counterpart may have
     # copied it from its original location)
     self.__testRunDir = os.path.abspath(os.path.dirname(__file__))
-    _debugOut("self.__testRunDir=<%s>" % self.__testRunDir)
+    _debugOut("self.__testRunDir=<{0!s}>".format(self.__testRunDir))
 
     # Parent directory of our private OPF experiments
     self.__opfExperimentsParentDir = os.path.join(self.__testRunDir,
                                                   "experiments")
     assert os.path.exists(self.__opfExperimentsParentDir), \
-           "%s is not present in filesystem" % self.__opfExperimentsParentDir
-    _debugOut("self.__opfExperimentsParentDir=<%s>"
-        % self.__opfExperimentsParentDir)
+           "{0!s} is not present in filesystem".format(self.__opfExperimentsParentDir)
+    _debugOut("self.__opfExperimentsParentDir=<{0!s}>".format(self.__opfExperimentsParentDir))
 
 
   def getOpfRunExperimentPyPath(self):
@@ -92,7 +91,7 @@ class MyTestEnvironment(object):
     """
     path = os.path.join(self.__opfExperimentsParentDir, experimentName)
     assert os.path.isdir(path), \
-      "Experiment path %s doesn't exist or is not a directory" % (path,)
+      "Experiment path {0!s} doesn't exist or is not a directory".format(path)
     return path
 
 
@@ -225,7 +224,7 @@ class PositiveTests(MyTestCaseBase):
 
     expectedValue = 12
     self.assertEqual(tpActivationThreshold, expectedValue,
-                     "Expected tp activationThreshold=%s, but got %s" % (
+                     "Expected tp activationThreshold={0!s}, but got {1!s}".format(
                       expectedValue, tpActivationThreshold))
 
 
@@ -280,8 +279,7 @@ def _executeExternalCmdAndReapOutputs(args):
 def _debugOut(msg):
   if g_debug:
     callerTraceback = whoisCallersCaller()
-    print "OPF TestDescriptionTemplate (f=%s;line=%s): %s" % \
-            (callerTraceback.function, callerTraceback.lineno, msg,)
+    print "OPF TestDescriptionTemplate (f={0!s};line={1!s}): {2!s}".format(callerTraceback.function, callerTraceback.lineno, msg)
     sys.stdout.flush()
 
 

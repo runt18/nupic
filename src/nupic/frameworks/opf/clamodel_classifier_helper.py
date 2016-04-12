@@ -632,8 +632,7 @@ class CLAModelClassifierHelper(object):
     elif version == 3:
       pass
     else:
-      raise Exception("Error while deserializing %s: Invalid version %s"
-                      %(self.__class__, version))
+      raise Exception("Error while deserializing {0!s}: Invalid version {1!s}".format(self.__class__, version))
 
     if '_autoDetectThreshold' not in state:
       self._autoDetectThreshold = 1.1

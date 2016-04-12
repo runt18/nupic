@@ -67,15 +67,14 @@ def getModelParamsFromName(gymName):
   :param gymName: Gym name, used to guess the model params module name.
   :return: OPF Model params dictionary
   """
-  importName = "model_params.%s_model_params" % (
+  importName = "model_params.{0!s}_model_params".format((
     gymName.replace(" ", "_").replace("-", "_")
-  )
-  print "Importing model params from %s" % importName
+  ))
+  print "Importing model params from {0!s}".format(importName)
   try:
     importedModelParams = importlib.import_module(importName).MODEL_PARAMS
   except ImportError:
-    raise Exception("No model params exist for '%s'. Run swarm first!"
-                    % gymName)
+    raise Exception("No model params exist for '{0!s}'. Run swarm first!".format(gymName))
   return importedModelParams
 
 
@@ -107,7 +106,7 @@ def runIoThroughNupic(inputData, model, gymName, plot):
   for row in csvReader:
     counter += 1
     if (counter % 100 == 0):
-      print "Read %i lines..." % counter
+      print "Read {0:d} lines...".format(counter)
     timestamp = datetime.datetime.strptime(row[0], DATE_FORMAT)
     consumption = float(row[1])
     result = model.run({
@@ -136,9 +135,9 @@ def runModel(gymName, plot=False):
   :param plot: Plot in matplotlib? Don't use this unless matplotlib is
   installed.
   """
-  print "Creating model from %s..." % gymName
+  print "Creating model from {0!s}...".format(gymName)
   model = createModel(getModelParamsFromName(gymName))
-  inputData = "%s/%s.csv" % (DATA_DIR, gymName.replace(" ", "_"))
+  inputData = "{0!s}/{1!s}.csv".format(DATA_DIR, gymName.replace(" ", "_"))
   runIoThroughNupic(inputData, model, gymName, plot)
 
 

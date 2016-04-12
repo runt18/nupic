@@ -210,15 +210,15 @@ class LogEncoder(Encoder):
     numRanges = len(outRanges)
     for i in xrange(numRanges):
       if outRanges[i][0] != outRanges[i][1]:
-        desc += "%.2f-%.2f" % (outRanges[i][0], outRanges[i][1])
+        desc += "{0:.2f}-{1:.2f}".format(outRanges[i][0], outRanges[i][1])
       else:
-        desc += "%.2f" % (outRanges[i][0])
+        desc += "{0:.2f}".format((outRanges[i][0]))
       if i < numRanges-1:
         desc += ", "
 
     # Return result
     if parentFieldName != '':
-      fieldName = "%s.%s" % (parentFieldName, self.name)
+      fieldName = "{0!s}.{1!s}".format(parentFieldName, self.name)
     else:
       fieldName = self.name
     return ({fieldName: (outRanges, desc)}, [fieldName])

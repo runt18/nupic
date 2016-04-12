@@ -268,7 +268,7 @@ class RecordSensor(PyRegion):
         data["_category"] = [None]
 
       if self.verbosity > 0:
-        print "RecordSensor got data: %s" % data
+        print "RecordSensor got data: {0!s}".format(data)
 
 
       # Apply pre-encoding filters.
@@ -361,16 +361,16 @@ class RecordSensor(PyRegion):
         if self._iterNum == 0:
           self.encoder.pprintHeader(prefix="sensor:")
         if reset:
-          print "RESET - sequenceID:%d" % sequenceId
+          print "RESET - sequenceID:{0:d}".format(sequenceId)
         if self.verbosity >= 2:
           print
 
       # If verbosity >=2, print the record fields
       if self.verbosity >= 1:
-        self.encoder.pprint(outputs["dataOut"], prefix="%7d:" % (self._iterNum))
+        self.encoder.pprint(outputs["dataOut"], prefix="{0:7d}:".format((self._iterNum)))
         scalarValues = self.encoder.getScalars(data)
         nz = outputs["dataOut"].nonzero()[0]
-        print "     nz: (%d)" % (len(nz)), nz
+        print "     nz: ({0:d})".format((len(nz))), nz
         print "  encIn:", self.encoder.scalarsToStr(scalarValues)
       if self.verbosity >= 2:
         #if hasattr(data, 'header'):
@@ -505,7 +505,7 @@ class RecordSensor(PyRegion):
                         "on a RecordSensor node, but the encoder has not been set")
       return len(self.encoder.getDescription())
     else:
-      raise Exception("Unknown output %s" % name)
+      raise Exception("Unknown output {0!s}".format(name))
 
 
   def setParameter(self, parameterName, index, parameterValue):

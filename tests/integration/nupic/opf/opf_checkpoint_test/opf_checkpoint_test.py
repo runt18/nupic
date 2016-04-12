@@ -65,26 +65,26 @@ class MyTestCaseBase(HelperTestCaseBase):
     Returns:            True if equal; False if different
     """
 
-    experimentLabel = "%s prediction comparison" % \
-                        ("Temporal" if temporal else "Non-Temporal")
+    experimentLabel = "{0!s} prediction comparison".format( \
+                        ("Temporal" if temporal else "Non-Temporal"))
 
-    print "%s: Performing comparison of OPF prediction CSV files %r and %r" % (
+    print "{0!s}: Performing comparison of OPF prediction CSV files {1!r} and {2!r}".format(
             experimentLabel, path1, path2)
 
     # Open CSV readers
     #
     self.assertTrue(
       os.path.isfile(path1),
-      msg="OPF prediction file path1 %s doesn't exist or is not a file" % (
-            path1))
+      msg="OPF prediction file path1 {0!s} doesn't exist or is not a file".format((
+            path1)))
 
     (opf1CsvReader, opf1FieldNames) = self._openOpfPredictionCsvFile(path1)
 
 
     self.assertTrue(
       os.path.isfile(path2),
-      msg="OPF prediction file path2 %s doesn't exist or is not a file" % (
-            path2))
+      msg="OPF prediction file path2 {0!s} doesn't exist or is not a file".format((
+            path2)))
 
     (opf2CsvReader, opf2FieldNames) = self._openOpfPredictionCsvFile(path2)
 
@@ -133,9 +133,9 @@ class MyTestCaseBase(HelperTestCaseBase):
 
     for i in fieldsIndexesToCompare:
       self.assertTrue(opf1FieldNames[i].endswith("predicted"),
-                      msg="%r doesn't end with 'predicted'" % opf1FieldNames[i])
+                      msg="{0!r} doesn't end with 'predicted'".format(opf1FieldNames[i]))
       self.assertTrue(opf2FieldNames[i].endswith("predicted"),
-                      msg="%r doesn't end with 'predicted'" % opf2FieldNames[i])
+                      msg="{0!r} doesn't end with 'predicted'".format(opf2FieldNames[i]))
 
     mismatchCount = 0
 
@@ -201,7 +201,7 @@ class MyTestCaseBase(HelperTestCaseBase):
 
 
     if mismatchCount != 0:
-      print "%s: ERROR: there were %s mismatches between %r and %r" % (
+      print "{0!s}: ERROR: there were {1!s} mismatches between {2!r} and {3!r}".format(
               experimentLabel, mismatchCount, path1, path2)
       return False
 
@@ -327,7 +327,7 @@ class MyTestCaseBase(HelperTestCaseBase):
 
     colNames = [x[0] for x in aPlusBPred.getFields()]
     actValueColIdx = colNames.index('multiStepPredictions.actual')
-    predValueColIdx = colNames.index('multiStepPredictions.%d' % (predSteps))
+    predValueColIdx = colNames.index('multiStepPredictions.{0:d}'.format((predSteps)))
 
     # Skip past the 'a' records in aPlusB
     for i in range(checkpointAt):

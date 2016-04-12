@@ -240,8 +240,8 @@ class _CustomConfigurationFileWrapper(object):
 
 
     if elements.tag != 'configuration':
-      e = "Expected top-level element to be 'configuration' but got '%s'" % \
-        (elements.tag)
+      e = "Expected top-level element to be 'configuration' but got '{0!s}'".format( \
+        (elements.tag))
       _getLogger().error(e)
       raise RuntimeError(e)
 
@@ -257,7 +257,7 @@ class _CustomConfigurationFileWrapper(object):
           if not copyOfProperties:
             break
         else:
-          e = "Property %s missing value tag." % (name,)
+          e = "Property {0!s} missing value tag.".format(name)
           _getLogger().error(e)
           raise RuntimeError(e)
 

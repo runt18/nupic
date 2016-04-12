@@ -105,7 +105,7 @@ def _buildArgs(f, self=None, kwargs={}):
         #  raise an exception otherwise
         if len(argTuple) == 2:
           # No default value
-          raise TypeError("Must provide value for '%s'" % argName)
+          raise TypeError("Must provide value for '{0!s}'".format(argName))
         argValue = argTuple[2]
       # Set as an instance variable if 'self' was passed in
       setattr(self, argName, argValue)
@@ -414,8 +414,8 @@ class SPRegion(PyRegion):
             # TODO: Re-enable warning or turn into error in a future release.
             pass
           else:
-            print self.__class__.__name__, "contains base class member '%s'" % \
-                attrName
+            print self.__class__.__name__, "contains base class member '{0!s}'".format( \
+                attrName)
     if not self._loaded:
       for attrName in self._getEphemeralMembersBase():
         if attrName != "_loaded":
@@ -605,14 +605,14 @@ class SPRegion(PyRegion):
     if self._fpLogSP:
       output = self._spatialPoolerOutput.reshape(-1)
       outputNZ = output.nonzero()[0]
-      outStr = " ".join(["%d" % int(token) for token in outputNZ])
+      outStr = " ".join(["{0:d}".format(int(token)) for token in outputNZ])
       print >>self._fpLogSP, output.size, outStr
 
     # Direct logging of SP inputs
     if self._fpLogSPInput:
       output = rfInput.reshape(-1)
       outputNZ = output.nonzero()[0]
-      outStr = " ".join(["%d" % int(token) for token in outputNZ])
+      outStr = " ".join(["{0:d}".format(int(token)) for token in outputNZ])
       print >>self._fpLogSPInput, output.size, outStr
 
     return self._spatialPoolerOutput
@@ -994,7 +994,7 @@ class SPRegion(PyRegion):
     for attrName in self._getEphemeralMembersBase():
       assert hasattr(self, attrName)
     for attrName in self._getEphemeralMembers():
-      assert hasattr(self, attrName), "Node missing attr '%s'." % attrName
+      assert hasattr(self, attrName), "Node missing attr '{0!s}'.".format(attrName)
 
   #############################################################################
   #
@@ -1030,7 +1030,7 @@ class SPRegion(PyRegion):
   def getParameterArrayCount(self, name, index):
     p = self.getParameter(name)
     if (not hasattr(p, '__len__')):
-      raise Exception("Attempt to access parameter '%s' as an array but it is not an array" % name)
+      raise Exception("Attempt to access parameter '{0!s}' as an array but it is not an array".format(name))
     return len(p)
 
 
@@ -1041,7 +1041,7 @@ class SPRegion(PyRegion):
 
     p = self.getParameter(name)
     if (not hasattr(p, '__len__')):
-      raise Exception("Attempt to access parameter '%s' as an array but it is not an array" % name)
+      raise Exception("Attempt to access parameter '{0!s}' as an array but it is not an array".format(name))
 
     if len(p) >  0:
       a[:] = p[:]

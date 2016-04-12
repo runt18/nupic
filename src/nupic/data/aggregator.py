@@ -358,7 +358,7 @@ class Aggregator(object):
       readerFieldNames = [f[0] for f in self._inputFields]
       for name in fieldNames:
         if not name in readerFieldNames:
-          raise Exception('No such input field: %s' % (name))
+          raise Exception('No such input field: {0!s}'.format((name)))
 
 
       # ---------------------------------------------------------------------
@@ -782,13 +782,13 @@ def generateDataset(aggregationInfo, inputFilename, outputFilename=None):
   # If we were not given an output filename, create one based on the
   #  aggregation settings
   if outputFilename is None:
-    outputFilename = 'agg_%s' % \
-                        os.path.splitext(os.path.basename(inputFullPath))[0]
+    outputFilename = 'agg_{0!s}'.format( \
+                        os.path.splitext(os.path.basename(inputFullPath))[0])
     timePeriods = 'years months weeks days '\
                   'hours minutes seconds milliseconds microseconds'
     for k in timePeriods.split():
       if aggregationInfo.get(k, 0) > 0:
-        outputFilename += '_%s_%d' % (k, aggregationInfo[k])
+        outputFilename += '_{0!s}_{1:d}'.format(k, aggregationInfo[k])
 
     outputFilename += '.csv'
     outputFilename = os.path.join(os.path.dirname(inputFullPath), outputFilename)
@@ -802,8 +802,8 @@ def generateDataset(aggregationInfo, inputFilename, outputFilename=None):
   if os.path.isfile(outputFilename) or \
      os.path.isfile(lockFilePath):
     while os.path.isfile(lockFilePath):
-      print 'Waiting for %s to be fully written by another process' % \
-            lockFilePath
+      print 'Waiting for {0!s} to be fully written by another process'.format( \
+            lockFilePath)
       time.sleep(1)
     return outputFilename
 
@@ -851,14 +851,14 @@ def getFilename(aggregationInfo, inputFile):
 
   a = defaultdict(lambda: 0, aggregationInfo)
   outputDir = os.path.dirname(inputFile)
-  outputFile = 'agg_%s' % os.path.splitext(os.path.basename(inputFile))[0]
+  outputFile = 'agg_{0!s}'.format(os.path.splitext(os.path.basename(inputFile))[0])
   noAggregation = True
   timePeriods = 'years months weeks days '\
                 'hours minutes seconds milliseconds microseconds'
   for k in timePeriods.split():
     if a[k] > 0:
       noAggregation = False
-      outputFile += '_%s_%d' % (k, a[k])
+      outputFile += '_{0!s}_{1:d}'.format(k, a[k])
 
   if noAggregation:
     return inputFile

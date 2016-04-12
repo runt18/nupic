@@ -78,7 +78,7 @@ def parseBool(s):
     return True
   if l in ("false", "f", "0"):
     return False
-  raise Exception("Unable to convert string '%s' to a boolean value" % s)
+  raise Exception("Unable to convert string '{0!s}' to a boolean value".format(s))
 
 
 
@@ -105,7 +105,7 @@ def escape(s):
     return ''
   
   assert isinstance(s, basestring), \
-        "expected %s but got %s; value=%s" % (basestring, type(s), s)
+        "expected {0!s} but got {1!s}; value={2!s}".format(basestring, type(s), s)
   s = s.replace('\\', '\\\\')
   s = s.replace('\n', '\\n')
   s = s.replace('\t', '\\t')

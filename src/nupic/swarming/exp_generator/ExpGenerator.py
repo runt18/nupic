@@ -145,7 +145,7 @@ def _makeUsageErrorStr(errorString, usageString):
   """ Combines an error string and usage string into a regular format, so they
   all look consistent.
   """
-  return "ERROR: %s (%s)" % (errorString, usageString)
+  return "ERROR: {0!s} ({1!s})".format(errorString, usageString)
 
 
 
@@ -344,9 +344,9 @@ def _generateMetricSpecString(inferenceElement, metric,
                         params=params,
                         inferenceElement=inferenceElement)
 
-  metricSpecAsString = "MetricSpec(%s)" % \
-    ', '.join(['%s=%r' % (item[0],item[1])
-              for item in metricSpecArgs.iteritems()])
+  metricSpecAsString = "MetricSpec({0!s})".format( \
+    ', '.join(['{0!s}={1!r}'.format(item[0], item[1])
+              for item in metricSpecArgs.iteritems()]))
 
   if not returnLabel:
     return metricSpecAsString
@@ -479,7 +479,7 @@ def _generateEncoderChoicesV1(fieldInfo):
     # First, the time of day representation
     encoders = [None]
     for radius in (1, 8):
-      encoder = dict(type='DateEncoder', name='%s_timeOfDay' % (fieldName),
+      encoder = dict(type='DateEncoder', name='{0!s}_timeOfDay'.format((fieldName)),
                      fieldname=fieldName, timeOfDay=(width, radius))
       encoders.append(encoder)
     encoderChoicesList.append(encoders)
@@ -487,13 +487,13 @@ def _generateEncoderChoicesV1(fieldInfo):
     # Now, the day of week representation
     encoders = [None]
     for radius in (1, 3):
-      encoder = dict(type='DateEncoder', name='%s_dayOfWeek' % (fieldName),
+      encoder = dict(type='DateEncoder', name='{0!s}_dayOfWeek'.format((fieldName)),
                      fieldname=fieldName, dayOfWeek=(width, radius))
       encoders.append(encoder)
     encoderChoicesList.append(encoders)
 
   else:
-    raise RuntimeError("Unsupported field type '%s'" % (fieldType))
+    raise RuntimeError("Unsupported field type '{0!s}'".format((fieldType)))
 
 
   # Return results
@@ -594,10 +594,10 @@ def _generateEncoderStringsV1(includedFields):
     # Check for bad characters
     for c in _ILLEGAL_FIELDNAME_CHARACTERS:
       if encoder['name'].find(c) >= 0:
-        raise _ExpGeneratorException("Illegal character in field: %r (%r)" % (
+        raise _ExpGeneratorException("Illegal character in field: {0!r} ({1!r})".format(
           c, encoder['name']))
 
-    encoderSpecsList.append("%s: \n%s%s" % (
+    encoderSpecsList.append("{0!s}: \n{1!s}{2!s}".format(
         _quoteAndEscape(encoder['name']),
         2*_ONE_INDENT,
         pprint.pformat(encoder, indent=2*_INDENT_STEP)))
@@ -611,7 +611,7 @@ def _generateEncoderStringsV1(includedFields):
 
   permEncoderChoicesList = []
   for encoderChoices in encoderChoicesList:
-    permEncoderChoicesList.append("%s: %s," % (
+    permEncoderChoicesList.append("{0!s}: {1!s},".format(
         _quoteAndEscape(encoderChoices[-1]['name']),
         pprint.pformat(encoderChoices, indent=2*_INDENT_STEP)))
   permEncoderChoicesStr = '\n'.join(permEncoderChoicesList)
@@ -664,13 +664,13 @@ def _generatePermEncoderStr(options, encoderDict):
         continue
       
       if key == 'n' and encoderDict['type'] != 'SDRCategoryEncoder':
-        permStr += "n=PermuteInt(%d, %d), " % (encoderDict["w"] + 7,
+        permStr += "n=PermuteInt({0:d}, {1:d}), ".format(encoderDict["w"] + 7,
                                                encoderDict["w"] + 500)
       else:
         if issubclass(type(value), basestring):
-          permStr += "%s='%s', " % (key, value)
+          permStr += "{0!s}='{1!s}', ".format(key, value)
         else:
-          permStr += "%s=%s, " % (key, value)
+          permStr += "{0!s}={1!s}, ".format(key, value)
     permStr += ")" 
   
   
@@ -688,19 +688,18 @@ def _generatePermEncoderStr(options, encoderDict):
           continue
           
         if key == "n":
-          permStr += "n=PermuteInt(%d, %d), " % (encoderDict["w"] + 1, 
+          permStr += "n=PermuteInt({0:d}, {1:d}), ".format(encoderDict["w"] + 1, 
                                                  encoderDict["w"] + 500)
         elif key == "runDelta":
           if value and not "space" in encoderDict:
-            permStr += "space=PermuteChoices([%s,%s]), " \
-                     % (_quoteAndEscape("delta"), _quoteAndEscape("absolute"))
+            permStr += "space=PermuteChoices([{0!s},{1!s}]), ".format(_quoteAndEscape("delta"), _quoteAndEscape("absolute"))
           encoderDict.pop("runDelta")
           
         else:
           if issubclass(type(value), basestring):
-            permStr += "%s='%s', " % (key, value)
+            permStr += "{0!s}='{1!s}', ".format(key, value)
           else:
-            permStr += "%s=%s, " % (key, value)
+            permStr += "{0!s}={1!s}, ".format(key, value)
       permStr += ")"
 
     # Category encoder          
@@ -715,9 +714,9 @@ def _generatePermEncoderStr(options, encoderDict):
           continue
           
         if issubclass(type(value), basestring):
-          permStr += "%s='%s', " % (key, value)
+          permStr += "{0!s}='{1!s}', ".format(key, value)
         else:
-          permStr += "%s=%s, " % (key, value)
+          permStr += "{0!s}={1!s}, ".format(key, value)
       permStr += ")"
       
 
@@ -733,27 +732,27 @@ def _generatePermEncoderStr(options, encoderDict):
           continue
           
         if key == "timeOfDay":
-          permStr += "encoderClass='%s.timeOfDay', " % (encoderDict["type"])
+          permStr += "encoderClass='{0!s}.timeOfDay', ".format((encoderDict["type"]))
           permStr += "radius=PermuteFloat(0.5, 12), "
-          permStr += "w=%d, " % (value[0])
+          permStr += "w={0:d}, ".format((value[0]))
         elif key == "dayOfWeek":
-          permStr += "encoderClass='%s.dayOfWeek', " % (encoderDict["type"])
+          permStr += "encoderClass='{0!s}.dayOfWeek', ".format((encoderDict["type"]))
           permStr += "radius=PermuteFloat(1, 6), "
-          permStr += "w=%d, " % (value[0])
+          permStr += "w={0:d}, ".format((value[0]))
         elif key == "weekend":
-          permStr += "encoderClass='%s.weekend', " % (encoderDict["type"])
+          permStr += "encoderClass='{0!s}.weekend', ".format((encoderDict["type"]))
           permStr += "radius=PermuteChoices([1]),  "
-          permStr += "w=%d, " % (value)
+          permStr += "w={0:d}, ".format((value))
         else:
           if issubclass(type(value), basestring):
-            permStr += "%s='%s', " % (key, value)
+            permStr += "{0!s}='{1!s}', ".format(key, value)
           else:
-            permStr += "%s=%s, " % (key, value)
+            permStr += "{0!s}={1!s}, ".format(key, value)
       permStr += ")"
 
     else:
-      raise RuntimeError("Unsupported encoder type '%s'" % \
-                          (encoderDict["type"]))
+      raise RuntimeError("Unsupported encoder type '{0!s}'".format( \
+                          (encoderDict["type"])))
       
   return permStr
 
@@ -886,7 +885,7 @@ def _generateEncoderStringsV2(includedFields, options):
     elif fieldType == 'datetime':
 
       # First, the time of day representation
-      encoderDict = dict(type='DateEncoder', name='%s_timeOfDay' % (fieldName),
+      encoderDict = dict(type='DateEncoder', name='{0!s}_timeOfDay'.format((fieldName)),
                      fieldname=fieldName, timeOfDay=(width, 1))
       if 'encoderType' in fieldInfo:
         encoderDict['type'] = fieldInfo['encoderType']
@@ -894,7 +893,7 @@ def _generateEncoderStringsV2(includedFields, options):
 
 
       # Now, the day of week representation
-      encoderDict = dict(type='DateEncoder', name='%s_dayOfWeek' % (fieldName),
+      encoderDict = dict(type='DateEncoder', name='{0!s}_dayOfWeek'.format((fieldName)),
                      fieldname=fieldName, dayOfWeek=(width, 1))
       if 'encoderType' in fieldInfo:
         encoderDict['type'] = fieldInfo['encoderType']
@@ -902,7 +901,7 @@ def _generateEncoderStringsV2(includedFields, options):
 
 
       # Now, the day of week representation
-      encoderDict = dict(type='DateEncoder', name='%s_weekend' % (fieldName),
+      encoderDict = dict(type='DateEncoder', name='{0!s}_weekend'.format((fieldName)),
                      fieldname=fieldName, weekend=(width))
       if 'encoderType' in fieldInfo:
         encoderDict['type'] = fieldInfo['encoderType']
@@ -912,7 +911,7 @@ def _generateEncoderStringsV2(includedFields, options):
 
 
     else:
-      raise RuntimeError("Unsupported field type '%s'" % (fieldType))
+      raise RuntimeError("Unsupported field type '{0!s}'".format((fieldType)))
 
 
     # -----------------------------------------------------------------------
@@ -951,12 +950,12 @@ def _generateEncoderStringsV2(includedFields, options):
     # Check for bad characters
     for c in _ILLEGAL_FIELDNAME_CHARACTERS:
       if encoderDict['name'].find(c) >= 0:
-        raise _ExpGeneratorException("Illegal character %s in field %r"  %(c, encoderDict['name']))
+        raise _ExpGeneratorException("Illegal character {0!s} in field {1!r}".format(c, encoderDict['name']))
 
     constructorStr = _generatePermEncoderStr(options, encoderDict)
 
     encoderKey = _quoteAndEscape(encoderDict['name'])
-    encoderSpecsList.append("%s: %s%s" % (
+    encoderSpecsList.append("{0!s}: {1!s}{2!s}".format(
         encoderKey,
         2*_ONE_INDENT,
         pprint.pformat(encoderDict, indent=2*_INDENT_STEP)))
@@ -965,7 +964,7 @@ def _generateEncoderStringsV2(includedFields, options):
     # Each permEncoderChoicesStr is of the form:
     #  PermuteEncoder('gym', 'SDRCategoryEncoder',
     #          w=7, n=100),
-    permEncoderChoicesList.append("%s: %s," % (encoderKey, constructorStr))
+    permEncoderChoicesList.append("{0!s}: {1!s},".format(encoderKey, constructorStr))
 
 
   # Join into strings
@@ -996,8 +995,8 @@ def _handleJAVAParameters(options):
     if inferenceType == 'temporal':
       inferenceType = InferenceType.TemporalNextStep
     if inferenceType != InferenceType.TemporalNextStep:
-      raise _ExpGeneratorException("Unsupported inference type %s"  % \
-                                    (inferenceType))
+      raise _ExpGeneratorException("Unsupported inference type {0!s}".format( \
+                                    (inferenceType)))
     options['inferenceType'] = inferenceType
 
   # Find the best value for the predicted field
@@ -1181,7 +1180,7 @@ def _generateExperiment(options, outputDirPath, hsVersion,
       options["inferenceArgs"]["inputPredictedField"] = "auto"
       
   else:
-    raise RuntimeError("Unsupported swarm size: %s" % (swarmSize))
+    raise RuntimeError("Unsupported swarm size: {0!s}".format((swarmSize)))
     
 
   
@@ -1199,7 +1198,7 @@ def _generateExperiment(options, outputDirPath, hsVersion,
     (encoderSpecsStr, permEncoderChoicesStr) = \
         _generateEncoderStringsV2(includedFields, options)
   else:
-    raise RuntimeError("Unsupported hsVersion of %s" % (hsVersion))
+    raise RuntimeError("Unsupported hsVersion of {0!s}".format((hsVersion)))
 
 
 
@@ -1250,8 +1249,8 @@ def _generateExperiment(options, outputDirPath, hsVersion,
   aggregationInfo['fields'] = aggFunctionList
 
   # Form the aggregation strings
-  aggregationInfoStr = "%s" % (pprint.pformat(aggregationInfo,
-                                              indent=2*_INDENT_STEP))
+  aggregationInfoStr = "{0!s}".format((pprint.pformat(aggregationInfo,
+                                              indent=2*_INDENT_STEP)))
 
 
 
@@ -1322,7 +1321,7 @@ def _generateExperiment(options, outputDirPath, hsVersion,
   inferenceType = options['inferenceType']
   if inferenceType == 'MultiStep':
     inferenceType = InferenceType.TemporalMultiStep
-  tokenReplacements['\$INFERENCE_TYPE'] = "'%s'" % inferenceType
+  tokenReplacements['\$INFERENCE_TYPE'] = "'{0!s}'".format(inferenceType)
   
   # Nontemporal classificaion uses only encoder and classifier
   if inferenceType == InferenceType.NontemporalClassification:
@@ -1366,7 +1365,7 @@ def _generateExperiment(options, outputDirPath, hsVersion,
 
   predictionSteps = options['inferenceArgs'].get('predictionSteps', [1])
   predictionStepsStr = ','.join([str(x) for x in predictionSteps])
-  tokenReplacements['\$PREDICTION_STEPS'] = "'%s'" % (predictionStepsStr)
+  tokenReplacements['\$PREDICTION_STEPS'] = "'{0!s}'".format((predictionStepsStr))
 
   tokenReplacements['\$PREDICT_AHEAD_TIME'] = predictAheadTimeStr
 
@@ -1419,43 +1418,43 @@ def _generateExperiment(options, outputDirPath, hsVersion,
   #   the permutations file which informs swarming to always use the
   #   predicted field (the first swarm will be the predicted field only) 
   tokenReplacements['\$PERM_ALWAYS_INCLUDE_PREDICTED_FIELD'] = \
-      "inputPredictedField = '%s'" % \
-                            (options["inferenceArgs"]["inputPredictedField"])  
+      "inputPredictedField = '{0!s}'".format( \
+                            (options["inferenceArgs"]["inputPredictedField"]))  
 
     
   # The Permutations minFieldContribution setting
   if options.get('minFieldContribution', None) is not None:
     tokenReplacements['\$PERM_MIN_FIELD_CONTRIBUTION'] = \
-        "minFieldContribution = %d" % (options['minFieldContribution']) 
+        "minFieldContribution = {0:d}".format((options['minFieldContribution'])) 
   else:
     tokenReplacements['\$PERM_MIN_FIELD_CONTRIBUTION'] = ""
     
   # The Permutations killUselessSwarms setting
   if options.get('killUselessSwarms', None) is not None:
     tokenReplacements['\$PERM_KILL_USELESS_SWARMS'] = \
-        "killUselessSwarms = %r" % (options['killUselessSwarms']) 
+        "killUselessSwarms = {0!r}".format((options['killUselessSwarms'])) 
   else:
     tokenReplacements['\$PERM_KILL_USELESS_SWARMS'] = ""
 
   # The Permutations maxFieldBranching setting
   if options.get('maxFieldBranching', None) is not None:
     tokenReplacements['\$PERM_MAX_FIELD_BRANCHING'] = \
-        "maxFieldBranching = %r" % (options['maxFieldBranching']) 
+        "maxFieldBranching = {0!r}".format((options['maxFieldBranching'])) 
   else:
     tokenReplacements['\$PERM_MAX_FIELD_BRANCHING'] = ""
 
   # The Permutations tryAll3FieldCombinations setting
   if options.get('tryAll3FieldCombinations', None) is not None:
     tokenReplacements['\$PERM_TRY_ALL_3_FIELD_COMBINATIONS'] = \
-        "tryAll3FieldCombinations = %r" % (options['tryAll3FieldCombinations']) 
+        "tryAll3FieldCombinations = {0!r}".format((options['tryAll3FieldCombinations'])) 
   else:
     tokenReplacements['\$PERM_TRY_ALL_3_FIELD_COMBINATIONS'] = ""
 
   # The Permutations tryAll3FieldCombinationsWTimestamps setting
   if options.get('tryAll3FieldCombinationsWTimestamps', None) is not None:
     tokenReplacements['\$PERM_TRY_ALL_3_FIELD_COMBINATIONS_W_TIMESTAMPS'] = \
-        "tryAll3FieldCombinationsWTimestamps = %r" % \
-                (options['tryAll3FieldCombinationsWTimestamps']) 
+        "tryAll3FieldCombinationsWTimestamps = {0!r}".format( \
+                (options['tryAll3FieldCombinationsWTimestamps'])) 
   else:
     tokenReplacements['\$PERM_TRY_ALL_3_FIELD_COMBINATIONS_W_TIMESTAMPS'] = ""
 
@@ -1463,14 +1462,14 @@ def _generateExperiment(options, outputDirPath, hsVersion,
   # The Permutations fieldFields setting
   if options.get('fixedFields', None) is not None:
     tokenReplacements['\$PERM_FIXED_FIELDS'] = \
-        "fixedFields = %r" % (options['fixedFields']) 
+        "fixedFields = {0!r}".format((options['fixedFields'])) 
   else:
     tokenReplacements['\$PERM_FIXED_FIELDS'] = ""
 
   # The Permutations fastSwarmModelParams setting
   if options.get('fastSwarmModelParams', None) is not None:
     tokenReplacements['\$PERM_FAST_SWARM_MODEL_PARAMS'] = \
-        "fastSwarmModelParams = %r" % (options['fastSwarmModelParams']) 
+        "fastSwarmModelParams = {0!r}".format((options['fastSwarmModelParams'])) 
   else:
     tokenReplacements['\$PERM_FAST_SWARM_MODEL_PARAMS'] = ""
 
@@ -1478,7 +1477,7 @@ def _generateExperiment(options, outputDirPath, hsVersion,
   # The Permutations maxModels setting
   if options.get('maxModels', None) is not None:
     tokenReplacements['\$PERM_MAX_MODELS'] = \
-        "maxModels = %r" % (options['maxModels']) 
+        "maxModels = {0!r}".format((options['maxModels'])) 
   else:
     tokenReplacements['\$PERM_MAX_MODELS'] = ""
 
@@ -1528,7 +1527,7 @@ def _generateExperiment(options, outputDirPath, hsVersion,
       possibleNs.append(n)
 
     if debugAgg:
-      print "All integer factors of %d are: %s" % (mTimesN, possibleNs)
+      print "All integer factors of {0:d} are: {1!s}".format(mTimesN, possibleNs)
 
     # Now go through and throw out any N's that don't satisfy the constraint:
     #  computeInterval = K * (minAggregation * N)
@@ -1560,8 +1559,8 @@ def _generateExperiment(options, outputDirPath, hsVersion,
       print
 
     tokenReplacements['\$PERM_AGGREGATION_CHOICES'] = (
-        "PermuteChoices(%s)" % (
-            pprint.pformat(aggChoices, indent=2*_INDENT_STEP)))
+        "PermuteChoices({0!s})".format((
+            pprint.pformat(aggChoices, indent=2*_INDENT_STEP))))
 
   else:
     tokenReplacements['\$PERM_AGGREGATION_CHOICES'] = aggregationInfoStr
@@ -1579,13 +1578,13 @@ def _generateExperiment(options, outputDirPath, hsVersion,
   # Generate Control dictionary
   environment = options['environment']
   if environment == OpfEnvironment.Nupic:
-    tokenReplacements['\$ENVIRONMENT'] = "'%s'"%OpfEnvironment.Nupic
+    tokenReplacements['\$ENVIRONMENT'] = "'{0!s}'".format(OpfEnvironment.Nupic)
     controlTemplate = "nupicEnvironmentTemplate.tpl"
   elif environment == OpfEnvironment.Experiment:
-    tokenReplacements['\$ENVIRONMENT'] = "'%s'"%OpfEnvironment.Experiment
+    tokenReplacements['\$ENVIRONMENT'] = "'{0!s}'".format(OpfEnvironment.Experiment)
     controlTemplate = "opfExperimentTemplate.tpl"
   else:
-    raise _InvalidCommandArgException("Invalid environment type %s"% environment)
+    raise _InvalidCommandArgException("Invalid environment type {0!s}".format(environment))
 
   # -----------------------------------------------------------------------
   if outputDirPath is None:
@@ -1593,7 +1592,7 @@ def _generateExperiment(options, outputDirPath, hsVersion,
   if not os.path.exists(outputDirPath):
     os.makedirs(outputDirPath)
 
-  print "Generating experiment files in directory: %s..." % (outputDirPath)
+  print "Generating experiment files in directory: {0!s}...".format((outputDirPath))
   descriptionPyPath = os.path.join(outputDirPath, "description.py")
   _generateFileFromTemplates([claDescriptionTemplateFile, controlTemplate],
                               descriptionPyPath,
@@ -1611,8 +1610,8 @@ def _generateExperiment(options, outputDirPath, hsVersion,
     _generateFileFromTemplates(['permutationsTemplateV2.tpl'],permutationsPyPath,
                             tokenReplacements)
   else:
-    raise(ValueError("This permutation version is not supported yet: %s" %
-                        hsVersion))
+    raise(ValueError("This permutation version is not supported yet: {0!s}".format(
+                        hsVersion)))
 
   print "done."
 
@@ -1635,11 +1634,11 @@ def _generateMetricsSubstitutions(options, tokenReplacements):
 
   metricListString = ",\n".join(metricList)
   metricListString = _indentLines(metricListString, 2, indentFirstLine=False)
-  permOptimizeSettingStr = 'minimize = "%s"' % optimizeMetricLabel
+  permOptimizeSettingStr = 'minimize = "{0!s}"'.format(optimizeMetricLabel)
   # -----------------------------------------------------------------------
   # Specify which metrics should be logged
-  loggedMetricsListAsStr = "[%s]" % (", ".join(["'%s'"% ptrn
-                                              for ptrn in options['loggedMetrics']]))
+  loggedMetricsListAsStr = "[{0!s}]".format((", ".join(["'{0!s}'".format(ptrn)
+                                              for ptrn in options['loggedMetrics']])))
 
 
   tokenReplacements['\$LOGGED_METRICS'] \
@@ -1905,7 +1904,7 @@ def _getPredictedField(options):
 
   if predictedFieldInfo is None:
     raise ValueError(
-      "Predicted field '%s' does not exist in included fields." % predictedField
+      "Predicted field '{0!s}' does not exist in included fields.".format(predictedField)
     )
   predictedFieldType = predictedFieldInfo['fieldType']
 
@@ -2000,8 +1999,7 @@ def expGenerator(args):
   #
   if len(remainingArgs) > 0:
     raise _InvalidCommandArgException(
-      _makeUsageErrorStr("Unexpected command-line args: <%s>" % \
-                         (' '.join(remainingArgs),), parser.get_usage()))
+      _makeUsageErrorStr("Unexpected command-line args: <{0!s}>".format(' '.join(remainingArgs)), parser.get_usage()))
 
   # -----------------------------------------------------------------
   # Check for use of mutually-exclusive options

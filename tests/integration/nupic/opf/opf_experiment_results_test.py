@@ -324,7 +324,7 @@ class OPFExperimentResultsTest(unittest.TestCase):
       for path in toDelete:
         if not os.path.exists(path):
           continue
-        print "Removing %s ..." % path
+        print "Removing {0!s} ...".format(path)
         if os.path.isfile(path):
           os.remove(path)
         else:
@@ -334,16 +334,15 @@ class OPFExperimentResultsTest(unittest.TestCase):
       # ------------------------------------------------------------------------
       # Run the test.
       args = test.get('args', [])
-      print "Running experiment %s ..." % (expDirectory)
+      print "Running experiment {0!s} ...".format((expDirectory))
       command = ['python', runExperiment, expDirectory] + args
       retVal = call(command)
 
       # If retVal is non-zero and this was not a negative test or if retVal is
       # zero and this is a negative test something went wrong.
       if retVal:
-        print "Details of failed test: %s" % test
-        print("TestIdx %d, OPF experiment '%s' failed with return code %i." %
-              (testIdx, expDirectory, retVal))
+        print "Details of failed test: {0!s}".format(test)
+        print("TestIdx {0:d}, OPF experiment '{1!s}' failed with return code {2:d}.".format(testIdx, expDirectory, retVal))
       self.assertFalse(retVal)
 
 
@@ -374,7 +373,7 @@ class OPFExperimentResultsTest(unittest.TestCase):
         # Save summary of results
         summaryOfResults.append((expDirectory, colName, result))
 
-        print "Actual result for %s, %s:" % (expDirectory, colName), result
+        print "Actual result for {0!s}, {1!s}:".format(expDirectory, colName), result
         print "Expected range:", expValues
         failed = (expValues[0] is not None and result < expValues[0]) \
             or (expValues[1] is not None and result > expValues[1])
@@ -398,9 +397,9 @@ class OPFExperimentResultsTest(unittest.TestCase):
         print
         print expDir
         prevExpDir = expDir
-      print "  %s: %s" % (key, results)
+      print "  {0!s}: {1!s}".format(key, results)
 
-    print "\nElapsed time: %.1f seconds" % (time.time() - startTime)
+    print "\nElapsed time: {0:.1f} seconds".format((time.time() - startTime))
 
 
 

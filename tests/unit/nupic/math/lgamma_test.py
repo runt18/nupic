@@ -69,7 +69,7 @@ class LGammaTest(unittest.TestCase):
     for v, lg in items:
       print v, lg, lgamma(v)
       self.assertLessEqual(abs(lgamma(v) - lg), 1.0e-8,
-                           "log Gamma(%f) = %f; lgamma(%f) -> %f" % (
+                           "log Gamma({0:f}) = {1:f}; lgamma({2:f}) -> {3:f}".format(
                                v, lg, v, lgamma(v)))
 
 

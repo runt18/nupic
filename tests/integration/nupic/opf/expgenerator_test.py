@@ -69,15 +69,15 @@ class MyTestEnvironment(object):
     # Build installation root (e.g., ~/nupic/current)
     installRootDir = os.path.abspath(options.installDir)
     if not os.path.exists(installRootDir):
-      raise RuntimeError("install directory %s doesn't exist" % \
-                         (options.installDir))
-    _debugOut("installRootDir=<%s>" % (installRootDir,))
+      raise RuntimeError("install directory {0!s} doesn't exist".format( \
+                         (options.installDir)))
+    _debugOut("installRootDir=<{0!s}>".format(installRootDir))
 
 
     # Where this script is running from (autotest expgenerator_test.py may have
     # copied it from its original location)
     self.testRunDir = os.path.dirname(os.path.abspath(__file__))
-    _debugOut("self.testRunDir=<%s>" % (self.testRunDir,))
+    _debugOut("self.testRunDir=<{0!s}>".format(self.testRunDir))
 
     # Where to place generated files
     self.testOutDir = os.path.join(self.testRunDir, 'expGeneratorOut')
@@ -105,7 +105,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
   @classmethod
   def newScriptImportName(cls):
     cls.__pythonScriptImportCount += 1
-    name = "expGenerator_generated_script%d" % cls.__pythonScriptImportCount
+    name = "expGenerator_generated_script{0:d}".format(cls.__pythonScriptImportCount)
     return name
 
 
@@ -178,9 +178,9 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
     #  files.
     shutil.rmtree(g_myEnv.testOutDir, ignore_errors=True)
     args = [
-      "--description=%s" % (json.dumps(expDesc)),
-      "--outDir=%s" % (g_myEnv.testOutDir),
-      "--version=%s" % (hsVersion)
+      "--description={0!s}".format((json.dumps(expDesc))),
+      "--outDir={0!s}".format((g_myEnv.testOutDir)),
+      "--version={0!s}".format((hsVersion))
     ]
     self.addExtraLogItem({'args':args})
     ExpGenerator.expGenerator(args)
@@ -243,7 +243,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
                  }
     if maxModels is not None:
       jobParams['maxModels'] = maxModels
-    args = ['ignoreThis', '--params=%s' % (json.dumps(jobParams))]
+    args = ['ignoreThis', '--params={0!s}'.format((json.dumps(jobParams)))]
     self.resetExtraLogItems()
     self.addExtraLogItem({'params':jobParams})
 
@@ -265,7 +265,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
 
     for result in results:
       self.assertEqual(result.completionReason, cjDAO.CMPL_REASON_EOF,
-          "Model did not complete successfully:\n%s" % (result.completionMsg))
+          "Model did not complete successfully:\n{0!s}".format((result.completionMsg)))
 
     return results
 
@@ -274,7 +274,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
 
     xInt = int(round(x))
     if msg is None:
-      msg = "%s is not a valid integer" % (str(x))
+      msg = "{0!s} is not a valid integer".format((str(x)))
     self.assertLess(abs(x - xInt), 0.0001 * x, msg)
 
 
@@ -346,8 +346,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
             "invalid aggregation period %s is not an integer multiple" \
             "of minAggregation (%s)" % (agg, minAggregation))
       self.assertGreaterEqual(int(round(multipleOfMinAgg)), 1,
-            "invalid aggregation period %s is not >= minAggregation (%s)" % \
-            (agg, minAggregation))
+            "invalid aggregation period {0!s} is not >= minAggregation ({1!s})".format(agg, minAggregation))
 
       # Make sure the predictAheadTime is an integer multiple of the aggregation
       requiredSteps = aggregationDivide(predictAheadTime, agg)
@@ -416,7 +415,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
       version = 1,
       info = "test_NoProviders",
       streams = [
-        dict(source="file://%s" % HOTGYM_INPUT,
+        dict(source="file://{0!s}".format(HOTGYM_INPUT),
              info="hotGym.csv",
              columns=["*"]),
         ],
@@ -454,7 +453,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
         ("multiStepBestPredictions:multiStep:errorMetric='altMAPE':"
          "steps=\\[1\\]:window=%d:field=consumption")
           % ExpGenerator.METRIC_WINDOW,
-          msg="got: %s" % perms.minimize)
+          msg="got: {0!s}".format(perms.minimize))
 
     # Should not have any classifier info to permute over
     self.assertNotIn('clAlpha', perms.permutations)
@@ -480,7 +479,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
                                             movingBaseline, oneGram,
                                             nupicScore, trivialMetric,
                                             legacyMetric],
-                      "Unrecognized Metric type: %s"% metricSpec.metric)
+                      "Unrecognized Metric type: {0!s}".format(metricSpec.metric))
       if metricSpec.metric == trivialMetric:
         self.assertEqual(metricSpec.metric, trivialMetric)
         self.assertEqual(metricSpec.inferenceElement,
@@ -505,7 +504,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
     print "perm.minimize=",perm.minimize
     print "optimizeString=",optimizeString
     self.assertEqual(perm.minimize, optimizeString,
-                     msg="got: %s" % perm.minimize)
+                     msg="got: {0!s}".format(perm.minimize))
 
 
   def test_Metrics(self):
@@ -583,7 +582,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
       version = 1,
       info = "test_NoProviders",
       streams = [
-        dict(source="file://%s" % HOTGYM_INPUT,
+        dict(source="file://{0!s}".format(HOTGYM_INPUT),
              info="hotGym.csv",
              columns=["*"]),
         ],
@@ -766,7 +765,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
       version = 1,
       info = "TestAggregation",
       streams = [
-        dict(source="file://%s" % HOTGYM_INPUT,
+        dict(source="file://{0!s}".format(HOTGYM_INPUT),
              info="hotGym.csv",
              columns=["*"]),
       ],
@@ -868,7 +867,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
       version = 1,
       info = "test_NoProviders",
       streams = [
-        dict(source="file://%s" % HOTGYM_INPUT,
+        dict(source="file://{0!s}".format(HOTGYM_INPUT),
              info="hotGym.csv",
              columns=["*"]),
         ],
@@ -931,7 +930,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
       version = 1,
       info = "test_NoProviders",
       streams = [
-        dict(source="file://%s" % HOTGYM_INPUT,
+        dict(source="file://{0!s}".format(HOTGYM_INPUT),
              info="hotGym.csv",
              columns=["*"]),
         ],
@@ -975,7 +974,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
       version = 1,
       info = "test_NoProviders",
       streams = [
-        dict(source="file://%s" % HOTGYM_INPUT,
+        dict(source="file://{0!s}".format(HOTGYM_INPUT),
              info="hotGym.csv",
              columns=["*"],
              last_record=20),
@@ -1196,7 +1195,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
       version = 1,
       info = "test_NoProviders",
       streams = [
-        dict(source="file://%s" % HOTGYM_INPUT,
+        dict(source="file://{0!s}".format(HOTGYM_INPUT),
              info="hotGym.csv",
              columns=["*"]),
         ],
@@ -1296,7 +1295,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
       version = 1,
       info = "test_NoProviders",
       streams = [
-        dict(source="file://%s" % HOTGYM_INPUT,
+        dict(source="file://{0!s}".format(HOTGYM_INPUT),
              info="hotGym.csv",
              columns=["*"],
              last_record=10),
@@ -1419,7 +1418,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
       version = 1,
       info = "test_NoProviders",
       streams = [
-        dict(source="file://%s" % HOTGYM_INPUT,
+        dict(source="file://{0!s}".format(HOTGYM_INPUT),
              info="hotGym.csv",
              columns=["*"]),
         ],
@@ -1453,9 +1452,9 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
     (base, perms) = self.getModules(expDesc)
 
     self.assertEqual(base.control['iterationCount'], -1,
-                     msg="got: %s" % base.control['iterationCount'])
+                     msg="got: {0!s}".format(base.control['iterationCount']))
     self.assertEqual(perms.minParticlesPerSwarm, 15,
-                     msg="got: %s" % perms.minParticlesPerSwarm)
+                     msg="got: {0!s}".format(perms.minParticlesPerSwarm))
 
     # Temporarily disable new large swarm features
     #self.assertEqual(perms.killUselessSwarms, False,
@@ -1467,7 +1466,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
     #self.assertEqual(perms.tryAll3FieldCombinations, True,
     #                 msg="got: %s" % perms.tryAll3FieldCombinations)
     self.assertEqual(perms.tryAll3FieldCombinationsWTimestamps, True,
-                     msg="got: %s" % perms.tryAll3FieldCombinationsWTimestamps)
+                     msg="got: {0!s}".format(perms.tryAll3FieldCombinationsWTimestamps))
     self.assertFalse(hasattr(perms, 'maxModels'))
 
     # Should set inputPredictedField to "auto"
@@ -1481,11 +1480,11 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
     (base, perms) = self.getModules(expDesc)
 
     self.assertEqual(base.control['iterationCount'], 4000,
-                     msg="got: %s" % base.control['iterationCount'])
+                     msg="got: {0!s}".format(base.control['iterationCount']))
     self.assertEqual(perms.minParticlesPerSwarm, 5,
-                     msg="got: %s" % perms.minParticlesPerSwarm)
+                     msg="got: {0!s}".format(perms.minParticlesPerSwarm))
     self.assertEqual(perms.maxModels, 200,
-                     msg="got: %s" % perms.maxModels)
+                     msg="got: {0!s}".format(perms.maxModels))
     self.assertFalse(hasattr(perms, 'killUselessSwarms'))
     self.assertFalse(hasattr(perms, 'minFieldContribution'))
     self.assertFalse(hasattr(perms, 'maxFieldBranching'))
@@ -1501,11 +1500,11 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
     (base, perms) = self.getModules(expDesc)
 
     self.assertEqual(base.control['iterationCount'], 100,
-                     msg="got: %s" % base.control['iterationCount'])
+                     msg="got: {0!s}".format(base.control['iterationCount']))
     self.assertEqual(perms.minParticlesPerSwarm, 3,
-                     msg="got: %s" % perms.minParticlesPerSwarm)
+                     msg="got: {0!s}".format(perms.minParticlesPerSwarm))
     self.assertEqual(perms.maxModels, 1,
-                     msg="got: %s" % perms.maxModels)
+                     msg="got: {0!s}".format(perms.maxModels))
     self.assertFalse(hasattr(perms, 'killUselessSwarms'))
     self.assertFalse(hasattr(perms, 'minFieldContribution'))
     self.assertFalse(hasattr(perms, 'maxFieldBranching'))
@@ -1525,11 +1524,11 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
     (base, perms) = self.getModules(expDesc)
 
     self.assertEqual(base.control['iterationCount'], 42,
-                     msg="got: %s" % base.control['iterationCount'])
+                     msg="got: {0!s}".format(base.control['iterationCount']))
     self.assertEqual(perms.minParticlesPerSwarm, 2,
-                     msg="got: %s" % perms.minParticlesPerSwarm)
+                     msg="got: {0!s}".format(perms.minParticlesPerSwarm))
     self.assertEqual(perms.maxModels, 1,
-                     msg="got: %s" % perms.maxModels)
+                     msg="got: {0!s}".format(perms.maxModels))
     self.assertFalse(hasattr(perms, 'killUselessSwarms'))
     self.assertFalse(hasattr(perms, 'minFieldContribution'))
     self.assertFalse(hasattr(perms, 'maxFieldBranching'))
@@ -1555,7 +1554,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
       version = 1,
       info = "test_NoProviders",
       streams = [
-        dict(source="file://%s" % HOTGYM_INPUT,
+        dict(source="file://{0!s}".format(HOTGYM_INPUT),
              info="hotGym.csv",
              columns=["*"]),
         ],
@@ -1589,7 +1588,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
     # Test out using fieldFields
     (_base, perms) = self.getModules(expDesc)
     self.assertEqual(perms.fixedFields, ['consumption', 'timestamp'],
-                     msg="got: %s" % perms.fixedFields)
+                     msg="got: {0!s}".format(perms.fixedFields))
 
 
     # Should be excluded from permutations script if not part of the JSON
@@ -1610,7 +1609,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
       version = 1,
       info = "test_NoProviders",
       streams = [
-        dict(source="file://%s" % HOTGYM_INPUT,
+        dict(source="file://{0!s}".format(HOTGYM_INPUT),
              info="hotGym.csv",
              columns=["*"]),
         ],
@@ -1646,7 +1645,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
     # Test out using fieldFields
     (_base, perms) = self.getModules(expDesc)
     self.assertEqual(perms.fastSwarmModelParams, fastSwarmModelParams,
-                     msg="got: %s" % perms.fastSwarmModelParams)
+                     msg="got: {0!s}".format(perms.fastSwarmModelParams))
 
 
     # Should be excluded from permutations script if not part of the JSON
@@ -1666,7 +1665,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
       version = 1,
       info = "test_NoProviders",
       streams = [
-        dict(source="file://%s" % HOTGYM_INPUT,
+        dict(source="file://{0!s}".format(HOTGYM_INPUT),
              info="hotGym.csv",
              columns=["*"]),
         ],
@@ -1734,7 +1733,7 @@ class PositiveExperimentTests(ExperimentTestBaseClass):
       version = 1,
       info = "test_NoProviders",
       streams = [
-        dict(source="file://%s" % HOTGYM_INPUT,
+        dict(source="file://{0!s}".format(HOTGYM_INPUT),
              info="hotGym.csv",
              columns=["*"],
              last_record=10),
@@ -1920,7 +1919,7 @@ def _getTestList():
   for suite in suiteNames:
     for f in dir(eval(suite)):
       if f.startswith('test'):
-        testNames.append('%s.%s' % (suite, f))
+        testNames.append('{0!s}.{1!s}'.format(suite, f))
 
   return testNames
 
@@ -1936,7 +1935,7 @@ if __name__ == '__main__':
   # Update help string
   allTests = _getTestList()
   for test in allTests:
-    helpString += "\n    %s" % (test)
+    helpString += "\n    {0!s}".format((test))
 
 
   # ============================================================================

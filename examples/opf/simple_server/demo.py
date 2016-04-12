@@ -77,7 +77,7 @@ def runDemo(server, port):
       res = requests.post(
           "http://{server}:{port}/models/demo/run".format(server=server, port=port),
           json.dumps(modelInput))
-      print "result = %s" % res.text
+      print "result = {0!s}".format(res.text)
 
       isLast = i == _NUM_RECORDS
       if isLast:

@@ -78,7 +78,7 @@ class CoordinateEncoder(Encoder):
     self.encoders = None
 
     if name is None:
-      name = "[%s:%s]" % (self.n, self.w)
+      name = "[{0!s}:{1!s}]".format(self.n, self.w)
     self.name = name
 
 
@@ -187,8 +187,8 @@ class CoordinateEncoder(Encoder):
 
   def dump(self):
     print "CoordinateEncoder:"
-    print "  w:   %d" % self.w
-    print "  n:   %d" % self.n
+    print "  w:   {0:d}".format(self.w)
+    print "  n:   {0:d}".format(self.n)
 
 
   @classmethod

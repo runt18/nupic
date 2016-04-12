@@ -66,7 +66,7 @@ class ModelRecordEncoder(object):
       interval.
     """
     if not fields:
-      raise ValueError('fields arg must be non-empty, but got %r' % (fields,))
+      raise ValueError('fields arg must be non-empty, but got {0!r}'.format(fields))
 
     self._fields = fields
     self._aggregationPeriod = aggregationPeriod

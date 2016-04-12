@@ -124,16 +124,14 @@ class AdaptiveScalarEncoder(ScalarEncoder):
       if minOverWindow < self.minval:
         #initialBump = abs(self.minval-minOverWindow)*(1-(min(self.recordNum, 200.0)/200.0))*2      #decrement minval more aggressively in the beginning
         if self.verbosity >= 2:
-          print "Input %s=%.2f smaller than minval %.2f. Adjusting minval to %.2f"\
-                          % (self.name, input, self.minval, minOverWindow)
+          print "Input {0!s}={1:.2f} smaller than minval {2:.2f}. Adjusting minval to {3:.2f}".format(self.name, input, self.minval, minOverWindow)
         self.minval = minOverWindow       #-initialBump
         self._setEncoderParams()
 
       if maxOverWindow > self.maxval:
         #initialBump = abs(self.maxval-maxOverWindow)*(1-(min(self.recordNum, 200.0)/200.0))*2     #decrement maxval more aggressively in the beginning
         if self.verbosity >= 2:
-          print "Input %s=%.2f greater than maxval %.2f. Adjusting maxval to %.2f" \
-                          % (self.name, input, self.maxval, maxOverWindow)
+          print "Input {0!s}={1:.2f} greater than maxval {2:.2f}. Adjusting maxval to {3:.2f}".format(self.name, input, self.maxval, maxOverWindow)
         self.maxval = maxOverWindow       #+initialBump
         self._setEncoderParams()
 
@@ -200,16 +198,16 @@ class AdaptiveScalarEncoder(ScalarEncoder):
     Prints details about current state to stdout.
     """
     print "AdaptiveScalarEncoder:"
-    print "  min: %f" % self.minval
-    print "  max: %f" % self.maxval
-    print "  w:   %d" % self.w
-    print "  n:   %d" % self.n
-    print "  resolution: %f" % self.resolution
-    print "  radius:     %f" % self.radius
-    print "  periodic: %s" % self.periodic
-    print "  nInternal: %d" % self.nInternal
-    print "  rangeInternal: %f" % self.rangeInternal
-    print "  padding: %d" % self.padding
+    print "  min: {0:f}".format(self.minval)
+    print "  max: {0:f}".format(self.maxval)
+    print "  w:   {0:d}".format(self.w)
+    print "  n:   {0:d}".format(self.n)
+    print "  resolution: {0:f}".format(self.resolution)
+    print "  radius:     {0:f}".format(self.radius)
+    print "  periodic: {0!s}".format(self.periodic)
+    print "  nInternal: {0:d}".format(self.nInternal)
+    print "  rangeInternal: {0:f}".format(self.rangeInternal)
+    print "  padding: {0:d}".format(self.padding)
 
 
   @classmethod

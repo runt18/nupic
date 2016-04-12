@@ -150,7 +150,7 @@ def runNetwork(network):
         network.run(1)
 
         anomalyScore = anomalyRegion.getOutputData('rawAnomalyScore')[0]
-        print "Consumption: %s, Anomaly score: %f" % (consumptionStr, anomalyScore)
+        print "Consumption: {0!s}, Anomaly score: {1:f}".format(consumptionStr, anomalyScore)
 
 if __name__ == "__main__":
     network = createNetwork()

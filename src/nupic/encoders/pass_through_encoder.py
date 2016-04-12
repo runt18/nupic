@@ -76,11 +76,11 @@ class PassThroughEncoder(Encoder):
   def encodeIntoArray(self, inputVal, outputVal):
     """See method description in base.py"""
     if len(inputVal) != len(outputVal):
-      raise ValueError("Different input (%i) and output (%i) sizes." % (
+      raise ValueError("Different input ({0:d}) and output ({1:d}) sizes.".format(
           len(inputVal), len(outputVal)))
 
     if self.w is not None and sum(inputVal) != self.w:
-      raise ValueError("Input has %i bits but w was set to %i." % (
+      raise ValueError("Input has {0:d} bits but w was set to {1:d}.".format(
           sum(inputVal), self.w))
 
     outputVal[:] = inputVal[:]
@@ -94,7 +94,7 @@ class PassThroughEncoder(Encoder):
     """See the function description in base.py"""
 
     if parentFieldName != "":
-      fieldName = "%s.%s" % (parentFieldName, self.name)
+      fieldName = "{0!s}.{1!s}".format(parentFieldName, self.name)
     else:
       fieldName = self.name
 

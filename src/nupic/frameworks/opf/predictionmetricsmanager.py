@@ -285,7 +285,7 @@ class MetricsManager(object):
     self.__metricSpecs = metricSpecs
     for spec in metricSpecs:
       if not InferenceElement.validate(spec.inferenceElement):
-        raise ValueError("Invalid inference element for metric spec: %r" %spec)
+        raise ValueError("Invalid inference element for metric spec: {0!r}".format(spec))
 
       self.__metrics.append(metrics.getModule(spec))
       self.__metricLabels.append(spec.getLabel())
@@ -396,7 +396,7 @@ def _testMetricsMgr():
     temporalMetrics.update(result)
 
   assert temporalMetrics.getMetrics().values()[0] == 15.0 / 3.0, \
-          "Expected %f, got %f" %(15.0/3.0,
+          "Expected {0:f}, got {1:f}".format(15.0/3.0,
                                   temporalMetrics.getMetrics().values()[0])
   print "ok"
 
@@ -487,7 +487,7 @@ def _testMetricLabels():
       assert test[0].getLabel() == test[1]
     except:
       print "Failed Creating label"
-      print "Expected %s \t Got %s" % (test[1], test[0].getLabel())
+      print "Expected {0!s} \t Got {1!s}".format(test[1], test[0].getLabel())
       return
 
   print "ok"

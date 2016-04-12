@@ -488,7 +488,7 @@ class ClientJobsDAO(object):
 
     retval:         the ClientJobs database name prefix for the given DB version
     """
-    return '%s_v%d' % (cls._DB_ROOT_NAME, dbVersion)
+    return '{0!s}_v{1:d}'.format(cls._DB_ROOT_NAME, dbVersion)
 
 
   @classmethod
@@ -526,7 +526,7 @@ class ClientJobsDAO(object):
     suffix = suffix.replace("-", "_")
 
     # Create the name of the database for the given DB version
-    dbName = '%s_%s' % (prefix, suffix)
+    dbName = '{0!s}_{1!s}'.format(prefix, suffix)
 
     return dbName
 
@@ -572,10 +572,10 @@ class ClientJobsDAO(object):
     # NOTE: we set the table names here; the rest of the table info is set when
     #  the tables are initialized during connect()
     self._jobs = self._JobsTableInfo()
-    self._jobs.tableName = '%s.jobs' % (self.dbName)
+    self._jobs.tableName = '{0!s}.jobs'.format((self.dbName))
 
     self._models = self._ModelsTableInfo()
-    self._models.tableName = '%s.models' % (self.dbName)
+    self._models.tableName = '{0!s}.models'.format((self.dbName))
 
     # Our connection ID, filled in during connect()
     self._connectionID = None
@@ -662,21 +662,20 @@ class ClientJobsDAO(object):
         "Dropping old versions of client_jobs DB; called from: %r",
         traceback.format_stack())
       for i in range(self._DB_VERSION):
-        cursor.execute('DROP DATABASE IF EXISTS %s' %
-                              (self.__getDBNameForVersion(i),))
+        cursor.execute('DROP DATABASE IF EXISTS {0!s}'.format(self.__getDBNameForVersion(i)))
 
     # Create the database if necessary
     if recreate:
       self._logger.info(
         "Dropping client_jobs DB %r; called from: %r",
         self.dbName, traceback.format_stack())
-      cursor.execute('DROP DATABASE IF EXISTS %s' % (self.dbName))
+      cursor.execute('DROP DATABASE IF EXISTS {0!s}'.format((self.dbName)))
 
-    cursor.execute('CREATE DATABASE IF NOT EXISTS %s' % (self.dbName))
+    cursor.execute('CREATE DATABASE IF NOT EXISTS {0!s}'.format((self.dbName)))
 
 
     # Get the list of tables
-    cursor.execute('SHOW TABLES IN %s' % (self.dbName))
+    cursor.execute('SHOW TABLES IN {0!s}'.format((self.dbName)))
     output = cursor.fetchall()
     tableNames = [x[0] for x in output]
 
@@ -689,7 +688,7 @@ class ClientJobsDAO(object):
       fields = [
         'job_id                  INT UNSIGNED NOT NULL AUTO_INCREMENT',
             # unique jobID
-        'client                  CHAR(%d)' % (self.CLIENT_MAX_LEN),
+        'client                  CHAR({0:d})'.format((self.CLIENT_MAX_LEN)),
             # name of client (UI, StrmMgr, etc.)
         'client_info             LONGTEXT',
             # Arbitrary data defined by the client
@@ -699,7 +698,7 @@ class ClientJobsDAO(object):
             # command line to use to launch each worker process
         'params                  LONGTEXT',
             # JSON encoded params for the job, for use by the worker processes
-        'job_hash                BINARY(%d) DEFAULT NULL' % (self.HASH_MAX_LEN),
+        'job_hash                BINARY({0:d}) DEFAULT NULL'.format((self.HASH_MAX_LEN)),
             # unique hash of the job, provided by the client. Used for detecting
             # identical job requests from the same client when they use the
             # jobInsertUnique() method.
@@ -713,8 +712,8 @@ class ClientJobsDAO(object):
             # failed, check the worker_completion_reason
         'completion_msg          LONGTEXT',
             # Why this job completed, according to job-tracker
-        'worker_completion_reason   VARCHAR(16) DEFAULT "%s"'  % \
-                  self.CMPL_REASON_SUCCESS,
+        'worker_completion_reason   VARCHAR(16) DEFAULT "{0!s}"'.format( \
+                  self.CMPL_REASON_SUCCESS),
             # One of the CMPL_REASON_XXX enumerated value strings. This is
             # may be changed to CMPL_REASON_ERROR if any workers encounter
             # an error while running the job.
@@ -741,7 +740,7 @@ class ClientJobsDAO(object):
         'maximum_workers         INT UNSIGNED DEFAULT 0',
             # max number of desired workers at a time. If 0, then use as many
             # as practical given load on the cluster.
-        'priority                 INT DEFAULT %d' % self.DEFAULT_JOB_PRIORITY,
+        'priority                 INT DEFAULT {0:d}'.format(self.DEFAULT_JOB_PRIORITY),
             # job scheduling priority; 0 is the default priority (
             # ClientJobsDAO.DEFAULT_JOB_PRIORITY); positive values are higher
             # priority (up to ClientJobsDAO.MAX_JOB_PRIORITY), and negative
@@ -759,8 +758,8 @@ class ClientJobsDAO(object):
             # as failed
         'last_failed_worker_error_msg  LONGTEXT',
             # Error message of the most recent specialized failed worker
-        '_eng_cleaning_status          VARCHAR(16) DEFAULT "%s"'  % \
-                  self.CLEAN_NOT_DONE,
+        '_eng_cleaning_status          VARCHAR(16) DEFAULT "{0!s}"'.format( \
+                  self.CLEAN_NOT_DONE),
             # Has the job been garbage collected, this includes removing
             # unneeded # model output caches, s3 checkpoints.
         'gen_base_description    LONGTEXT',
@@ -796,8 +795,7 @@ class ClientJobsDAO(object):
         'AUTO_INCREMENT=1000',
         ]
 
-      query = 'CREATE TABLE IF NOT EXISTS %s (%s) %s' % \
-                (self.jobsTableName, ','.join(fields), ','.join(options))
+      query = 'CREATE TABLE IF NOT EXISTS {0!s} ({1!s}) {2!s}'.format(self.jobsTableName, ','.join(fields), ','.join(options))
 
       cursor.execute(query)
 
@@ -843,9 +841,9 @@ class ClientJobsDAO(object):
             # The contents of the generated description.py file from hypersearch
             # requests. This is generated by the Hypersearch workers and stored
             # here for reference, debugging, and development purposes.
-        '_eng_params_hash        BINARY(%d) DEFAULT NULL' % (self.HASH_MAX_LEN),
+        '_eng_params_hash        BINARY({0:d}) DEFAULT NULL'.format((self.HASH_MAX_LEN)),
             # MD5 hash of the params
-        '_eng_particle_hash      BINARY(%d) DEFAULT NULL' % (self.HASH_MAX_LEN),
+        '_eng_particle_hash      BINARY({0:d}) DEFAULT NULL'.format((self.HASH_MAX_LEN)),
             # MD5 hash of the particle info for PSO algorithm
         '_eng_last_update_time   DATETIME DEFAULT 0',
             # time stamp of last update, used for detecting stalled workers
@@ -877,19 +875,18 @@ class ClientJobsDAO(object):
         'AUTO_INCREMENT=1000',
         ]
 
-      query = 'CREATE TABLE IF NOT EXISTS %s (%s) %s' % \
-              (self.modelsTableName, ','.join(fields), ','.join(options))
+      query = 'CREATE TABLE IF NOT EXISTS {0!s} ({1!s}) {2!s}'.format(self.modelsTableName, ','.join(fields), ','.join(options))
 
       cursor.execute(query)
 
 
     # ---------------------------------------------------------------------
     # Get the field names for each table
-    cursor.execute('DESCRIBE %s' % (self.jobsTableName))
+    cursor.execute('DESCRIBE {0!s}'.format((self.jobsTableName)))
     fields = cursor.fetchall()
     self._jobs.dbFieldNames = [str(field[0]) for field in fields]
 
-    cursor.execute('DESCRIBE %s' % (self.modelsTableName))
+    cursor.execute('DESCRIBE {0!s}'.format((self.modelsTableName)))
     fields = cursor.fetchall()
     self._models.dbFieldNames = [str(field[0]) for field in fields]
 
@@ -969,7 +966,7 @@ class ClientJobsDAO(object):
     matchFieldValues = [p[1] for p in matchPairs
                         if (not isinstance(p[1], (bool)) and p[1] is not None)]
 
-    query = 'SELECT %s FROM %s WHERE (%s)' % (
+    query = 'SELECT {0!s} FROM {1!s} WHERE ({2!s})'.format(
       ','.join(selectFieldNames), tableInfo.tableName,
       ' AND '.join(matchExpressionGen))
     sqlParams = matchFieldValues
@@ -981,9 +978,9 @@ class ClientJobsDAO(object):
     rows = conn.cursor.fetchall()
 
     if rows:
-      assert maxRows is None or len(rows) <= maxRows, "%d !<= %d" % (
+      assert maxRows is None or len(rows) <= maxRows, "{0:d} !<= {1:d}".format(
         len(rows), maxRows)
-      assert len(rows[0]) == len(selectFieldNames), "%d != %d" % (
+      assert len(rows[0]) == len(selectFieldNames), "{0:d} != {1:d}".format(
         len(rows[0]), len(selectFieldNames))
     else:
       rows = tuple()
@@ -1113,7 +1110,7 @@ class ClientJobsDAO(object):
 
     assert len(client) <= self.CLIENT_MAX_LEN, "client too long:" + repr(client)
     assert cmdLine, "Unexpected empty or None command-line: " + repr(cmdLine)
-    assert len(jobHash) == self.HASH_MAX_LEN, "wrong hash len=%d" % len(jobHash)
+    assert len(jobHash) == self.HASH_MAX_LEN, "wrong hash len={0:d}".format(len(jobHash))
 
     # Initial status
     if alreadyRunning:
@@ -1650,8 +1647,7 @@ class ClientJobsDAO(object):
     # Get a database connection and cursor
     with ConnectionFactory.get() as conn:
 
-      query = 'UPDATE %s SET cancel=TRUE WHERE status<>%%s ' \
-              % (self.jobsTableName,)
+      query = 'UPDATE {0!s} SET cancel=TRUE WHERE status<>%s '.format(self.jobsTableName)
       conn.cursor.execute(query, [self.STATUS_COMPLETED])
 
     return
@@ -1770,9 +1766,9 @@ class ClientJobsDAO(object):
       # jobs table will still be returned (along with all fields from the models
       # table with values of None in case there were no matchings models)
       query = ' '.join([
-        'SELECT %s.*, %s.*' % (self.jobsTableName, self.modelsTableName),
-        'FROM %s' % self.jobsTableName,
-        'LEFT JOIN %s USING(job_id)' % self.modelsTableName,
+        'SELECT {0!s}.*, {1!s}.*'.format(self.jobsTableName, self.modelsTableName),
+        'FROM {0!s}'.format(self.jobsTableName),
+        'LEFT JOIN {0!s} USING(job_id)'.format(self.modelsTableName),
         'WHERE job_id=%s'])
 
       conn.cursor.execute(query, (jobID,))
@@ -1787,7 +1783,7 @@ class ClientJobsDAO(object):
     if combinedResults is not None:
       return combinedResults
 
-    raise RuntimeError("jobID=%s not found within the jobs table" % (jobID))
+    raise RuntimeError("jobID={0!s} not found within the jobs table".format((jobID)))
 
 
   @logExceptions(_LOGGER)
@@ -1806,7 +1802,7 @@ class ClientJobsDAO(object):
        for n in self._jobs.jobInfoNamedTuple._fields])
 
     if row is None:
-      raise RuntimeError("jobID=%s not found within the jobs table" % (jobID))
+      raise RuntimeError("jobID={0!s} not found within the jobs table".format((jobID)))
 
     # Create a namedtuple with the names to values
     return self._jobs.jobInfoNamedTuple._make(row)
@@ -2000,7 +1996,7 @@ class ClientJobsDAO(object):
     dbFieldsStr = ','.join(['job_id'] + dbFields)
 
     with ConnectionFactory.get() as conn:
-      query = 'SELECT %s FROM %s' % (dbFieldsStr, self.jobsTableName)
+      query = 'SELECT {0!s} FROM {1!s}'.format(dbFieldsStr, self.jobsTableName)
       conn.cursor.execute(query)
       rows = conn.cursor.fetchall()
 
@@ -2087,8 +2083,8 @@ class ClientJobsDAO(object):
 
     if requireAll and len(rows) < len(jobIDs):
       # NOTE: this will also trigger if the jobIDs list included duplicates
-      raise RuntimeError("jobIDs %s not found within the jobs table" % (
-        (set(jobIDs) - set(r[0] for r in rows)),))
+      raise RuntimeError("jobIDs {0!s} not found within the jobs table".format(
+        (set(jobIDs) - set(r[0] for r in rows))))
 
 
     return [(r[0], list(r[1:])) for r in rows]
@@ -2126,7 +2122,7 @@ class ClientJobsDAO(object):
     # Form the sequecce of key=value strings that will go into the
     #  request
     assignmentExpressions = ','.join(
-      ["%s=%%s" % (self._jobs.pubToDBNameDict[f],) for f in fields.iterkeys()])
+      ["{0!s}=%s".format(self._jobs.pubToDBNameDict[f]) for f in fields.iterkeys()])
     assignmentValues = fields.values()
 
     query = 'UPDATE %s SET %s ' \
@@ -2177,12 +2173,12 @@ class ClientJobsDAO(object):
 
     conditionValue = []
     if isinstance(curValue, bool):
-      conditionExpression = '%s IS %s' % (
+      conditionExpression = '{0!s} IS {1!s}'.format(
         dbFieldName, {True:'TRUE', False:'FALSE'}[curValue])
     elif curValue is None:
-      conditionExpression = '%s is NULL' % (dbFieldName,)
+      conditionExpression = '{0!s} is NULL'.format(dbFieldName)
     else:
-      conditionExpression = '%s=%%s' % (dbFieldName,)
+      conditionExpression = '{0!s}=%s'.format(dbFieldName)
       conditionValue.append(curValue)
 
     query = 'UPDATE %s SET _eng_last_update_time=UTC_TIMESTAMP(), %s=%%s ' \
@@ -2266,7 +2262,7 @@ class ClientJobsDAO(object):
     self._logger.info('Deleting all rows from models table %r',
                       self.modelsTableName)
     with ConnectionFactory.get() as conn:
-      query = 'DELETE FROM %s' % (self.modelsTableName)
+      query = 'DELETE FROM {0!s}'.format((self.modelsTableName))
       conn.cursor.execute(query)
 
 
@@ -2436,8 +2432,8 @@ class ClientJobsDAO(object):
     results = [self._models.modelInfoNamedTuple._make(r) for r in rows]
 
     # NOTE: assetion will also fail if modelIDs contains duplicates
-    assert len(results) == len(modelIDs), "modelIDs not found: %s" % (
-      set(modelIDs) - set(r.modelId for r in results))
+    assert len(results) == len(modelIDs), "modelIDs not found: {0!s}".format((
+      set(modelIDs) - set(r.modelId for r in results)))
 
     return results
 
@@ -2479,8 +2475,8 @@ class ClientJobsDAO(object):
       ['model_id'] + [self._models.pubToDBNameDict[f] for f in fields])
 
     if len(rows) < len(modelIDs):
-      raise RuntimeError("modelIDs not found within the models table: %s" % (
-        (set(modelIDs) - set(r[0] for r in rows)),))
+      raise RuntimeError("modelIDs not found within the models table: {0!s}".format(
+        (set(modelIDs) - set(r[0] for r in rows))))
 
     if not isSequence:
       return list(rows[0][1:])
@@ -2610,7 +2606,7 @@ class ClientJobsDAO(object):
     # Form the sequence of key=value strings that will go into the
     #  request
     assignmentExpressions = ','.join(
-      '%s=%%s' % (self._models.pubToDBNameDict[f],) for f in fields.iterkeys())
+      '{0!s}=%s'.format(self._models.pubToDBNameDict[f]) for f in fields.iterkeys())
     assignmentValues = fields.values()
 
     query = 'UPDATE %s SET %s, update_counter = update_counter+1 ' \
@@ -2656,8 +2652,8 @@ class ClientJobsDAO(object):
        for f in self._models.getParamsNamedTuple._fields])
 
     # NOTE: assertion will also fail when modelIDs contains duplicates
-    assert len(rows) == len(modelIDs), "Didn't find modelIDs: %r" % (
-      (set(modelIDs) - set(r[0] for r in rows)),)
+    assert len(rows) == len(modelIDs), "Didn't find modelIDs: {0!r}".format(
+      (set(modelIDs) - set(r[0] for r in rows)))
 
     # Return the params and params hashes as a namedtuple
     return [self._models.getParamsNamedTuple._make(r) for r in rows]
@@ -2691,8 +2687,8 @@ class ClientJobsDAO(object):
        for f in self._models.getResultAndStatusNamedTuple._fields])
 
     # NOTE: assertion will also fail when modelIDs contains duplicates
-    assert len(rows) == len(modelIDs), "Didn't find modelIDs: %r" % (
-      (set(modelIDs) - set(r[0] for r in rows)),)
+    assert len(rows) == len(modelIDs), "Didn't find modelIDs: {0!r}".format(
+      (set(modelIDs) - set(r[0] for r in rows)))
 
     # Return the results as a list of namedtuples
     return [self._models.getResultAndStatusNamedTuple._make(r) for r in rows]
@@ -2856,7 +2852,7 @@ class ClientJobsDAO(object):
         numRows = conn.cursor.execute(query, sqlParams)
         rows = conn.cursor.fetchall()
 
-      assert numRows <= 1, "Unexpected numRows: %r" % numRows
+      assert numRows <= 1, "Unexpected numRows: {0!r}".format(numRows)
       if numRows == 1:
         (modelID,) = rows[0]
 
@@ -2879,8 +2875,8 @@ class ClientJobsDAO(object):
                      maxUpdateInterval]
         numRowsAffected = conn.cursor.execute(query, sqlParams)
 
-        assert numRowsAffected <= 1, 'Unexpected numRowsAffected=%r' % (
-          numRowsAffected,)
+        assert numRowsAffected <= 1, 'Unexpected numRowsAffected={0!r}'.format(
+          numRowsAffected)
 
         if numRowsAffected == 1:
           adopted = True

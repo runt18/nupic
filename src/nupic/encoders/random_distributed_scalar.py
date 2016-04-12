@@ -150,7 +150,7 @@ class RandomDistributedScalarEncoder(Encoder):
     if name is not None:
       self.name = name
     else:
-      self.name = "[%s]" % (self.resolution)
+      self.name = "[{0!s}]".format((self.resolution))
 
     if self.verbosity > 0:
       self.dump()
@@ -236,7 +236,7 @@ class RandomDistributedScalarEncoder(Encoder):
 
     if x is not None and not isinstance(x, numbers.Number):
       raise TypeError(
-          "Expected a scalar input but got input of type %s" % type(x))
+          "Expected a scalar input but got input of type {0!s}".format(type(x)))
 
     # Get the bucket index to use
     bucketIdx = self.getBucketIndices(x)[0]
@@ -439,14 +439,14 @@ class RandomDistributedScalarEncoder(Encoder):
 
   def dump(self):
     print "RandomDistributedScalarEncoder:"
-    print "  minIndex:   %d" % self.minIndex
-    print "  maxIndex:   %d" % self.maxIndex
-    print "  w:          %d" % self.w
-    print "  n:          %d" % self.getWidth()
-    print "  resolution: %g" % self.resolution
-    print "  offset:     %s" % str(self._offset)
-    print "  numTries:   %d" % self.numTries
-    print "  name:       %s" % self.name
+    print "  minIndex:   {0:d}".format(self.minIndex)
+    print "  maxIndex:   {0:d}".format(self.maxIndex)
+    print "  w:          {0:d}".format(self.w)
+    print "  n:          {0:d}".format(self.getWidth())
+    print "  resolution: {0:g}".format(self.resolution)
+    print "  offset:     {0!s}".format(str(self._offset))
+    print "  numTries:   {0:d}".format(self.numTries)
+    print "  name:       {0!s}".format(self.name)
     if self.verbosity > 2:
       print "  All buckets:     "
       pprint.pprint(self.bucketMap)

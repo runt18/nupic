@@ -270,7 +270,7 @@ class NABTest(TestCaseBase):
                            0.78814460099999994, 0.78814460099999994]
     for i in xrange(len(likelihoodList)):
       self.assertAlmostEqual(likelihoodList[i], truthLikelihoodList[i],
-        msg="unequal values are at index %i" % i)
+        msg="unequal values are at index {0:d}".format(i))
 
 
 if __name__ == "__main__":

@@ -42,7 +42,7 @@ def getSearch(rootDir):
     version = 1, 
     info = "testSpatialClassification",
     streams = [
-      dict(source="file://%s" % (dataPath), 
+      dict(source="file://{0!s}".format((dataPath)), 
            info="scalar_1.csv",  
            columns=["*"],
            ),

@@ -336,8 +336,8 @@ if config['predictAheadTime'] is not None:
   config['modelParams']['clParams']['steps'] = str(predictionSteps)
 
 # Fill in classifier steps
-config['modelParams']['clParams']['steps'] = '%s' % \
-          (','.join([str(x) for x in config['predictionSteps']]))
+config['modelParams']['clParams']['steps'] = '{0!s}'.format( \
+          (','.join([str(x) for x in config['predictionSteps']])))
 
 # If the predicted field is field1 (category), use avg_err else if field 2
 # (scalar) use aae as the metric

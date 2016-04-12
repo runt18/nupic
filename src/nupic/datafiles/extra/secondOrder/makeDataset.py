@@ -389,7 +389,7 @@ def _generateFile(filename, numRecords, categoryList, initProb,
   """
   
   # Create the file
-  print "Creating %s..." % (filename)
+  print "Creating {0!s}...".format((filename))
   fields = [('reset', 'int', 'R'), ('name', 'string', '')]
   outFile = FileRecordStream(filename, write=True, fields=fields)
   
@@ -466,8 +466,8 @@ def generate(model, filenameTrain, filenameTest, filenameCategory,
   
   # =====================================================================
   # Create our categories and category file. 
-  print "Creating %s..." % (filenameCategory)
-  categoryList = ['cat%d' % i for i in range(1, numCategories+1)]
+  print "Creating {0!s}...".format((filenameCategory))
+  categoryList = ['cat{0:d}'.format(i) for i in range(1, numCategories+1)]
   categoryFile = open(filenameCategory, 'w')
   for category in categoryList:
     categoryFile.write(category+'\n')

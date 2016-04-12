@@ -167,7 +167,7 @@ class DateEncoder(Encoder):
         elif day.lower() in ["sun","sunday"]:
           self.customDays+=[6]
         else:
-          assert False, "Unable to understand %s as a day of week" % str(day)
+          assert False, "Unable to understand {0!s} as a day of week".format(str(day))
       self.customDaysEncoder = ScalarEncoder(w=customDays[0], minval = 0, maxval=1,
                                             periodic=False, radius=1,
                                             name=customDayEncoderName, forced=forced)
@@ -222,7 +222,7 @@ class DateEncoder(Encoder):
       if parentFieldName == '':
         return encoder.name
       else:
-        return '%s.%s' % (parentFieldName, encoder.name)
+        return '{0!s}.{1!s}'.format(parentFieldName, encoder.name)
 
     # -------------------------------------------------------------------------
     # Get the scalar values for each sub-field
@@ -365,7 +365,7 @@ class DateEncoder(Encoder):
       output[0:] = 0
     else:
       if not isinstance(input, datetime.datetime):
-        raise ValueError("Input is type %s, expected datetime. Value: %s" % (
+        raise ValueError("Input is type {0!s}, expected datetime. Value: {1!s}".format(
             type(input), str(input)))
 
       # Get the scalar values for each sub-field

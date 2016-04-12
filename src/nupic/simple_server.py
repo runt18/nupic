@@ -89,7 +89,7 @@ class ModelHandler(object):
     predictedFieldName = data["predictedFieldName"]
 
     if name in g_models.keys():
-      raise web.badrequest("Model with name <%s> already exists" % name)
+      raise web.badrequest("Model with name <{0!s}> already exists".format(name))
 
     model = ModelFactory.create(modelParams)
     model.enableInference({'predictedField': predictedFieldName})
@@ -126,7 +126,7 @@ class ModelRunner(object):
         data["timestamp"], "%m/%d/%y %H:%M")
 
     if name not in g_models.keys():
-      raise web.notfound("Model with name <%s> does not exist." % name)
+      raise web.notfound("Model with name <{0!s}> does not exist.".format(name))
 
     modelResult = g_models[name].run(data)
     predictionNumber = modelResult.predictionNumber

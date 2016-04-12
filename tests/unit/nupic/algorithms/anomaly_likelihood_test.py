@@ -311,7 +311,7 @@ class AnomalyLikelihoodClassTest(TestCaseBase):
     self.assertIsNone(l._distribution)
     l.anomalyProbability(1, 0.3, timestamp=5)
     self.assertIsNotNone(l._distribution)
-    self.assertEqual(l, l2, "equal? \n%s\n vs. \n%s" % (l, l2))
+    self.assertEqual(l, l2, "equal? \n{0!s}\n vs. \n{1!s}".format(l, l2))
 
 
   def testSerialization(self):
@@ -335,7 +335,7 @@ class AnomalyLikelihoodAlgorithmTest(TestCaseBase):
 
   def assertWithinEpsilon(self, a, b, epsilon=0.001):
     self.assertLessEqual(abs(a - b), epsilon,
-                         "Values %g and %g are not within %g" % (a, b, epsilon))
+                         "Values {0:g} and {1:g} are not within {2:g}".format(a, b, epsilon))
 
 
   def testNormalProbability(self):

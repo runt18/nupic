@@ -1750,7 +1750,7 @@ class SpatialPoolerTest(unittest.TestCase):
       v2 = getattr(sp2, k)
       if isinstance(v1, numpy.ndarray):
         self.assertEqual(v1.dtype, v2.dtype,
-                         "Key %s has differing dtypes: %s vs %s" % (
+                         "Key {0!s} has differing dtypes: {1!s} vs {2!s}".format(
                              k, v1.dtype, v2.dtype))
         self.assertTrue(numpy.isclose(v1, v2).all(), k)
       elif isinstance(v1, Random) or isinstance(v1, BinaryCorticalColumns):

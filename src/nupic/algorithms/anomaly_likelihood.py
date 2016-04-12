@@ -130,7 +130,7 @@ class AnomalyLikelihood(object):
 
 
   def __str__(self):
-    return ("AnomalyLikelihood: %s %s %s %s %s %s" % (
+    return ("AnomalyLikelihood: {0!s} {1!s} {2!s} {3!s} {4!s} {5!s}".format(
       self._iteration,
       self._historicalScores,
       self._distribution,

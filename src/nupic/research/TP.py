@@ -422,7 +422,7 @@ class TP(ConsolePrinterMixin):
     try:
       return super(TP, self).__getattr__(name)
     except AttributeError:
-      raise AttributeError("'TP' object has no attribute '%s'" % name)
+      raise AttributeError("'TP' object has no attribute '{0!s}'".format(name))
 
 
   def __del__(self):
@@ -786,7 +786,7 @@ class TP(ConsolePrinterMixin):
       for c in range(min(maxCols, self.numberOfCols)):
         if c > 0 and c % 10 == 0:
           s += '   '
-        s += ' %5.3f' % var[c, i]
+        s += ' {0:5.3f}'.format(var[c, i])
       s += ' '
       return s
 
@@ -806,7 +806,7 @@ class TP(ConsolePrinterMixin):
       for c in range(min(maxCols, self.numberOfCols)):
         if c > 0 and c % 10 == 0:
           s += '   '
-        s += ' %5.3f' % var[c]
+        s += ' {0:5.3f}'.format(var[c])
       s += ' '
       return s
 
@@ -917,7 +917,7 @@ class TP(ConsolePrinterMixin):
       if col != prevCol:
         if prevCol != -1:
           print "] ",
-        print "Col %d: [" % (col),
+        print "Col {0:d}: [".format((col)),
         prevCol = col
 
       if andValues:
@@ -925,9 +925,9 @@ class TP(ConsolePrinterMixin):
           value = state[col, cellIdx]
         else:
           value = state[col]
-        print "%d: %s," % (cellIdx, value),
+        print "{0:d}: {1!s},".format(cellIdx, value),
       else:
-        print "%d," % (cellIdx),
+        print "{0:d},".format((cellIdx)),
     print "]"
 
 
@@ -942,37 +942,37 @@ class TP(ConsolePrinterMixin):
     if self.verbosity >= 3:
       print "----- computeEnd summary: "
       print "learn:", learn
-      print "numBurstingCols: %s, " % (
-          self.infActiveState['t'].min(axis=1).sum()),
-      print "curPredScore2: %s, " % (
-          self._internalStats['curPredictionScore2']),
-      print "curFalsePosScore: %s, " % (
-          self._internalStats['curFalsePositiveScore']),
-      print "1-curFalseNegScore: %s, " % (
-          1 - self._internalStats['curFalseNegativeScore'])
+      print "numBurstingCols: {0!s}, ".format((
+          self.infActiveState['t'].min(axis=1).sum())),
+      print "curPredScore2: {0!s}, ".format((
+          self._internalStats['curPredictionScore2'])),
+      print "curFalsePosScore: {0!s}, ".format((
+          self._internalStats['curFalsePositiveScore'])),
+      print "1-curFalseNegScore: {0!s}, ".format((
+          1 - self._internalStats['curFalseNegativeScore']))
       print "numSegments: ", self.getNumSegments(),
       print "avgLearnedSeqLength: ", self.avgLearnedSeqLength
 
-      print "----- infActiveState (%d on) ------" % (
-          self.infActiveState['t'].sum())
+      print "----- infActiveState ({0:d} on) ------".format((
+          self.infActiveState['t'].sum()))
       self.printActiveIndices(self.infActiveState['t'])
       if self.verbosity >= 6:
         self.printState(self.infActiveState['t'])
 
-      print "----- infPredictedState (%d on)-----" % (
-          self.infPredictedState['t'].sum())
+      print "----- infPredictedState ({0:d} on)-----".format((
+          self.infPredictedState['t'].sum()))
       self.printActiveIndices(self.infPredictedState['t'])
       if self.verbosity >= 6:
         self.printState(self.infPredictedState['t'])
 
-      print "----- lrnActiveState (%d on) ------" % (
-          self.lrnActiveState['t'].sum())
+      print "----- lrnActiveState ({0:d} on) ------".format((
+          self.lrnActiveState['t'].sum()))
       self.printActiveIndices(self.lrnActiveState['t'])
       if self.verbosity >= 6:
         self.printState(self.lrnActiveState['t'])
 
-      print "----- lrnPredictedState (%d on)-----" % (
-          self.lrnPredictedState['t'].sum())
+      print "----- lrnPredictedState ({0:d} on)-----".format((
+          self.lrnPredictedState['t'].sum()))
       self.printActiveIndices(self.lrnPredictedState['t'])
       if self.verbosity >= 6:
         self.printState(self.lrnPredictedState['t'])
@@ -1000,7 +1000,7 @@ class TP(ConsolePrinterMixin):
 
     elif self.verbosity >= 1:
       print "TP: learn:", learn
-      print "TP: active outputs(%d):" % len(output.nonzero()[0]),
+      print "TP: active outputs({0:d}):".format(len(output.nonzero()[0])),
       self.printActiveIndices(output.reshape(self.numberOfCols,
                                              self.cellsPerColumn))
 
@@ -1027,7 +1027,7 @@ class TP(ConsolePrinterMixin):
         isActive = self.isSegmentActive(s, self.infActiveState['t'])
         if not onlyActiveSegments or isActive:
           isActiveStr = "*" if isActive else " "
-          print "  %sSeg #%-3d" % (isActiveStr, j),
+          print "  {0!s}Seg #{1:<3d}".format(isActiveStr, j),
           s.debugPrint()
 
 
@@ -1173,7 +1173,7 @@ class TP(ConsolePrinterMixin):
 
     # Just for debugging
     def __str__(self):
-      return ("Seg update: cell=[%d,%d]" % (self.columnIdx, self.cellIdx) +
+      return ("Seg update: cell=[{0:d},{1:d}]".format(self.columnIdx, self.cellIdx) +
               ", seq seg=" + str(self.sequenceSegment) +
               ", seg=" + str(self.segment) +
               ", synapses=" + str(self.activeSynapses))
@@ -1568,8 +1568,8 @@ class TP(ConsolePrinterMixin):
 
       if self.verbosity >= 3:
         print (
-            "Trying to lock-on using startCell state from %d steps ago:" % (
-                numPrevPatterns - 1 - startOffset),
+            "Trying to lock-on using startCell state from {0:d} steps ago:".format((
+                numPrevPatterns - 1 - startOffset)),
             self._prevInfPatterns[startOffset])
 
       # Play through starting from starting point 'startOffset'
@@ -1755,7 +1755,7 @@ class TP(ConsolePrinterMixin):
 
           # Incorporate the confidence into the owner cell and column
           if self.verbosity >= 6:
-            print "incorporating DC from cell[%d,%d]:   " % (c, i),
+            print "incorporating DC from cell[{0:d},{1:d}]:   ".format(c, i),
             s.debugPrint()
           dc = s.dutyCycle()
           self.cellConfidence['t'][c, i] += dc
@@ -1868,13 +1868,13 @@ class TP(ConsolePrinterMixin):
     if self.verbosity >= 3:
       if readOnly:
         print (
-            "Trying to lock-on using startCell state from %d steps ago:" % (
-                numPrevPatterns - 1 - startOffset),
+            "Trying to lock-on using startCell state from {0:d} steps ago:".format((
+                numPrevPatterns - 1 - startOffset)),
             self._prevLrnPatterns[startOffset])
       else:
         print (
-            "Locking on using startCell state from %d steps ago:" % (
-                numPrevPatterns - 1 - startOffset),
+            "Locking on using startCell state from {0:d} steps ago:".format((
+                numPrevPatterns - 1 - startOffset)),
             self._prevLrnPatterns[startOffset])
 
     # Play through up to the current time step
@@ -2312,7 +2312,7 @@ class TP(ConsolePrinterMixin):
     self.iterationIdx +=  1
 
     if self.verbosity >= 3:
-      print "\n==== PY Iteration: %d =====" % (self.iterationIdx)
+      print "\n==== PY Iteration: {0:d} =====".format((self.iterationIdx))
       print "Active cols:", activeColumns
 
     # Update segment duty cycles if we are crossing a "tier"
@@ -2872,7 +2872,7 @@ class TP(ConsolePrinterMixin):
       candidateCellIdx = (
           candidateCellIdxs[self._random.getUInt32(len(candidateCellIdxs))])
       if self.verbosity >= 5:
-        print "Cell [%d,%d] chosen for new segment, # of segs is %d" % (
+        print "Cell [{0:d},{1:d}] chosen for new segment, # of segs is {2:d}".format(
             colIdx, candidateCellIdx, len(self.cells[colIdx][candidateCellIdx]))
       return candidateCellIdx
 
@@ -3097,7 +3097,7 @@ class TP(ConsolePrinterMixin):
     if segment is not None:
 
       if self.verbosity >= 4:
-        print "Reinforcing segment #%d for cell[%d,%d]" % (segment.segID, c, i)
+        print "Reinforcing segment #{0:d} for cell[{1:d},{2:d}]".format(segment.segID, c, i)
         print "  before:",
         segment.debugPrint()
 
@@ -3149,7 +3149,7 @@ class TP(ConsolePrinterMixin):
         newSegment.addSynapse(synapse[0], synapse[1], self.initialPerm)
 
       if self.verbosity >= 3:
-        print "New segment #%d for cell[%d,%d]" % (self.segID-1, c, i),
+        print "New segment #{0:d} for cell[{1:d},{2:d}]".format(self.segID-1, c, i),
         newSegment.debugPrint()
 
       self.cells[c][i].append(newSegment)
@@ -3195,7 +3195,7 @@ class TP(ConsolePrinterMixin):
     distAges = []
     ageBucketSize = int((self.lrnIterationIdx+20) / 20)
     for i in range(numAgeBuckets):
-      distAges.append(['%d-%d' % (i*ageBucketSize, (i+1)*ageBucketSize-1), 0])
+      distAges.append(['{0:d}-{1:d}'.format(i*ageBucketSize, (i+1)*ageBucketSize-1), 0])
 
     for c in xrange(self.numberOfCols):
       for i in xrange(self.cellsPerColumn):
@@ -3387,7 +3387,7 @@ class Segment(object):
       [11,1]0.75 - synapse from column 11, cell #1, strength 0.75
     """
     # Segment ID
-    print "ID:%-5d" % (self.segID),
+    print "ID:{0:<5d}".format((self.segID)),
 
     # Sequence segment or pooling segment
     if self.isSequenceSeg:
@@ -3396,14 +3396,14 @@ class Segment(object):
       print "False",
 
     # Duty cycle
-    print "%9.7f" % (self.dutyCycle(readOnly=True)),
+    print "{0:9.7f}".format((self.dutyCycle(readOnly=True))),
 
     # numPositive/totalActivations
-    print "(%4d/%-4d)" % (self.positiveActivations,
+    print "({0:4d}/{1:<4d})".format(self.positiveActivations,
                           self.totalActivations),
 
     # Age
-    print "%4d" % (self.tp.lrnIterationIdx - self.lastActiveIteration),
+    print "{0:4d}".format((self.tp.lrnIterationIdx - self.lastActiveIteration)),
 
     # Print each synapses on this segment as: srcCellCol/srcCellIdx/perm
     # if the permanence is above connected, put [] around the synapse info
@@ -3411,7 +3411,7 @@ class Segment(object):
     #  order
     sortedSyns = sorted(self.syns)
     for _, synapse in enumerate(sortedSyns):
-      print "[%d,%d]%4.2f" % (synapse[0], synapse[1], synapse[2]),
+      print "[{0:d},{1:d}]{2:4.2f}".format(synapse[0], synapse[1], synapse[2]),
     print
 
 
@@ -3461,8 +3461,8 @@ class Segment(object):
       candidates += list(moreCandidates)
 
     if verbosity >= 4:
-      print "Deleting %d synapses from segment to make room for new ones:" % (
-          len(candidates)), candidates
+      print "Deleting {0:d} synapses from segment to make room for new ones:".format((
+          len(candidates))), candidates
       print "BEFORE:",
       self.debugPrint()
 

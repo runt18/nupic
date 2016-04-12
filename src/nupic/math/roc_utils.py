@@ -185,7 +185,7 @@ def AreaUnderCurve(x, y):
 
 
 def _printNPArray(x, precision=2):
-  format = "%%.%df" % (precision)
+  format = "%.{0:d}f".format((precision))
   for elem in x:
     print format % (elem),
   print

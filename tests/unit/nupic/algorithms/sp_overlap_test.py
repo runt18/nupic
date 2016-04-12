@@ -165,7 +165,7 @@ class TestSPFrequency(unittest.TestCase):
       if (i + 1) % 100 == 0:
         print 'Record number:', i + 1
 
-        print "Elapsed time: %.2f seconds" % (time.time() - startTime)
+        print "Elapsed time: {0:.2f} seconds".format((time.time() - startTime))
         print len(reUsedCoincs), "re-used coinc(s),"
 
     # Check if results match expectations
@@ -177,18 +177,18 @@ class TestSPFrequency(unittest.TestCase):
     factor = max(summ)*len(summ)/sum(summ)
     if len(reUsed) < 10:
       self.assertLess(factor, 41,
-                      "\nComputed factor: %d\nExpected Less than %d" % (
+                      "\nComputed factor: {0:d}\nExpected Less than {1:d}".format(
                           factor, 41))
       self.assertLess(zeros, 0.99*len(summ),
-                      "\nComputed zeros: %d\nExpected Less than %d" % (
+                      "\nComputed zeros: {0:d}\nExpected Less than {1:d}".format(
                           zeros, 0.99*len(summ)))
 
     else:
       self.assertLess(factor, 8,
-                      "\nComputed factor: %d\nExpected Less than %d" % (
+                      "\nComputed factor: {0:d}\nExpected Less than {1:d}".format(
                           factor, 8))
       self.assertLess(zeros, 12,
-                      "\nComputed zeros: %d\nExpected Less than %d" % (
+                      "\nComputed zeros: {0:d}\nExpected Less than {1:d}".format(
                           zeros, 12))
 
 

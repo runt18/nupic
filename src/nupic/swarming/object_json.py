@@ -41,7 +41,7 @@ class Types(object):
 
 def getImportPath(obj):
   cls = obj.__class__
-  return '%s.%s' % (cls.__module__, cls.__name__)
+  return '{0!s}.{1!s}'.format(cls.__module__, cls.__name__)
 
 
 def convertDict(obj):
@@ -100,7 +100,7 @@ def convertObjects(obj):
       state = obj.__dict__
     else:
       if not hasattr(obj, '__class__'):
-        raise TypeError('Cannot encode object: %s' % repr(obj))
+        raise TypeError('Cannot encode object: {0!s}'.format(repr(obj)))
       state = {Types.REPR: repr(obj)}
     state[Types.OBJECT] = getImportPath(obj)
     return convertObjects(state)
@@ -131,8 +131,8 @@ def objectDecoderHook(obj):
         try:
           instance = cls()
         except TypeError:
-          raise TypeError('Old style class cannot be instantiated: %s' %
-                          obj[Types.OBJECT])
+          raise TypeError('Old style class cannot be instantiated: {0!s}'.format(
+                          obj[Types.OBJECT]))
       attrs = obj
       del attrs[Types.OBJECT]
       if hasattr(instance, '__setstate__'):

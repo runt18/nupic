@@ -92,10 +92,10 @@ class HypersearchWorker(object):
       self.logger.setLevel(options.logLevel)
 
 
-    self.logger.info("Launched with command line arguments: %s" %
-                      str(cmdLineArgs))
+    self.logger.info("Launched with command line arguments: {0!s}".format(
+                      str(cmdLineArgs)))
 
-    self.logger.debug("Env variables: %s" % (pprint.pformat(os.environ)))
+    self.logger.debug("Env variables: {0!s}".format((pprint.pformat(os.environ))))
     #self.logger.debug("Value of nupic.hypersearch.modelOrphanIntervalSecs: %s" \
     #          % Configuration.get('nupic.hypersearch.modelOrphanIntervalSecs'))
 
@@ -137,10 +137,8 @@ class HypersearchWorker(object):
     if len(curModelIDCtrList) == 0:
       return
 
-    self.logger.debug("current modelID/updateCounters: %s" \
-                      % (str(curModelIDCtrList)))
-    self.logger.debug("last modelID/updateCounters: %s" \
-                      % (str(self._modelIDCtrList)))
+    self.logger.debug("current modelID/updateCounters: {0!s}".format((str(curModelIDCtrList))))
+    self.logger.debug("last modelID/updateCounters: {0!s}".format((str(self._modelIDCtrList))))
 
     # --------------------------------------------------------------------
     # Find out which ones have changed update counters. Since these are models
@@ -270,8 +268,7 @@ class HypersearchWorker(object):
       wID = self._workerID
     
     buildID = Configuration.get('nupic.software.buildNumber', 'N/A')
-    logPrefix = '<BUILDID=%s, WORKER=HW, WRKID=%s, JOBID=%s> ' % \
-                (buildID, wID, options.jobID)
+    logPrefix = '<BUILDID={0!s}, WORKER=HW, WRKID={1!s}, JOBID={2!s}> '.format(buildID, wID, options.jobID)
     ExtendedLogger.setLogPrefix(logPrefix)
 
     # ---------------------------------------------------------------------
@@ -286,7 +283,7 @@ class HypersearchWorker(object):
            useConnectionID=False,
            ignoreUnchanged=True)
     jobInfo = cjDAO.jobInfo(options.jobID)
-    self.logger.info("Job info retrieved: %s" % (str(clippedObj(jobInfo))))
+    self.logger.info("Job info retrieved: {0!s}".format((str(clippedObj(jobInfo)))))
 
 
     # ---------------------------------------------------------------------
@@ -306,8 +303,7 @@ class HypersearchWorker(object):
       self._hs = HypersearchV2(searchParams=jobParams, workerID=self._workerID,
               cjDAO=cjDAO, jobID=options.jobID, logLevel=options.logLevel)
     else:
-      raise RuntimeError("Invalid Hypersearch implementation (%s) specified" \
-                          % (hsVersion))
+      raise RuntimeError("Invalid Hypersearch implementation ({0!s}) specified".format((hsVersion)))
 
 
     # =====================================================================
@@ -364,7 +360,7 @@ class HypersearchWorker(object):
                 modelParams = json.loads(mParamsAndHash.params)
                 particleHash = cjDAO.modelsGetFields(modelID, 
                                   ['engParticleHash'])[0]
-                particleInst = "%s.%s" % (
+                particleInst = "{0!s}.{1!s}".format(
                           modelParams['particleState']['id'],
                           modelParams['particleState']['genIdx'])
                 self.logger.info("Adding model %d to our internal DB " \
@@ -398,9 +394,9 @@ class HypersearchWorker(object):
               # Change the hash and params of the old entry so that we can
               #  create a new model with the same params
               for attempt in range(1000):
-                paramsHash = hashlib.md5("OrphanParams.%d.%d" % (modelIDToRun,
+                paramsHash = hashlib.md5("OrphanParams.{0:d}.{1:d}".format(modelIDToRun,
                                                                  attempt)).digest()
-                particleHash = hashlib.md5("OrphanParticle.%d.%d" % (modelIDToRun,
+                particleHash = hashlib.md5("OrphanParticle.{0:d}.{1:d}".format(modelIDToRun,
                                                                   attempt)).digest()
                 try:
                   cjDAO.modelSetFields(modelIDToRun,
@@ -437,7 +433,7 @@ class HypersearchWorker(object):
         # jobParams['persistentJobGUID'] contains the client's (e.g., API Server)
         # persistent, globally-unique model identifier, which is what we need;
         persistentJobGUID = jobParams['persistentJobGUID']
-        assert persistentJobGUID, "persistentJobGUID: %r" % (persistentJobGUID,)
+        assert persistentJobGUID, "persistentJobGUID: {0!r}".format(persistentJobGUID)
 
         modelCheckpointGUID = jobInfo.client + "_" + persistentJobGUID + (
           '_' + str(modelIDToRun))
@@ -452,8 +448,8 @@ class HypersearchWorker(object):
 
         self.logger.info("COMPLETED MODEL GID=%d; EVALUATED %d MODELs",
           modelIDToRun, numModelsTotal)
-        print >>sys.stderr, "reporter:status:Evaluated %d models..." % \
-                                    (numModelsTotal)
+        print >>sys.stderr, "reporter:status:Evaluated {0:d} models...".format( \
+                                    (numModelsTotal))
         print >>sys.stderr, "reporter:counter:HypersearchWorker,numModels,1"
 
         if options.modelID is not None:
@@ -464,8 +460,8 @@ class HypersearchWorker(object):
       # Provide Hypersearch instance an opportunity to clean up temporary files
       self._hs.close()
 
-    self.logger.info("FINISHED. Evaluated %d models." % (numModelsTotal))
-    print >>sys.stderr, "reporter:status:Finished, evaluated %d models" % (numModelsTotal)
+    self.logger.info("FINISHED. Evaluated {0:d} models.".format((numModelsTotal)))
+    print >>sys.stderr, "reporter:status:Finished, evaluated {0:d} models".format((numModelsTotal))
     return options.jobID
 
 
@@ -524,8 +520,8 @@ def main(argv):
   # Evaluate command line arguments
   (options, args) = parser.parse_args(argv[1:])
   if len(args) != 0:
-    raise RuntimeError("Expected no command line arguments, but got: %s" % \
-                        (args))
+    raise RuntimeError("Expected no command line arguments, but got: {0!s}".format( \
+                        (args)))
 
   if (options.jobID and options.params):
     raise RuntimeError("--jobID and --params can not be used at the same time")
@@ -547,8 +543,7 @@ def main(argv):
     except Exception, e:
       jobID = options.jobID
       msg = StringIO.StringIO()
-      print >>msg, "%s: Exception occurred in Hypersearch Worker: %r" % \
-         (ErrorCodes.hypersearchLogicErr, e)
+      print >>msg, "{0!s}: Exception occurred in Hypersearch Worker: {1!r}".format(ErrorCodes.hypersearchLogicErr, e)
       traceback.print_exc(None, msg)
 
       completionReason = ClientJobsDAO.CMPL_REASON_ERROR
@@ -580,7 +575,7 @@ def main(argv):
     except Exception, e:
       jobID = hst._options.jobID
       completionReason = ClientJobsDAO.CMPL_REASON_ERROR
-      completionMsg = "ERROR: %s" % (e,)
+      completionMsg = "ERROR: {0!s}".format(e)
       raise
     finally:
       if jobID is not None:
@@ -596,7 +591,7 @@ def main(argv):
 if __name__ == "__main__":
   logging.setLoggerClass(ExtendedLogger)
   buildID = Configuration.get('nupic.software.buildNumber', 'N/A')
-  logPrefix = '<BUILDID=%s, WORKER=HS, WRKID=N/A, JOBID=N/A> ' % buildID
+  logPrefix = '<BUILDID={0!s}, WORKER=HS, WRKID=N/A, JOBID=N/A> '.format(buildID)
   ExtendedLogger.setLogPrefix(logPrefix)
   
   try:

@@ -144,9 +144,9 @@ def _appendReportKeys(keys, prefix, results):
   allKeys.sort()
   for key in allKeys:
     if hasattr(results[key], 'keys'):
-      _appendReportKeys(keys, "%s%s:" % (prefix, key), results[key])
+      _appendReportKeys(keys, "{0!s}{1!s}:".format(prefix, key), results[key])
     else:
-      keys.add("%s%s" % (prefix, key))
+      keys.add("{0!s}{1!s}".format(prefix, key))
 
 
 
@@ -307,7 +307,7 @@ def _handleModelRunnerException(jobID, modelID, jobsDAO, experimentDir, logger,
   """
 
   msg = StringIO.StringIO()
-  print >>msg, "Exception occurred while running model %s: %r (%s)" % (
+  print >>msg, "Exception occurred while running model {0!s}: {1!r} ({2!s})".format(
     modelID, e, type(e))
   traceback.print_exc(None, msg)
 
@@ -381,7 +381,7 @@ def runModelGivenBaseAndParams(modelID, jobID, baseDescription, params,
   # Create a temp directory for the experiment and the description files
   experimentDir = tempfile.mkdtemp()
   try:
-    logger.info("Using experiment directory: %s" % (experimentDir))
+    logger.info("Using experiment directory: {0!s}".format((experimentDir)))
 
     # Create the decription.py from the overrides in params
     paramsFilePath = os.path.join(experimentDir, 'description.py')
@@ -394,9 +394,9 @@ def runModelGivenBaseAndParams(modelID, jobID, baseDescription, params,
       quotedKey = _quoteAndEscape(key)
       if isinstance(value, basestring):
 
-        paramsFile.write("  %s : '%s',\n" % (quotedKey , value))
+        paramsFile.write("  {0!s} : '{1!s}',\n".format(quotedKey , value))
       else:
-        paramsFile.write("  %s : %s,\n" % (quotedKey , value))
+        paramsFile.write("  {0!s} : {1!s},\n".format(quotedKey , value))
 
     paramsFile.write(_paramsFileTail())
     paramsFile.close()
@@ -743,13 +743,13 @@ def sortedJSONDumpS(obj):
     items = obj.items()
     items.sort()
     for key, value in items:
-      itemStrs.append('%s: %s' % (json.dumps(key), sortedJSONDumpS(value)))
-    return '{%s}' % (', '.join(itemStrs))
+      itemStrs.append('{0!s}: {1!s}'.format(json.dumps(key), sortedJSONDumpS(value)))
+    return '{{{0!s}}}'.format((', '.join(itemStrs)))
 
   elif hasattr(obj, '__iter__'):
     for val in obj:
       itemStrs.append(sortedJSONDumpS(val))
-    return '[%s]' % (', '.join(itemStrs))
+    return '[{0!s}]'.format((', '.join(itemStrs)))
 
   else:
     return json.dumps(obj)

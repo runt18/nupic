@@ -83,7 +83,7 @@ class LogEncoderTest(unittest.TestCase):
       expectedResult = tp[2]
       self.assertEqual(le.closenessScores(expected, actual),
                        expectedResult,
-                       "exp: %s act: %s expR: %s" % (str(expected),
+                       "exp: {0!s} act: {1!s} expR: {2!s}".format(str(expected),
                                                      str(actual),
                                                      str(expectedResult)))
 

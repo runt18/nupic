@@ -100,10 +100,10 @@ def _generateFile(filename, data):
   """
   
   # Create the file
-  print "Creating %s..." % (filename)
+  print "Creating {0!s}...".format((filename))
   numRecords, numFields = data.shape
   
-  fields = [('field%d'%(i+1), 'float', '') for i in range(numFields)]
+  fields = [('field{0:d}'.format((i+1)), 'float', '') for i in range(numFields)]
   outFile = File(filename, fields)
   
   for i in xrange(numRecords):

@@ -46,16 +46,16 @@ def _labeledInput(activeInputs, cellsPerCol=32):
   if len(cols) == 0:
     return "NONE"
 
-  items = ["(%d): " % (len(cols))]
+  items = ["({0:d}): ".format((len(cols)))]
   prevCol = -1
   for (col,cellIdx) in zip(cols, cellIdxs):
     if col != prevCol:
       if prevCol != -1:
         items.append("] ")
-      items.append("Col %d: [" % col)
+      items.append("Col {0:d}: [".format(col))
       prevCol = col
 
-    items.append("%d," % cellIdx)
+    items.append("{0:d},".format(cellIdx))
 
   items.append("]")
   return " ".join(items)
@@ -401,7 +401,7 @@ class KNNClassifier(object):
     @return The number of patterns currently stored in the classifier
     """
     if self.verbosity >= 1:
-      print "%s learn:" % g_debugPrefix
+      print "{0!s} learn:".format(g_debugPrefix)
       print "  category:", int(inputCategory)
       print "  active inputs:", _labeledInput(inputPattern,
                                               cellsPerCol=self.cellsPerCol)
@@ -694,7 +694,7 @@ class KNNClassifier(object):
       categoryDist.clip(0, 1.0, categoryDist)
 
     if self.verbosity >= 1:
-      print "%s infer:" % (g_debugPrefix)
+      print "{0!s} infer:".format((g_debugPrefix))
       print "  active inputs:",  _labeledInput(inputPattern,
                                                cellsPerCol=self.cellsPerCol)
       print "  winner category:", winner
@@ -930,8 +930,8 @@ class KNNClassifier(object):
         if distMax > 0:
           dist /= distMax
       else:
-        raise RuntimeError("Unimplemented distance method %s" %
-          self.distanceMethod)
+        raise RuntimeError("Unimplemented distance method {0!s}".format(
+          self.distanceMethod))
 
     # Dense memory
     else:

@@ -98,7 +98,7 @@ def _buildArgs(f, self=None, kwargs={}):
         #  raise an exception otherwise
         if len(argTuple) == 2:
           # No default value
-          raise TypeError("Must provide '%s'" % argName)
+          raise TypeError("Must provide '{0!s}'".format(argName))
         argValue = argTuple[2]
       # Set as an instance variable if 'self' was passed in
       setattr(self, argName, argValue)
@@ -392,8 +392,8 @@ class TPRegion(PyRegion):
             # TODO: Re-enable warning or turn into error in a future release.
             pass
           else:
-            print self.__class__.__name__, "contains base class member '%s'" % \
-                attrName
+            print self.__class__.__name__, "contains base class member '{0!s}'".format( \
+                attrName)
     if not self._loaded:
       for attrName in self._getEphemeralMembersBase():
         if attrName != "_loaded":
@@ -522,7 +522,7 @@ class TPRegion(PyRegion):
     if self._fpLogTPOutput:
       output = tpOutput.reshape(-1)
       outputNZ = tpOutput.nonzero()[0]
-      outStr = " ".join(["%d" % int(token) for token in outputNZ])
+      outStr = " ".join(["{0:d}".format(int(token)) for token in outputNZ])
       print >>self._fpLogTPOutput, output.size, outStr
 
     # Write the bottom up out to our node outputs
@@ -867,7 +867,7 @@ class TPRegion(PyRegion):
     for attrName in self._getEphemeralMembersBase():
       assert hasattr(self, attrName)
     for attrName in self._getEphemeralMembers():
-      assert hasattr(self, attrName), "Node missing attr '%s'." % attrName
+      assert hasattr(self, attrName), "Node missing attr '{0!s}'.".format(attrName)
 
   #############################################################################
   #
@@ -909,7 +909,7 @@ class TPRegion(PyRegion):
   def getParameterArrayCount(self, name, index):
     p = self.getParameter(name)
     if (not hasattr(p, '__len__')):
-      raise Exception("Attempt to access parameter '%s' as an array but it is not an array" % name)
+      raise Exception("Attempt to access parameter '{0!s}' as an array but it is not an array".format(name))
     return len(p)
 
 
@@ -918,7 +918,7 @@ class TPRegion(PyRegion):
   def getParameterArray(self, name, index, a):
     p = self.getParameter(name)
     if (not hasattr(p, '__len__')):
-      raise Exception("Attempt to access parameter '%s' as an array but it is not an array" % name)
+      raise Exception("Attempt to access parameter '{0!s}' as an array but it is not an array".format(name))
 
     if len(p) >  0:
       a[:] = p[:]

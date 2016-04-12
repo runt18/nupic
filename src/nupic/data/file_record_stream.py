@@ -175,8 +175,7 @@ class FileRecordStream(RecordStreamIface):
       try:
         names = [n.strip() for n in self._reader.next()]
       except:
-        raise Exception('The header line of the file %s contained a NULL byte' \
-                        % self._filename)
+        raise Exception('The header line of the file {0!s} contained a NULL byte'.format(self._filename))
       types = [t.strip() for t in self._reader.next()]
       specials = [s.strip() for s in self._reader.next()]
 
@@ -411,7 +410,7 @@ class FileRecordStream(RecordStreamIface):
       "unexpected record type: " + repr(type(record))
 
     assert len(record) == self._fieldCount, \
-      "len(record): %s, fieldCount: %s" % (len(record), self._fieldCount)
+      "len(record): {0!s}, fieldCount: {1!s}".format(len(record), self._fieldCount)
 
     # Write header if needed
     if self._recordCount == 0:
@@ -625,8 +624,7 @@ class FileRecordStream(RecordStreamIface):
     if sequenceId != self._currSequence:
       # verify that the new sequence didn't show up before
       if sequenceId in self._sequences:
-        raise Exception('Broken sequence: %s, record: %s' % \
-                        (sequenceId, r))
+        raise Exception('Broken sequence: {0!s}, record: {1!s}'.format(sequenceId, r))
 
       # add the finished sequence to the set of sequence
       self._sequences.add(self._currSequence)
@@ -650,7 +648,7 @@ class FileRecordStream(RecordStreamIface):
       if self._timeStampIdx and self._currTime is not None:
         t = r[self._timeStampIdx]
         if t < self._currTime:
-          raise Exception('No time travel. Early timestamp for record: %s' % r)
+          raise Exception('No time travel. Early timestamp for record: {0!s}'.format(r))
 
     if self._timeStampIdx:
       self._currTime = r[self._timeStampIdx]

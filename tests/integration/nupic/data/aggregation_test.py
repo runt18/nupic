@@ -696,7 +696,7 @@ class AggregationTests(HelperTestCaseBase):
     print "Checking for presence of outputFile: ", outputFile
     self.assertTrue(
       os.path.isfile(outputFile),
-      msg="Missing outputFile: %r; normalized generateDataset() result: %r" % (
+      msg="Missing outputFile: {0!r}; normalized generateDataset() result: {1!r}".format(
         outputFile, f1))
 
     print "Files in the destination folder after the test:"
@@ -793,9 +793,9 @@ class AggregationTests(HelperTestCaseBase):
     result = generateDataset(aggregationOptions, 'gap.csv', outputFile)
     self.assertEqual(
       os.path.normpath(os.path.abspath(outputFile)), os.path.normpath(result),
-      msg="result = '%s'; outputFile = '%s'" % (result, outputFile))
+      msg="result = '{0!s}'; outputFile = '{1!s}'".format(result, outputFile))
     self.assertTrue(os.path.isfile(outputFile),
-                    msg="outputFile missing or is not file: %r" % (outputFile))
+                    msg="outputFile missing or is not file: {0!r}".format((outputFile)))
     print outputFile
     print '-' * 30
 

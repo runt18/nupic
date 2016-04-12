@@ -51,12 +51,12 @@ def getAllDirectoriesWithFile(path, filename, excludeDirs):
     for d in dirnames[:]:
       if d in excludeDirs:
         dirnames.remove(d)
-        print "EXCLUDING %s..." % (os.path.join(dirpath, d))
+        print "EXCLUDING {0!s}...".format((os.path.join(dirpath, d)))
         
       # If this directory is UNDER_DEVELOPMENT, exclude it
       elif 'UNDER_DEVELOPMENT' in os.listdir(os.path.join(dirpath, d)):
         dirnames.remove(d)
-        print "EXCLUDING %s..." % (os.path.join(dirpath, d))
+        print "EXCLUDING {0!s}...".format((os.path.join(dirpath, d)))
 
     for f in filenames:
       if f==filename:
@@ -107,9 +107,9 @@ class OPFExperimentsTest(unittest.TestCase):
     successExperiments = []
     for expDirPath in expDirPathList:
       if os.path.exists(os.path.join(expDirPath, "UNDER_DEVELOPMENT")):
-        print "Skipping experiment: %s -- under development" % expDirPath
+        print "Skipping experiment: {0!s} -- under development".format(expDirPath)
         continue
-      print "Running experiment: %s" % expDirPath
+      print "Running experiment: {0!s}".format(expDirPath)
       try:
         if RUN_ALL_ITERATIONS:
           runReducedExperiment(expDirPath, False)
@@ -121,11 +121,11 @@ class OPFExperimentsTest(unittest.TestCase):
       except:
         failedExperiments.append(expDirPath)
         print
-        print "Unable to run experiment: %s" % expDirPath
+        print "Unable to run experiment: {0!s}".format(expDirPath)
         print "See the trace below-"
         traceback.print_exc()
       else:
-        print "Successfully ran experiment: %s" % expDirPath
+        print "Successfully ran experiment: {0!s}".format(expDirPath)
         successExperiments.append(expDirPath)
 
     self.assertEqual(len(failedExperiments), 0)
@@ -135,7 +135,7 @@ class OPFExperimentsTest(unittest.TestCase):
 if __name__ == "__main__":
   description = \
       "Test all experiments in opf/experiments with reduced iterations.\
-       Currently excludes %s in the default mode" % str(EXCLUDED_EXPERIMENTS)
+       Currently excludes {0!s} in the default mode".format(str(EXCLUDED_EXPERIMENTS))
   parser = OptionParser(description=description)
   parser.add_option("-a", "--all", action="store_true",
                     dest="runAllExperiments", default=False,

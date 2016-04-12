@@ -112,15 +112,15 @@ def dictDiffAndReport(da, db):
     return differences
 
   if differences['inAButNotInB']:
-    print ">>> inAButNotInB: %s" % differences['inAButNotInB']
+    print ">>> inAButNotInB: {0!s}".format(differences['inAButNotInB'])
 
   if differences['inBButNotInA']:
-    print ">>> inBButNotInA: %s" % differences['inBButNotInA']
+    print ">>> inBButNotInA: {0!s}".format(differences['inBButNotInA'])
 
   for key in differences['differentValues']:
-    print ">>> da[%s] != db[%s]" % (key, key)
-    print "da[%s] = %r" % (key, da[key])
-    print "db[%s] = %r" % (key, db[key])
+    print ">>> da[{0!s}] != db[{1!s}]".format(key, key)
+    print "da[{0!s}] = {1!r}".format(key, da[key])
+    print "db[{0!s}] = {1!r}".format(key, db[key])
 
   return differences
 

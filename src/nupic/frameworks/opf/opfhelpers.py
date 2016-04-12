@@ -70,7 +70,7 @@ def getExperimentDescriptionInterfaceFromModule(module):
   """
   result = module.descriptionInterface
   assert isinstance(result, expdescriptionapi.DescriptionIface), \
-         "expected DescriptionIface-based instance, but got %s" % type(result)
+         "expected DescriptionIface-based instance, but got {0!s}".format(type(result))
 
   return result
 
@@ -88,13 +88,12 @@ def _loadDescriptionFile(descriptionPyPath):
     raise RuntimeError(("Experiment description file %s does not exist or " + \
                         "is not a file") % (descriptionPyPath,))
 
-  mod = imp.load_source("pf_description%d" % g_descriptionImportCount,
+  mod = imp.load_source("pf_description{0:d}".format(g_descriptionImportCount),
                         descriptionPyPath)
   g_descriptionImportCount += 1
 
   if not hasattr(mod, "descriptionInterface"):
-    raise RuntimeError("Experiment description file %s does not define %s" % \
-                       (descriptionPyPath, "descriptionInterface"))
+    raise RuntimeError("Experiment description file {0!s} does not define {1!s}".format(descriptionPyPath, "descriptionInterface"))
 
   if not isinstance(mod.descriptionInterface, expdescriptionapi.DescriptionIface):
     raise RuntimeError(("Experiment description file %s defines %s but it " + \
