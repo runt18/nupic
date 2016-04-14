@@ -570,7 +570,7 @@ class OPFModelRunner(object):
 
     # -----------------------------------------------------------------------
     # Extract report metrics that match the requested report REs
-    reportDict = dict([(k,metrics[k]) for k in self._reportMetricLabels])
+    reportDict = {k: metrics[k] for k in self._reportMetricLabels}
 
     # -----------------------------------------------------------------------
     # Extract the report item that matches the optimize key RE

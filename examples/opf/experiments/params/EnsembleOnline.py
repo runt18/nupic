@@ -47,7 +47,7 @@ class Worker(multiprocessing.Process):
           self.updateModelStats()
           self.result_queue.put([(self.Scores[m], self.predictionStreams[m][-1], self.truth[self.index], m) for m in self.M.keys()])
         if command=='getPredictionStreams':
-          self.result_queue.put(dict([(m, self.predictionStreams[m][:-windowSize]) for m in self.predictionStreams.keys()]))
+          self.result_queue.put({m: self.predictionStreams[m][:-windowSize] for m in self.predictionStreams.keys()})
         if command=='delete':
           delList=jobaux[1]
           for d in delList:

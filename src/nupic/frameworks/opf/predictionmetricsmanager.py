@@ -77,8 +77,8 @@ class MetricsManager(object):
 
     # Maps field names to indices. Useful for looking up input/predictions by
     # field name
-    self.__fieldNameIndexMap = dict( [(info.name, i) \
-                                      for i, info in enumerate(fieldInfo)] )
+    self.__fieldNameIndexMap = {info.name: i \
+                                      for i, info in enumerate(fieldInfo)}
 
     self.__constructMetricsModules(metricSpecs)
     self.__currentGroundTruth = None
