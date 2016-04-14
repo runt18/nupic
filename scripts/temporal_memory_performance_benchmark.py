@@ -157,7 +157,7 @@ class TemporalMemoryPerformanceBenchmark(object):
   def _feedOne(pattern, instance, computeFn):
     start = time.clock()
 
-    if pattern == None:
+    if pattern is None:
       instance.reset()
     else:
       computeFn(pattern, instance)
