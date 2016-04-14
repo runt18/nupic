@@ -191,4 +191,4 @@ if __name__ == "__main__":
   sortedTimes = sorted(times.iteritems(), key=lambda x: x[1])
   print
   for impl, t in sortedTimes:
-    print "{}: {}s".format(impl, t)
+    print "{0}: {1}s".format(impl, t)
